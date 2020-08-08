@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const Customer = require("../models/Customer");
+const CustomerSchema = require("../models/Customer");
 
 const RetailerSchema = new Schema(
   {
@@ -12,19 +12,41 @@ const RetailerSchema = new Schema(
       type: String, 
       required: true
     },
-    retailerName: { type: String },
+    retailerName: { 
+      type: String,
+      required: true
+    },
     address: { 
       street: String,
+      streetNumber: Number,
+      city: String,
+      state: String,
       zipcode: Number
     },
+    phoneNumber: { type: String },
     openingTime: { type: Number },
     closingTime: { type: Number },
     maxCapacity: { type: Number },
     avgWaitTime: { type: Number },
     notificationTimer: { type: Number },
-    waitlist: [Customer],
+    waitList: [CustomerSchema],
+    holdList: [CustomerSchema]
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
   }
 )
+
+RetailerSchema.virtual("waitListCount").get(function() {
+  return this.waitList.length;
+})
+
+RetailerSchema.virtual("holdListCount").get(function() {
+  return this.holdList.length;
+})
 
 const Retailer = model("Retailer", RetailerSchema);
 
