@@ -23,6 +23,6 @@ const CustomerSchema = new Schema(
   }
 );
 
-// const Customer = model("Customer", CustomerSchema);
+const Customer = model("Customer", CustomerSchema);
 
-module.exports = CustomerSchema;
+module.exports = Customer;

@@ -1,5 +1,4 @@
-const { Schema, model } = require("mongoose");
-const CustomerSchema = require("../models/Customer");
+const { Schema, model, Types } = require("mongoose");
 
 const RetailerSchema = new Schema(
   {
@@ -29,8 +28,8 @@ const RetailerSchema = new Schema(
     maxCapacity: { type: Number },
     avgWaitTime: { type: Number },
     notificationTimer: { type: Number },
-    waitList: [CustomerSchema],
-    holdList: [CustomerSchema],
+    waitList: [{ type: Types.ObjectId, ref: "Customer" }],
+    holdList: [{ type: Types.ObjectId, ref: "Customer" }],
   },
   {
     toJSON: {
