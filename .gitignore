@@ -4,6 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
+.DOCKERHUB_NAME=docker_username
+IMAGE_NAME=image_name
+IMAGE_VERSION=0.0.1
+
+POSTGRES_HOST_PORT=5432
+POSTGRES_CONTAINER_PORT=5432
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=database_db
 
 # testing
 /coverage
