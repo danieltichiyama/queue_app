@@ -11,9 +11,9 @@ const CustomerSchema = new Schema(
       type: Date,
       default: Date.now,
       get: (timestamp) => {
-        moment(timestamp.format("MMM Do, YYYY [at] hh:mm a"))
-      }
-    }
+        moment(timestamp).format("MMM Do, YYYY [at] hh:mm a");
+      },
+    },
   },
   {
     toJSON: {
@@ -21,7 +21,7 @@ const CustomerSchema = new Schema(
     },
     id: false,
   }
-)
+);
 
 // const Customer = model("Customer", CustomerSchema);
 

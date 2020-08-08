@@ -3,25 +3,25 @@ const CustomerSchema = require("../models/Customer");
 
 const RetailerSchema = new Schema(
   {
-    username: { 
-      type: String, 
-      required: true, 
-      unique: true 
-    },
-    password: { 
-      type: String, 
-      required: true
-    },
-    retailerName: { 
+    username: {
       type: String,
-      required: true
+      required: true,
+      unique: true,
     },
-    address: { 
+    password: {
+      type: String,
+      required: true,
+    },
+    retailerName: {
+      type: String,
+      required: true,
+    },
+    address: {
       street: String,
       streetNumber: Number,
       city: String,
       state: String,
-      zipcode: Number
+      zipcode: Number,
     },
     phoneNumber: { type: String },
     openingTime: { type: Number },
@@ -30,7 +30,7 @@ const RetailerSchema = new Schema(
     avgWaitTime: { type: Number },
     notificationTimer: { type: Number },
     waitList: [CustomerSchema],
-    holdList: [CustomerSchema]
+    holdList: [CustomerSchema],
   },
   {
     toJSON: {
@@ -38,15 +38,15 @@ const RetailerSchema = new Schema(
     },
     id: false,
   }
-)
+);
 
-RetailerSchema.virtual("waitListCount").get(function() {
+RetailerSchema.virtual("waitListCount").get(function () {
   return this.waitList.length;
-})
+});
 
-RetailerSchema.virtual("holdListCount").get(function() {
+RetailerSchema.virtual("holdListCount").get(function () {
   return this.holdList.length;
-})
+});
 
 const Retailer = model("Retailer", RetailerSchema);
 
