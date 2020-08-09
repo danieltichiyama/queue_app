@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import styles from "./RetailerView.module.scss";
 import moment from "moment";
+import clock from "../../utils/imgs/clock.png";
+
+moment.updateLocale("en", {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "just now",
+    ss: "just now",
+    m: "%d min",
+    mm: "%d mins",
+    h: "%d hour",
+    hh: "%d hours",
+  },
+});
 
 function RetailerView(props) {
   const [retailer, setRetailer] = useState({
@@ -28,7 +42,7 @@ function RetailerView(props) {
       phoneNumber: "412-350-1148",
       partySize: 5,
       status: "nothing",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 90000).fromNow(true),
     },
     {
       id: 2,
@@ -36,7 +50,7 @@ function RetailerView(props) {
       phoneNumber: "163-928-6598",
       partySize: 3,
       status: "nothing",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 90000).fromNow(true),
     },
     {
       id: 3,
@@ -44,7 +58,7 @@ function RetailerView(props) {
       phoneNumber: "173-732-5387",
       partySize: 1,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 10000000).fromNow(true),
     },
     {
       id: 4,
@@ -52,7 +66,7 @@ function RetailerView(props) {
       phoneNumber: "254-916-7739",
       partySize: 2,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 5,
@@ -60,7 +74,7 @@ function RetailerView(props) {
       phoneNumber: "191-866-7411",
       partySize: 3,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 6,
@@ -68,7 +82,7 @@ function RetailerView(props) {
       phoneNumber: "485-389-7663",
       partySize: 5,
       status: "denied",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 7,
@@ -76,7 +90,7 @@ function RetailerView(props) {
       phoneNumber: "271-751-4385",
       partySize: 6,
       status: "denied",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 8,
@@ -84,7 +98,7 @@ function RetailerView(props) {
       phoneNumber: "865-951-6349",
       partySize: 6,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 9,
@@ -92,7 +106,7 @@ function RetailerView(props) {
       phoneNumber: "106-598-2132",
       partySize: 1,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 10,
@@ -100,7 +114,7 @@ function RetailerView(props) {
       phoneNumber: "451-895-8232",
       partySize: 1,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
   ]);
   const [holdList, setHoldList] = useState([
@@ -110,7 +124,7 @@ function RetailerView(props) {
       phoneNumber: "412-350-1148",
       partySize: 5,
       status: "nothing",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 2,
@@ -118,7 +132,7 @@ function RetailerView(props) {
       phoneNumber: "163-928-6598",
       partySize: 3,
       status: "nothing",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 3,
@@ -126,7 +140,7 @@ function RetailerView(props) {
       phoneNumber: "173-732-5387",
       partySize: 1,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 4,
@@ -134,7 +148,7 @@ function RetailerView(props) {
       phoneNumber: "254-916-7739",
       partySize: 2,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 5,
@@ -142,7 +156,7 @@ function RetailerView(props) {
       phoneNumber: "191-866-7411",
       partySize: 3,
       status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 6,
@@ -150,7 +164,7 @@ function RetailerView(props) {
       phoneNumber: "485-389-7663",
       partySize: 5,
       status: "denied",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 7,
@@ -158,7 +172,7 @@ function RetailerView(props) {
       phoneNumber: "271-751-4385",
       partySize: 6,
       status: "denied",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 8,
@@ -166,7 +180,7 @@ function RetailerView(props) {
       phoneNumber: "865-951-6349",
       partySize: 6,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 9,
@@ -174,7 +188,7 @@ function RetailerView(props) {
       phoneNumber: "106-598-2132",
       partySize: 1,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
       id: 10,
@@ -182,17 +196,20 @@ function RetailerView(props) {
       phoneNumber: "451-895-8232",
       partySize: 1,
       status: "onHold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(),
+      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
   ]);
 
   const mapCustomers = (list) => {
-    return list.map((customer) => {
+    return list.map((customer, index) => {
       return (
-        <li>
-          <p> {customer.phoneNumber}</p>
-          <div>C</div>
-          <p> {customer.createdAt}</p>
+        <li key={"customer-" + index}>
+          <p className={styles.phoneNumber}> {customer.phoneNumber}</p>
+          <div className={styles.time}>
+            <img src={clock} alt="time in queue" />
+            <p> {customer.createdAt}</p>
+          </div>
+
           <div className={styles.menuButton}>
             <div className={styles.bar}></div>
             <div className={styles.bar}></div>
@@ -208,13 +225,19 @@ function RetailerView(props) {
       <ul className={styles.WaitList}>
         <div className={styles.header}>
           <h3>Queue</h3>
-          <div>timer</div>
+          <div className={styles.time}>
+            <img src={clock} alt="average wait time" />
+            <h3>5 min</h3>
+          </div>
         </div>
         {mapCustomers(waitList)}
       </ul>
       <ul className={styles.HoldList}>
-        HOLDLIST
-        {mapCustomers(holdList)}
+        <div className={styles.header}>
+          <h3>On Hold</h3>
+          <div className={styles.collapse}></div>
+        </div>
+        <div className={styles.list}>{mapCustomers(holdList)}</div>
       </ul>
     </div>
   );
