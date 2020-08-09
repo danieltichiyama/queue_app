@@ -10,6 +10,7 @@ class App extends Component {
     return (
       <div className="App">
         <UserView></UserView>
+        <Dashboard></Dashboard>
       </div>
     );
   }
