@@ -1,0 +1,53 @@
+//global color variables
+$lightgreen: #6d9773;
+$darkgreen: #0c3b2e;
+$yellow: #ffba00;
+$red: #ff421f;
+$lightblue: #71b4cf;
+
+//media query variables
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 625px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+// Small devices
+@mixin sm {
+  @media (max-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (max-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (max-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (max-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+
+//border helper
+@mixin border($color: "red") {
+  border: 1px $color dotted;
+}
