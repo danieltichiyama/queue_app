@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Dashboard from "../components/Dashboard";
 import UserView from "../views/UserView";
 
-class App extends Component() {
+class App extends Component {
   render() {
     return (
       <div className="App">
