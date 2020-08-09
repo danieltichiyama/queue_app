@@ -4,7 +4,7 @@ import styles from "./Dashboard.module.scss";
 const Dashboard = (props) => {
   const [count, setCount] = useState(22);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handlePlus = () => {
     setCount(count + 1);

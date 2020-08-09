@@ -17,6 +17,7 @@
   background: white;
   box-shadow: 0 0 12px 6px rgba($color: #000000, $alpha: 0.2);
   overflow: hidden;
+  transition: top 0.5s;
 
   .counter {
     display: flex;
