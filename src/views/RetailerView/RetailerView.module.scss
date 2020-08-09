@@ -5,6 +5,9 @@
   width: 100%;
   position: relative;
   padding-top: 5%;
+  overflow: hidden;
+
+  // both headers style, waitlist and holdlist
 
   .header {
     display: flex;
@@ -27,6 +30,8 @@
       }
     }
   }
+
+  // both list element's styles, waitlist and holdlist
 
   li {
     display: flex;
@@ -78,6 +83,7 @@
         width: fit-content;
       }
     }
+
     .menuButton {
       display: flex;
       flex-direction: column;
@@ -91,9 +97,22 @@
       }
     }
   }
+
   .WaitList {
     height: 100%;
     padding: 0 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+
+    .listContainer {
+      overflow: scroll;
+      padding-bottom: 30vh;
+    }
   }
 
   .HoldList {
@@ -101,12 +120,17 @@
     background: $darkgreen;
     height: 100vh;
     width: 100%;
-    top: 4%;
+    top: 3%;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-radius: 48px 48px 0 0;
     padding-left: 12px;
     padding-right: 12px;
     padding-top: 1%;
     box-shadow: 0 0 12px 6px rgba($color: #000000, $alpha: 0.2);
+    display: flex;
+    flex-direction: column;
 
     .header {
       color: white;
@@ -121,8 +145,9 @@
       }
     }
 
-    .list {
-      overflow-y: scroll;
+    .listContainer {
+      overflow: scroll;
+      padding-bottom: 33vh;
     }
   }
 }

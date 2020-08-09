@@ -69,25 +69,26 @@ const Customers = (props) => {
 };
 
 function RetailerView(props) {
-  const [retailer, setRetailer] = useState({
-    // Mock retailer data
-    id: 1,
-    retailerName: "Mybuzz",
-    address: {
-      streetNumber: 2,
-      street: "Anhalt Hill",
-      city: "Honolulu",
-      state: "HI",
-      zipcode: 12345,
-    },
-    phoneNumber: "759-408-3657",
-    openingTime: "9:17 AM",
-    closingTime: "10:50 PM",
-    avgWaitTime: 67,
-    waitListCount: 11,
-    maxCapacity: 100,
-  });
-  const [waitList, setWaitList] = useState([
+  // const [retailer, setRetailer] = useState({
+  //   // Mock retailer data
+  //   id: 1,
+  //   retailerName: "Mybuzz",
+  //   address: {
+  //     streetNumber: 2,
+  //     street: "Anhalt Hill",
+  //     city: "Honolulu",
+  //     state: "HI",
+  //     zipcode: 12345,
+  //   },
+  //   phoneNumber: "759-408-3657",
+  //   openingTime: "9:17 AM",
+  //   closingTime: "10:50 PM",
+  //   avgWaitTime: 67,
+  //   waitListCount: 11,
+  //   maxCapacity: 100,
+  //   inStoreCount: 22,
+  // });
+  const [waitList] = useState([
     {
       id: 1,
       name: "Crystal Ockleshaw",
@@ -169,7 +170,7 @@ function RetailerView(props) {
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
   ]);
-  const [holdList, setHoldList] = useState([
+  const [holdList] = useState([
     {
       id: 1,
       name: "Ricky Bobby",
@@ -262,52 +263,62 @@ function RetailerView(props) {
             <h3>5 min</h3>
           </div>
         </div>
-        {waitList.map((customer, index) => {
-          let statuses = {
-            confirmed: "#6d9773",
-            hold: "#ffba00",
-            cancelled: "#ff421f",
-          };
+        <div className={styles.listContainer}>
+          {waitList.map((customer, index) => {
+            let statuses = {
+              confirmed: "#6d9773",
+              hold: "#ffba00",
+              cancelled: "#ff421f",
+            };
 
-          let color;
-          if (customer.status !== "pending" || customer.status !== "entered") {
-            color = statuses[customer.status];
-          }
-          return (
-            <Customers
-              customer={customer}
-              color={color}
-              index={index}
-              key={index}
-            ></Customers>
-          );
-        })}
+            let color;
+            if (
+              customer.status !== "pending" ||
+              customer.status !== "entered"
+            ) {
+              color = statuses[customer.status];
+            }
+            return (
+              <Customers
+                customer={customer}
+                color={color}
+                index={index}
+                key={index}
+              ></Customers>
+            );
+          })}
+        </div>
       </ul>
       <ul className={styles.HoldList}>
         <div className={styles.header}>
           <h3>On Hold</h3>
           <div className={styles.collapse}></div>
         </div>
-        {holdList.map((customer, index) => {
-          let statuses = {
-            confirmed: "#6d9773",
-            hold: "#ffba00",
-            cancelled: "#ff421f",
-          };
+        <div className={styles.listContainer}>
+          {holdList.map((customer, index) => {
+            let statuses = {
+              confirmed: "#6d9773",
+              hold: "#ffba00",
+              cancelled: "#ff421f",
+            };
 
-          let color;
-          if (customer.status !== "pending" || customer.status !== "entered") {
-            color = statuses[customer.status];
-          }
-          return (
-            <Customers
-              customer={customer}
-              color={color}
-              index={index}
-              key={index}
-            ></Customers>
-          );
-        })}{" "}
+            let color;
+            if (
+              customer.status !== "pending" ||
+              customer.status !== "entered"
+            ) {
+              color = statuses[customer.status];
+            }
+            return (
+              <Customers
+                customer={customer}
+                color={color}
+                index={index}
+                key={index}
+              ></Customers>
+            );
+          })}{" "}
+        </div>
       </ul>
     </div>
   );
