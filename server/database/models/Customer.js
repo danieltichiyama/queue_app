@@ -6,7 +6,7 @@ const CustomerSchema = new Schema(
     name: { type: String },
     phoneNumber: { type: String },
     partySize: { type: Number },
-    status: { type: Number },
+    status: { type: String, default: "pending" },
     createdAt: {
       type: Date,
       default: Date.now,
