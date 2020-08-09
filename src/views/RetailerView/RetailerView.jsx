@@ -253,6 +253,31 @@ function RetailerView(props) {
     },
   ]);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    let holdList = document.getElementById("holdList");
+    let expand = document.getElementById("expand");
+    let collapse = document.getElementById("collapse");
+
+    if (isOpen) {
+      holdList.setAttribute("style", "top:3%");
+      expand.setAttribute("style", "display: none");
+      collapse.removeAttribute("style");
+    } else {
+      holdList.removeAttribute("style");
+      expand.removeAttribute("style");
+      collapse.setAttribute("style", "display: none");
+    }
+  }, [isOpen]);
+
+  let handleExpand = () => {
+    setIsOpen(true);
+  };
+  let handleCollapse = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className={styles.RetailerView}>
       <ul className={styles.WaitList}>
@@ -289,10 +314,15 @@ function RetailerView(props) {
           })}
         </div>
       </ul>
-      <ul className={styles.HoldList}>
+      <ul className={styles.HoldList} id="holdList">
+        <div className={styles.expand} onClick={handleExpand} id="expand" />
         <div className={styles.header}>
           <h3>On Hold</h3>
-          <div className={styles.collapse}></div>
+          <div
+            className={styles.collapse}
+            onClick={handleCollapse}
+            id="collapse"
+          ></div>
         </div>
         <div className={styles.listContainer}>
           {holdList.map((customer, index) => {
