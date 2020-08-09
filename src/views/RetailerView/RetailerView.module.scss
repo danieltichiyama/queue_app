@@ -1,0 +1,106 @@
+@import "../../utils/styles/_global";
+
+.RetailerView {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  padding-top: 5%;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      font-size: 2em;
+      font-weight: 200;
+    }
+
+    .time {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      img {
+        height: 36px;
+        margin-right: 6px;
+      }
+    }
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba($color: #bbbbbb, $alpha: 1);
+    padding: 2px 12px;
+    margin-bottom: 12px;
+    font-weight: 300;
+
+    .phoneNumber {
+      width: 100%;
+    }
+    .time {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+
+      img {
+        height: 24px;
+      }
+
+      p {
+        margin-right: 24px;
+        margin-left: 12px;
+        width: fit-content;
+      }
+    }
+    .menuButton {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 36px;
+
+      .bar {
+        width: 24px;
+        height: 2px;
+        background-color: white;
+      }
+    }
+  }
+  .WaitList {
+    height: 100%;
+    padding: 0 12px;
+  }
+
+  .HoldList {
+    position: absolute;
+    background: $darkgreen;
+    height: 100vh;
+    width: 100%;
+    top: 4%;
+    border-radius: 48px 48px 0 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 1%;
+    box-shadow: 0 0 12px 6px rgba($color: #000000, $alpha: 0.2);
+    display: none;
+
+    .header {
+      color: white;
+
+      .collapse {
+        height: 2em;
+        width: 2em;
+        transform: rotate(45deg);
+        border-bottom: 8px solid rgba($color: #ffffff, $alpha: 0.3);
+        border-right: 8px solid rgba($color: #ffffff, $alpha: 0.3);
+        margin-right: 12px;
+      }
+    }
+
+    .list {
+      overflow-y: scroll;
+    }
+  }
+}

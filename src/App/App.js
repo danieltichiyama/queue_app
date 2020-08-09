@@ -3,13 +3,13 @@ import "./App.css";
 import { connect } from "react-redux";
 
 import Dashboard from "../components/Dashboard";
-import UserView from "../views/UserView";
+import RetailerView from "../views/RetailerView";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <UserView></UserView>
+        <RetailerView></RetailerView>
         <Dashboard></Dashboard>
       </div>
     );
