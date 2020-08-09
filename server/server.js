@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + './../.env' });
 const express = require("express");
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser");
@@ -11,6 +11,9 @@ app.use(express.json());
 app.use(bodyParser.text());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const twilioServices = require('./routes/api/twilioServices/send')
+const twilioReplyServices = require('./routes/api/twilioServices/reply')
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/queue-app", {
     useFindAndModify: false,
@@ -26,6 +29,8 @@ app.get("/", (req, res) => {
     res.status(200).json({ success: true, smoke: "hello brian" });
 });
 
+app.use("/api/sms/send", twilioServices)
+app.use('/api/sms/reply', twilioReplyServices)
 app.listen(PORT, () => {
     console.log(`Port ${PORT} at your service BRIAN`);
 });
