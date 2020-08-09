@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
 import moment from "moment";
 import clock from "../../utils/imgs/clock.png";
@@ -16,32 +16,110 @@ moment.updateLocale("en", {
   },
 });
 
-function RetailerView(props) {
-  const [retailer, setRetailer] = useState({
-    // Mock retailer data
-    id: 1,
-    retailerName: "Mybuzz",
-    address: {
-      streetNumber: 2,
-      street: "Anhalt Hill",
-      city: "Honolulu",
-      state: "HI",
-      zipcode: 12345,
-    },
-    phoneNumber: "759-408-3657",
-    openingTime: "9:17 AM",
-    closingTime: "10:50 PM",
-    avgWaitTime: 67,
-    waitListCount: 11,
-    maxCapacity: 100,
+const Customers = (props) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  let wrapperRef;
+
+  const setWrapperRef = (node) => {
+    wrapperRef = node;
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      wrapperRef &&
+      !wrapperRef.contains(event.target) &&
+      (event.target.id !== "customerMenu" || event.target.id !== "confirmMenu")
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
   });
-  const [waitList, setWaitList] = useState([
+
+  const toggleConfirm = () => {
+    setConfirmOpen(!confirmOpen);
+
+    toggleMenu();
+  };
+
+  const handleConfirm = () => {
+    // this is where we need to send the data to the backend
+
+    setConfirmOpen(false);
+  };
+
+  return (
+    <li key={"customer-" + props.index} style={{ background: props.color }}>
+      <p className={styles.phoneNumber}> {props.customer.phoneNumber}</p>
+      <div className={styles.time}>
+        <img src={clock} alt="time in queue" />
+        <p> {props.customer.createdAt}</p>
+      </div>
+
+      <div className={styles.menuButton} onClick={toggleMenu}>
+        <div className={styles.bar}></div>
+        <div className={styles.bar}></div>
+        <div className={styles.bar}></div>
+      </div>
+
+      {menuOpen ? (
+        <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
+          {/* placeholders */}
+          <div className={styles.icon} onClick={toggleConfirm}></div>
+          <div className={styles.icon} onClick={toggleConfirm}></div>
+        </div>
+      ) : null}
+
+      {confirmOpen ? (
+        <div className={styles.menu} id="confirmMenu" ref={setWrapperRef}>
+          {/* placeholders */}
+          <button id="confirm" onClick={handleConfirm}>
+            CONFIRM
+          </button>
+          <button id="cancel" onClick={toggleConfirm}>
+            CANCEL
+          </button>
+        </div>
+      ) : null}
+    </li>
+  );
+};
+
+function RetailerView(props) {
+  // const [retailer, setRetailer] = useState({
+  //   // Mock retailer data
+  //   id: 1,
+  //   retailerName: "Mybuzz",
+  //   address: {
+  //     streetNumber: 2,
+  //     street: "Anhalt Hill",
+  //     city: "Honolulu",
+  //     state: "HI",
+  //     zipcode: 12345,
+  //   },
+  //   phoneNumber: "759-408-3657",
+  //   openingTime: "9:17 AM",
+  //   closingTime: "10:50 PM",
+  //   avgWaitTime: 67,
+  //   waitListCount: 11,
+  //   maxCapacity: 100,
+  //   inStoreCount: 22,
+  // });
+  const [waitList] = useState([
     {
       id: 1,
       name: "Crystal Ockleshaw",
       phoneNumber: "412-350-1148",
       partySize: 5,
-      status: "nothing",
+      status: "pending",
       createdAt: moment.utc(new Date() - 90000).fromNow(true),
     },
     {
@@ -49,7 +127,7 @@ function RetailerView(props) {
       name: "Katlin Jermyn",
       phoneNumber: "163-928-6598",
       partySize: 3,
-      status: "nothing",
+      status: "pending",
       createdAt: moment.utc(new Date() - 90000).fromNow(true),
     },
     {
@@ -81,7 +159,7 @@ function RetailerView(props) {
       name: "Glen Scanlin",
       phoneNumber: "485-389-7663",
       partySize: 5,
-      status: "denied",
+      status: "cancelled",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -89,7 +167,7 @@ function RetailerView(props) {
       name: "Hilde Bernt",
       phoneNumber: "271-751-4385",
       partySize: 6,
-      status: "denied",
+      status: "cancelled",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -97,7 +175,7 @@ function RetailerView(props) {
       name: "Marita Tiffany",
       phoneNumber: "865-951-6349",
       partySize: 6,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -105,7 +183,7 @@ function RetailerView(props) {
       name: "Far Shinner",
       phoneNumber: "106-598-2132",
       partySize: 1,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -113,17 +191,17 @@ function RetailerView(props) {
       name: "Jeddy Brendish",
       phoneNumber: "451-895-8232",
       partySize: 1,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
   ]);
-  const [holdList, setHoldList] = useState([
+  const [holdList] = useState([
     {
       id: 1,
       name: "Ricky Bobby",
       phoneNumber: "412-350-1148",
       partySize: 5,
-      status: "nothing",
+      status: "pending",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -131,7 +209,7 @@ function RetailerView(props) {
       name: "Kat Williams",
       phoneNumber: "163-928-6598",
       partySize: 3,
-      status: "nothing",
+      status: "pending",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -163,7 +241,7 @@ function RetailerView(props) {
       name: "Glenda Ling",
       phoneNumber: "485-389-7663",
       partySize: 5,
-      status: "denied",
+      status: "cancelled",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -171,7 +249,7 @@ function RetailerView(props) {
       name: "Hilde Tilde",
       phoneNumber: "271-751-4385",
       partySize: 6,
-      status: "denied",
+      status: "cancelled",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -179,7 +257,7 @@ function RetailerView(props) {
       name: "Marita Margarita",
       phoneNumber: "865-951-6349",
       partySize: 6,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -187,7 +265,7 @@ function RetailerView(props) {
       name: "Far Seer",
       phoneNumber: "106-598-2132",
       partySize: 1,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
     {
@@ -195,29 +273,35 @@ function RetailerView(props) {
       name: "Red Eye Jedi",
       phoneNumber: "451-895-8232",
       partySize: 1,
-      status: "onHold",
+      status: "hold",
       createdAt: moment.utc(new Date() - 5000000).fromNow(true),
     },
   ]);
 
-  const mapCustomers = (list) => {
-    return list.map((customer, index) => {
-      return (
-        <li key={"customer-" + index}>
-          <p className={styles.phoneNumber}> {customer.phoneNumber}</p>
-          <div className={styles.time}>
-            <img src={clock} alt="time in queue" />
-            <p> {customer.createdAt}</p>
-          </div>
+  const [isOpen, setIsOpen] = useState(false);
 
-          <div className={styles.menuButton}>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-          </div>
-        </li>
-      );
-    });
+  useEffect(() => {
+    let holdList = document.getElementById("holdList");
+    let expand = document.getElementById("expand");
+    let collapse = document.getElementById("collapse");
+
+    if (isOpen) {
+      holdList.setAttribute("style", "top:3%");
+      expand.setAttribute("style", "display: none");
+      collapse.removeAttribute("style");
+    } else {
+      holdList.removeAttribute("style");
+      expand.removeAttribute("style");
+      collapse.setAttribute("style", "display: none");
+    }
+  }, [isOpen]);
+
+  const handleExpand = () => {
+    setIsOpen(true);
+  };
+
+  const handleCollapse = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -230,14 +314,67 @@ function RetailerView(props) {
             <h3>5 min</h3>
           </div>
         </div>
-        {mapCustomers(waitList)}
+        <div className={styles.listContainer}>
+          {waitList.map((customer, index) => {
+            let statuses = {
+              confirmed: "#6d9773",
+              hold: "#ffba00",
+              cancelled: "#ff421f",
+            };
+
+            let color;
+            if (
+              customer.status !== "pending" ||
+              customer.status !== "entered"
+            ) {
+              color = statuses[customer.status];
+            }
+            return (
+              <Customers
+                customer={customer}
+                color={color}
+                index={index}
+                key={index}
+              ></Customers>
+            );
+          })}
+        </div>
       </ul>
-      <ul className={styles.HoldList}>
+      <ul className={styles.HoldList} id="holdList">
+        <div className={styles.expand} onClick={handleExpand} id="expand" />
         <div className={styles.header}>
           <h3>On Hold</h3>
-          <div className={styles.collapse}></div>
+          <div
+            className={styles.collapse}
+            onClick={handleCollapse}
+            id="collapse"
+          ></div>
         </div>
-        <div className={styles.list}>{mapCustomers(holdList)}</div>
+        <div className={styles.listContainer}>
+          {holdList.map((customer, index) => {
+            let statuses = {
+              confirmed: "#6d9773",
+              hold: "#ffba00",
+              cancelled: "#ff421f",
+            };
+
+            let color;
+            if (
+              customer.status !== "pending" ||
+              customer.status !== "entered"
+            ) {
+              color = statuses[customer.status];
+            }
+            return (
+              <Customers
+                customer={customer}
+                color={color}
+                index={index}
+                key={index}
+              ></Customers>
+            );
+          })}{" "}
+        </div>
       </ul>
     </div>
   );
