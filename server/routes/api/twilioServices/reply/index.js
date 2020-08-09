@@ -4,7 +4,6 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 
 twilioReplyRouter.route('/').post((req, res) => {
-    console.log("This is the body from response", req.body.Body)
     let reply = req.body.Body;
     const twiml = new MessagingResponse();
 
