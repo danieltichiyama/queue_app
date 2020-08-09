@@ -271,10 +271,11 @@ function RetailerView(props) {
     }
   }, [isOpen]);
 
-  let handleExpand = () => {
+  const handleExpand = () => {
     setIsOpen(true);
   };
-  let handleCollapse = () => {
+
+  const handleCollapse = () => {
     setIsOpen(false);
   };
 
