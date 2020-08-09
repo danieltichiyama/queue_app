@@ -18,6 +18,7 @@ moment.updateLocale("en", {
 
 const Customers = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -33,7 +34,7 @@ const Customers = (props) => {
     if (
       wrapperRef &&
       !wrapperRef.contains(event.target) &&
-      event.target.id !== "menu"
+      (event.target.id !== "customerMenu" || event.target.id !== "confirmMenu")
     ) {
       setMenuOpen(false);
     }
@@ -42,6 +43,12 @@ const Customers = (props) => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
   });
+
+  const toggleConfirm = () => {
+    setConfirmOpen(!confirmOpen);
+
+    toggleMenu();
+  };
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
@@ -58,10 +65,20 @@ const Customers = (props) => {
       </div>
 
       {menuOpen ? (
-        <div className={styles.menu} ref={setWrapperRef}>
+        <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
           {/* placeholders */}
-          <div className={styles.icon}></div>
-          <div className={styles.icon}></div>
+          <div className={styles.icon} onClick={toggleConfirm}></div>
+          <div className={styles.icon} onClick={toggleConfirm}></div>
+        </div>
+      ) : null}
+
+      {confirmOpen ? (
+        <div className={styles.menu} id="confirmMenu" ref={setWrapperRef}>
+          {/* placeholders */}
+          <button id="confirm">CONFIRM</button>
+          <button id="cancel" onClick={toggleConfirm}>
+            CANCEL
+          </button>
         </div>
       ) : null}
     </li>
