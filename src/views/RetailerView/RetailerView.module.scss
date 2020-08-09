@@ -27,6 +27,7 @@
       }
     }
   }
+
   li {
     display: flex;
     justify-content: space-between;
@@ -35,6 +36,28 @@
     padding: 2px 12px;
     margin-bottom: 12px;
     font-weight: 300;
+    position: relative;
+
+    .menu {
+      position: absolute;
+      right: 0;
+      background: white;
+      height: 100%;
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 48px 0 0 48px;
+
+      // placeholder
+      .icon {
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        margin: 0 36px;
+        background: rgba($color: #000000, $alpha: 0.2);
+      }
+    }
 
     .phoneNumber {
       width: 100%;
@@ -84,7 +107,6 @@
     padding-right: 12px;
     padding-top: 1%;
     box-shadow: 0 0 12px 6px rgba($color: #000000, $alpha: 0.2);
-    display: none;
 
     .header {
       color: white;
