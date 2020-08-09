@@ -50,6 +50,12 @@ const Customers = (props) => {
     toggleMenu();
   };
 
+  const handleConfirm = () => {
+    // this is where we need to send the data to the backend
+
+    setConfirmOpen(false);
+  };
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}> {props.customer.phoneNumber}</p>
@@ -75,7 +81,9 @@ const Customers = (props) => {
       {confirmOpen ? (
         <div className={styles.menu} id="confirmMenu" ref={setWrapperRef}>
           {/* placeholders */}
-          <button id="confirm">CONFIRM</button>
+          <button id="confirm" onClick={handleConfirm}>
+            CONFIRM
+          </button>
           <button id="cancel" onClick={toggleConfirm}>
             CANCEL
           </button>
