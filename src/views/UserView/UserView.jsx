@@ -183,9 +183,9 @@ class UserView extends Component {
   }
 
   mapStores = (storesList) => {
-    return storesList.map((store) => {
+    return storesList.map((store, index) => {
       return (
-        <li className={styles.result}>
+        <li className={styles.result} key={"retailers-" + index}>
           <div className={styles.generalInfo}>
             <h3>{store.retailerName}</h3>
             <p>
