@@ -1,0 +1,47 @@
+@import "../../utils/styles/_global";
+
+.RetailerView {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  padding-top: 5%;
+
+  .WaitList {
+    height: 100%;
+    @include border(red);
+    padding: 0 12px;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba($color: #000000, $alpha: 0.1);
+      padding: 2px 6px;
+      margin-bottom: 6px;
+
+      .menuButton {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 36px;
+        margin-right: 6px;
+
+        .bar {
+          width: 24px;
+          height: 2px;
+          background-color: white;
+        }
+      }
+    }
+  }
+
+  .HoldList {
+    position: absolute;
+  }
+}
