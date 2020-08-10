@@ -202,7 +202,7 @@ const reducer = (state = initialState, action) => {
     case FETCH_ONE_RETAILER:
       return Object.assign({}, state, { currentRetailer: action.payload });
     case ADD_TO_WAITLIST:
-      return Object.assign({}, state, { retailers: action.payload.retailer });
+      return Object.assign({}, state, { currentRetailer: action.payload });
     case MOVE_TO_HOLDLIST:
       return Object.assign({}, state, {});
     case MOVE_TO_WAITLIST:

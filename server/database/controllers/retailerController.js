@@ -104,12 +104,20 @@ const retailerController = {
         {
           new: true,
         }
-      ).then((results) => {
-        if (!results)
-          res.status(404).json({ message: "No retailer found with this id." });
+      ).populate({
+        path: "waitList",
+        select: "-__v",
+      })
+        .populate({
+          path: "holdList",
+          select: "-__v",
+        }).then((results) => {
+          console.log(results)
+          if (!results)
+            res.status(404).json({ message: "No retailer found with this id." });
 
-        res.json(results);
-      });
+          res.json(results);
+        });
     });
   },
   removeCustomerFromWaitList({ params, body }, res) {
