@@ -11,7 +11,20 @@ const CustomerSchema = new Schema(
       type: Date,
       default: Date.now,
       get: (timestamp) => {
-        moment(timestamp).format("MMM Do, YYYY [at] hh:mm a");
+        moment.updateLocale("en", {
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "just now",
+            ss: "just now",
+            m: "%d min",
+            mm: "%d mins",
+            h: "%d hour",
+            hh: "%d hours",
+          },
+        });
+
+        return moment(timestamp).fromNow(true);
       },
     },
   },

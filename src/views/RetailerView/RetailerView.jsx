@@ -1,283 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
-import moment from "moment";
+import Customer from "../../components/CustomerInList";
 import clock from "../../utils/imgs/clock.png";
-
-moment.updateLocale("en", {
-  relativeTime: {
-    future: "in %s",
-    past: "%s ago",
-    s: "just now",
-    ss: "just now",
-    m: "%d min",
-    mm: "%d mins",
-    h: "%d hour",
-    hh: "%d hours",
-  },
-});
-
-const Customers = (props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  let wrapperRef;
-
-  const setWrapperRef = (node) => {
-    wrapperRef = node;
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      wrapperRef &&
-      !wrapperRef.contains(event.target) &&
-      (event.target.id !== "customerMenu" || event.target.id !== "confirmMenu")
-    ) {
-      setMenuOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-  });
-
-  const toggleConfirm = () => {
-    setConfirmOpen(!confirmOpen);
-
-    toggleMenu();
-  };
-
-  const handleConfirm = () => {
-    // this is where we need to send the data to the backend
-
-    setConfirmOpen(false);
-  };
-
-  return (
-    <li key={"customer-" + props.index} style={{ background: props.color }}>
-      <p className={styles.phoneNumber}> {props.customer.phoneNumber}</p>
-      <div className={styles.time}>
-        <img src={clock} alt="time in queue" />
-        <p> {props.customer.createdAt}</p>
-      </div>
-
-      <div className={styles.menuButton} onClick={toggleMenu}>
-        <div className={styles.bar}></div>
-        <div className={styles.bar}></div>
-        <div className={styles.bar}></div>
-      </div>
-
-      {menuOpen ? (
-        <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
-          {/* placeholders */}
-          <div className={styles.icon} onClick={toggleConfirm}></div>
-          <div className={styles.icon} onClick={toggleConfirm}></div>
-        </div>
-      ) : null}
-
-      {confirmOpen ? (
-        <div className={styles.menu} id="confirmMenu" ref={setWrapperRef}>
-          {/* placeholders */}
-          <button id="confirm" onClick={handleConfirm}>
-            CONFIRM
-          </button>
-          <button id="cancel" onClick={toggleConfirm}>
-            CANCEL
-          </button>
-        </div>
-      ) : null}
-    </li>
-  );
-};
+import { connect } from "react-redux";
+import { fetchOneRetailer } from "../../actions";
 
 function RetailerView(props) {
-  // const [retailer, setRetailer] = useState({
-  //   // Mock retailer data
-  //   id: 1,
-  //   retailerName: "Mybuzz",
-  //   address: {
-  //     streetNumber: 2,
-  //     street: "Anhalt Hill",
-  //     city: "Honolulu",
-  //     state: "HI",
-  //     zipcode: 12345,
-  //   },
-  //   phoneNumber: "759-408-3657",
-  //   openingTime: "9:17 AM",
-  //   closingTime: "10:50 PM",
-  //   avgWaitTime: 67,
-  //   waitListCount: 11,
-  //   maxCapacity: 100,
-  //   inStoreCount: 22,
-  // });
-  const [waitList] = useState([
-    {
-      id: 1,
-      name: "Crystal Ockleshaw",
-      phoneNumber: "412-350-1148",
-      partySize: 5,
-      status: "pending",
-      createdAt: moment.utc(new Date() - 90000).fromNow(true),
-    },
-    {
-      id: 2,
-      name: "Katlin Jermyn",
-      phoneNumber: "163-928-6598",
-      partySize: 3,
-      status: "pending",
-      createdAt: moment.utc(new Date() - 90000).fromNow(true),
-    },
-    {
-      id: 3,
-      name: "Russ Elletson",
-      phoneNumber: "173-732-5387",
-      partySize: 1,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 10000000).fromNow(true),
-    },
-    {
-      id: 4,
-      name: "Roi Gillson",
-      phoneNumber: "254-916-7739",
-      partySize: 2,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 5,
-      name: "Wren Miller",
-      phoneNumber: "191-866-7411",
-      partySize: 3,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 6,
-      name: "Glen Scanlin",
-      phoneNumber: "485-389-7663",
-      partySize: 5,
-      status: "cancelled",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 7,
-      name: "Hilde Bernt",
-      phoneNumber: "271-751-4385",
-      partySize: 6,
-      status: "cancelled",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 8,
-      name: "Marita Tiffany",
-      phoneNumber: "865-951-6349",
-      partySize: 6,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 9,
-      name: "Far Shinner",
-      phoneNumber: "106-598-2132",
-      partySize: 1,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 10,
-      name: "Jeddy Brendish",
-      phoneNumber: "451-895-8232",
-      partySize: 1,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-  ]);
-  const [holdList] = useState([
-    {
-      id: 1,
-      name: "Ricky Bobby",
-      phoneNumber: "412-350-1148",
-      partySize: 5,
-      status: "pending",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 2,
-      name: "Kat Williams",
-      phoneNumber: "163-928-6598",
-      partySize: 3,
-      status: "pending",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 3,
-      name: "No Fuss Russ",
-      phoneNumber: "173-732-5387",
-      partySize: 1,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 4,
-      name: "Roi da Boi",
-      phoneNumber: "254-916-7739",
-      partySize: 2,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 5,
-      name: "Mayhem Miller",
-      phoneNumber: "191-866-7411",
-      partySize: 3,
-      status: "confirmed",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 6,
-      name: "Glenda Ling",
-      phoneNumber: "485-389-7663",
-      partySize: 5,
-      status: "cancelled",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 7,
-      name: "Hilde Tilde",
-      phoneNumber: "271-751-4385",
-      partySize: 6,
-      status: "cancelled",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 8,
-      name: "Marita Margarita",
-      phoneNumber: "865-951-6349",
-      partySize: 6,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 9,
-      name: "Far Seer",
-      phoneNumber: "106-598-2132",
-      partySize: 1,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-    {
-      id: 10,
-      name: "Red Eye Jedi",
-      phoneNumber: "451-895-8232",
-      partySize: 1,
-      status: "hold",
-      createdAt: moment.utc(new Date() - 5000000).fromNow(true),
-    },
-  ]);
-
+  // handles open and close of On Hold list
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -304,6 +33,12 @@ function RetailerView(props) {
     setIsOpen(false);
   };
 
+  // grabs the initial data when the view loads
+  const { dispatchFetchOneRetailer } = props;
+  useEffect(() => {
+    dispatchFetchOneRetailer("5f30ad8e43006674ca19bd01");
+  }, []);
+
   return (
     <div className={styles.RetailerView}>
       <ul className={styles.WaitList}>
@@ -315,7 +50,7 @@ function RetailerView(props) {
           </div>
         </div>
         <div className={styles.listContainer}>
-          {waitList.map((customer, index) => {
+          {props.waitList.map((customer, index) => {
             let statuses = {
               confirmed: "#6d9773",
               hold: "#ffba00",
@@ -330,12 +65,12 @@ function RetailerView(props) {
               color = statuses[customer.status];
             }
             return (
-              <Customers
+              <Customer
                 customer={customer}
                 color={color}
                 index={index}
                 key={index}
-              ></Customers>
+              ></Customer>
             );
           })}
         </div>
@@ -351,7 +86,7 @@ function RetailerView(props) {
           ></div>
         </div>
         <div className={styles.listContainer}>
-          {holdList.map((customer, index) => {
+          {props.holdList.map((customer, index) => {
             let statuses = {
               confirmed: "#6d9773",
               hold: "#ffba00",
@@ -366,12 +101,12 @@ function RetailerView(props) {
               color = statuses[customer.status];
             }
             return (
-              <Customers
+              <Customer
                 customer={customer}
                 color={color}
                 index={index}
                 key={index}
-              ></Customers>
+              ></Customer>
             );
           })}{" "}
         </div>
@@ -380,4 +115,19 @@ function RetailerView(props) {
   );
 }
 
-export default RetailerView;
+const mapStateToProps = (state) => {
+  return {
+    waitList: [...state.currentRetailer.waitList],
+    holdList: [...state.currentRetailer.holdList],
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchFetchOneRetailer: (retailerId) => {
+      dispatch(fetchOneRetailer(retailerId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RetailerView);
