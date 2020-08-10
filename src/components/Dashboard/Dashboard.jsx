@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { addToWaitlist } from './../../actions'
+import { connect } from 'react-redux'
+import PhoneInput from 'react-phone-number-input/input';
+import { formatPhoneNumber, isValidPhoneNumber } from "react-phone-number-input"
 import styles from "./Dashboard.module.scss";
-import { connect } from "react-redux";
 import { updateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
   const [count, setCount] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [customerName, setCustomerName] = useState();
+  const [partySize, setPartySize] = useState();
 
   const handlePlus = () => {
     let plus = count + 1;
@@ -29,6 +36,29 @@ const Dashboard = (props) => {
   const handleCollapse = () => {
     setIsOpen(false);
   };
+
+  const handleName = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCustomerName(e.target.value)
+  }
+
+  const handlePartySize = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPartySize(e.target.value)
+  }
+
+  const addToQueue = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let formData = {
+      phoneNumber: phoneNumber,
+      name: customerName,
+      partySize: partySize
+    }
+    props.dispatchAddToWaitlist(formData);
+  }
 
   useEffect(() => {
     let dashboard = document.querySelector("#dashboard");
@@ -70,14 +100,16 @@ const Dashboard = (props) => {
       <button className={styles.addToQueue} id="dynamic-add">
         ADD TO QUEUE
       </button>
-      <form className={styles.modal}>
+      <form className={styles.modal} onSubmit={addToQueue}>
         <label htmlFor="phoneNumber">
-          <input
-            type="tel"
+          <PhoneInput
+            country="US"
             name="phoneNumber"
             id="phoneNumber"
             placeholder="XXX-XXX-XXXX"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : "Invalid phone number") : "Phone number is required"}
             required
           />
           <span className={styles.validity}></span>
@@ -88,6 +120,7 @@ const Dashboard = (props) => {
             name="name"
             id="name"
             placeholder="Guest Name"
+            onChange={handleName}
             required
           />
           <span className={styles.validity}></span>
@@ -98,6 +131,7 @@ const Dashboard = (props) => {
             name="partySize"
             id="partySize"
             placeholder="# in Party"
+            onChange={handlePartySize}
             required
           />
           <span className={styles.validity}></span>
@@ -122,6 +156,9 @@ const mapDispatchToProps = (dispatch) => {
     changeCustomersInStore: (data) => {
       return dispatch(updateRetailer(data));
     },
+    dispatchAddToWaitlist: (data) => {
+      return dispatch(addToWaitlist(data))
+    }
   };
 };
 
