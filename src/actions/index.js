@@ -12,7 +12,7 @@ export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
 
 export const updateRetailer = (data) => async (dispatch) => {
-  await Axios.put("/api/retailers/5f30ad8e43006674ca19bd01", data)
+  await Axios.put("/api/retailers/QueueApp", data)
     .then((retailer) => {
       dispatch({
         type: UPDATE_RETAILER,

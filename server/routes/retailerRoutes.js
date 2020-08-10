@@ -17,20 +17,20 @@ router.route("/").get(getAllRetailers).post(createRetailer);
 
 router.route("/search/:searchTerm").get(getAllRetailersBasedOnSearch);
 router
-  .route("/:id")
+  .route("/:retailerName")
   .get(getRetailerById)
   .put(updateRetailer)
   .delete(deleteRetailer);
 
-router.route("/:id/waitlist").put(addCustomerToWaitList);
+router.route("/:retailerName/waitlist").put(addCustomerToWaitList);
 
 router
-  .route("/:id/waitlist/:customerId")
+  .route("/:retailerName/waitlist/:customerId")
   .put(moveCustomerFromWaitListToHoldList)
   .delete(removeCustomerFromWaitList);
 
 router
-  .route("/:id/holdlist/:customerId")
+  .route("/:retailerName/holdlist/:customerId")
   .put(moveCustomerFromHoldListToWaitList)
   .delete(removeCustomerFromHoldList);
 
