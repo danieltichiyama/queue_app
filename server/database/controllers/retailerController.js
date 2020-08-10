@@ -62,8 +62,10 @@ const retailerController = {
       });
   },
   updateRetailer({ params, body }, res) {
+    console.log("body", body);
     Retailer.findByIdAndUpdate({ _id: params.id }, body, { new: true }).then(
       (results) => {
+        console.log("results", results);
         if (!results) {
           res.status(404).json({ message: "No retailer found with this id." });
           return;

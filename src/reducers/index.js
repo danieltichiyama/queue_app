@@ -8,6 +8,7 @@ import {
   REMOVE_CUSTOMER_FROM_HOLDLIST,
   REMOVE_CUSTOMER_FROM_WAITLIST,
   TWILIO_NOTIFICATION,
+  UPDATE_RETAILER,
 } from "../actions";
 
 const initialState = {
@@ -192,6 +193,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_RETAILER:
+      return Object.assign({}, state, { currentRetailer: action.payload });
     case FETCH_RETAILERS:
       return Object.assign({}, state, { retailers: action.payload });
     case SEARCH_RETAILERS_BY_NAME:

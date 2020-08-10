@@ -9,6 +9,20 @@ export const MOVE_TO_WAITLIST = "MOVE_TO_WAITLIST";
 export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
 export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
+export const UPDATE_RETAILER = "UPDATE_RETAILER";
+
+export const updateRetailer = (data) => async (dispatch) => {
+  await Axios.put("/api/retailers/5f30ad8e43006674ca19bd01", data)
+    .then((retailer) => {
+      dispatch({
+        type: UPDATE_RETAILER,
+        payload: retailer.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
 
 export const fetchRetailer = () => async (dispatch) => {
   await Axios.get("/api/retailers")
@@ -115,15 +129,16 @@ export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
     });
 };
 
-
-export const notifyCustomer = () => async dispatch => {
-  await Axios.post("/api/sms/send").then(customer => {
-    console.log(customer);
+export const notifyCustomer = () => async (dispatch) => {
+  await Axios.post("/api/sms/send")
+    .then((customer) => {
+      console.log(customer);
       dispatch({
-          type: TWILIO_NOTIFICATION,
-          payload: customer.data
-      })
-  }).catch(err => {
-      console.log(err.message)
-  })
-}
+        type: TWILIO_NOTIFICATION,
+        payload: customer.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
