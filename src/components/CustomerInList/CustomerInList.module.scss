@@ -7,7 +7,7 @@ li {
   background-color: rgba($color: #bbbbbb, $alpha: 1);
   padding: 2px 12px;
   margin-bottom: 12px;
-  font-weight: 300;
+  font-weight: 400;
   position: relative;
   overflow: hidden;
 
@@ -78,8 +78,8 @@ li {
 
     .bar {
       width: 24px;
-      height: 2px;
-      background-color: white;
+      height: 4px;
+      background-color: rgba($color: #ffffff, $alpha: 0.5);
     }
   }
 }

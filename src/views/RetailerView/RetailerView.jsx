@@ -13,15 +13,18 @@ function RetailerView(props) {
     let holdList = document.getElementById("holdList");
     let expand = document.getElementById("expand");
     let collapse = document.getElementById("collapse");
+    let onHoldH3 = document.getElementById("onHoldH3");
 
     if (isOpen) {
       holdList.setAttribute("style", "top:3%");
-      expand.setAttribute("style", "display: none");
-      collapse.removeAttribute("style");
+      expand.setAttribute("style", "opacity: 0");
+      collapse.setAttribute("style", "opacity: 1");
+      onHoldH3.setAttribute("style", "opacity:1");
     } else {
       holdList.removeAttribute("style");
       expand.removeAttribute("style");
-      collapse.setAttribute("style", "display: none");
+      collapse.removeAttribute("style");
+      onHoldH3.removeAttribute("style");
     }
   }, [isOpen]);
 
@@ -78,12 +81,14 @@ function RetailerView(props) {
       <ul className={styles.HoldList} id="holdList">
         <div className={styles.expand} onClick={handleExpand} id="expand" />
         <div className={styles.header}>
-          <h3>On Hold</h3>
-          <div
-            className={styles.collapse}
-            onClick={handleCollapse}
-            id="collapse"
-          ></div>
+          <h3 id="onHoldH3">On Hold</h3>
+          <div className={styles.collapseContainer}>
+            <div
+              className={styles.collapse}
+              onClick={handleCollapse}
+              id="collapse"
+            ></div>
+          </div>
         </div>
         <div className={styles.listContainer}>
           {props.holdList.map((customer, index) => {
