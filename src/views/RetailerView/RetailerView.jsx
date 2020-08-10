@@ -36,7 +36,7 @@ function RetailerView(props) {
   // grabs the initial data when the view loads
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
-    dispatchFetchOneRetailer("5f30ad8e43006674ca19bd01");
+    dispatchFetchOneRetailer("QueueApp");
   }, []);
 
   return (
@@ -124,8 +124,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchFetchOneRetailer: (retailerId) => {
-      dispatch(fetchOneRetailer(retailerId));
+    dispatchFetchOneRetailer: (retailerName) => {
+      dispatch(fetchOneRetailer(retailerName));
     },
   };
 };

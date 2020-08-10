@@ -30,6 +30,10 @@ const RetailerSchema = new Schema(
     notificationTimer: { type: Number },
     waitList: [{ type: Types.ObjectId, ref: "Customer" }],
     holdList: [{ type: Types.ObjectId, ref: "Customer" }],
+    customersInStore: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: {
