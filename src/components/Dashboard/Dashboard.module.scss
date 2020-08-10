@@ -1,9 +1,9 @@
 @import "../../utils/styles/_global";
 
 .Dashboard {
-  position: fixed;
+  position: absolute;
   bottom: 0;
-  top: 70vh;
+  top: 70%;
   left: 0;
   right: 0;
   width: 100%;
@@ -97,7 +97,7 @@
         &:invalid + span:before {
           content: "✖";
           padding-left: 5px;
-          color: white;
+          color: $red;
         }
 
         &:valid + span:before {
