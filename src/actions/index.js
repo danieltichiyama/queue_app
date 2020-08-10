@@ -114,3 +114,16 @@ export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
       console.log(err.message);
     });
 };
+
+
+export const notifyCustomer = () => async dispatch => {
+  await Axios.post("/api/sms/send").then(customer => {
+    console.log(customer);
+      dispatch({
+          type: TWILIO_NOTIFICATION,
+          payload: customer.data
+      })
+  }).catch(err => {
+      console.log(err.message)
+  })
+}

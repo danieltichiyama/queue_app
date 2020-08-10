@@ -2,7 +2,7 @@
   "name": "queue_app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "moment": "^2.27.0",
     "mongoose": "^5.9.28",
+    "mongoose-data-seed": "^2.1.6",
     "node-sass": "^4.14.1",
     "path": "^0.12.7",
     "react": "^16.13.1",
