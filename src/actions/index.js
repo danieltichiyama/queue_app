@@ -66,6 +66,7 @@ export const moveToHoldlist = data => async dispatch => {
 }
 
 export const moveToWaitlist = data => async dispatch => {
+    console.log(data)
     await Axios.get("/api/retailers", data).then(customer => {
         dispatch({
             type: MOVE_TO_WAITLIST,
@@ -99,13 +100,13 @@ export const removeCustomerFromWaitlist = data => async dispatch => {
 }
 
 export const notifyCustomer = () => async dispatch => {
-  await Axios.post("/api/sms/send").then(customer => {
-    console.log(customer);
-      dispatch({
-          type: TWILIO_NOTIFICATION,
-          payload: customer.data
-      })
-  }).catch(err => {
-      console.log(err.message)
-  })
+    await Axios.post("/api/sms/send").then(customer => {
+        console.log(customer);
+        dispatch({
+            type: TWILIO_NOTIFICATION,
+            payload: customer.data
+        })
+    }).catch(err => {
+        console.log(err.message)
+    })
 }
