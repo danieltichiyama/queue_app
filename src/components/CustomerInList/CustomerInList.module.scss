@@ -1,0 +1,85 @@
+// both list element's styles, waitlist and holdlist
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba($color: #bbbbbb, $alpha: 1);
+  padding: 2px 12px;
+  margin-bottom: 12px;
+  font-weight: 300;
+  position: relative;
+  overflow: hidden;
+
+  .menu {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: white;
+    height: 100%;
+    width: fit-content;
+    min-width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 48px 0 0 48px;
+
+    // placeholder
+    .icon {
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      margin: 0 36px;
+      background: rgba($color: #000000, $alpha: 0.2);
+    }
+
+    button {
+      background: none;
+      border: none;
+      border-radius: 18px;
+      height: 80%;
+      padding: 0 12px;
+      font &:hover {
+        background: rgba($color: #000000, $alpha: 0.2);
+      }
+
+      &:active {
+        background: rgba($color: #000000, $alpha: 0.2);
+      }
+    }
+  }
+
+  .phoneNumber {
+    width: 100%;
+  }
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    img {
+      height: 24px;
+    }
+
+    p {
+      margin-right: 24px;
+      margin-left: 12px;
+      width: fit-content;
+    }
+  }
+
+  .menuButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 36px;
+
+    .bar {
+      width: 24px;
+      height: 2px;
+      background-color: white;
+    }
+  }
+}

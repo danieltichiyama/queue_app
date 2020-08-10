@@ -1,12 +1,13 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
+const express = require("express");
 const twilioSendRouter = express.Router();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioNumber = process.env.TWILIO_NUMBER;
-const client = require('twilio')(accountSid, authToken)
+const client = require("twilio")(accountSid, authToken);
+
 
 twilioSendRouter.route('/').post((req, res) => {
     const toNumber = req.body.number;
@@ -15,8 +16,8 @@ twilioSendRouter.route('/').post((req, res) => {
         from: `${process.env.TWILIO_NUMBER}`,
         to: `${toNumber}`
     })
-        .then((message) => console.log(message))
-        .catch((err) => console.log(err))
-})
+    .then((message) => console.log(message))
+    .catch((err) => console.log(err));
+});
 
 module.exports = twilioSendRouter;
