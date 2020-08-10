@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CustomerInList.module.scss";
 import clock from "../../utils/imgs/clock.png";
+import CancelButton from "../CancelButton";
+import CheckButton from "../CheckButton";
+import HoldButton from "../HoldButton";
+import NotificationButton from "../NotificationButton";
 
 const Customer = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,9 +62,10 @@ const Customer = (props) => {
 
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
-          {/* placeholders */}
-          <div className={styles.icon} onClick={toggleConfirm}></div>
-          <div className={styles.icon} onClick={toggleConfirm}></div>
+          <CheckButton onClick={toggleConfirm}></CheckButton>
+          <NotificationButton onClick={toggleConfirm}></NotificationButton>
+          <HoldButton onClick={toggleConfirm}></HoldButton>
+          <CancelButton onClick={toggleConfirm}></CancelButton>
         </div>
       ) : null}
 

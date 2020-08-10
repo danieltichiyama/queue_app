@@ -186,6 +186,7 @@ const initialState = {
   ],
   customers: [],
   currentRetailer: {
+    customersInStore: null,
     waitList: [],
     holdList: [],
   },
