@@ -7,7 +7,7 @@ import styles from "./Dashboard.module.scss";
 import { updateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,11 +16,17 @@ const Dashboard = (props) => {
   const [partySize, setPartySize] = useState();
 
   const handlePlus = () => {
-    setCount(count + 1);
+    let plus = count + 1;
+    setCount(plus);
+    let data = { customersInStore: plus };
+    props.changeCustomersInStore(data);
   };
 
   const handleMinus = () => {
-    setCount(count - 1);
+    let minus = count - 1;
+    setCount(minus);
+    let data = { customersInStore: minus };
+    props.changeCustomersInStore(data);
   };
 
   const handleExpand = () => {
@@ -74,9 +80,8 @@ const Dashboard = (props) => {
   }, [isOpen]);
 
   useEffect(() => {
-    let data = { customersInStore: count };
-    props.changeCustomersInStore(data);
-  }, [count]);
+    setCount(props.customersInStore);
+  }, [props.customersInStore]);
 
   return (
     <div className={styles.Dashboard} id="dashboard">
@@ -85,7 +90,7 @@ const Dashboard = (props) => {
           -
         </div>
         <div className={styles.count}>
-          <h3>{props.customersInStore}</h3>
+          <h3>{count}</h3>
           <p>in store</p>
         </div>
         <div className={styles.counterButton} onClick={handlePlus}>
@@ -141,9 +146,6 @@ const Dashboard = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  if (!state) {
-    return;
-  }
   return {
     customersInStore: state.currentRetailer.customersInStore,
   };

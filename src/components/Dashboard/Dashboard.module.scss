@@ -24,13 +24,17 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 24px;
+    padding: 0;
 
     .counterButton {
       font-size: 5em;
       color: $red;
       padding-bottom: 6px;
       font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 1em;
 
       &:hover {
         cursor: pointer;
@@ -46,18 +50,19 @@
       h3 {
         font-size: 3em;
         margin: 0;
-        font-weight: 300;
+        font-weight: 400;
       }
 
       p {
         font-size: 20px;
-        font-weight: 300;
+        font-weight: 400;
         margin: 0;
       }
     }
   }
 
   .addToQueue {
+    display: flex;
     font-size: 10px;
     font-weight: 600;
     border-radius: 18px;
@@ -66,6 +71,7 @@
     background-color: $lightgreen;
     border: none;
     margin: 6px 0;
+    transition: background-color 1s ease;
   }
 
   .modal {

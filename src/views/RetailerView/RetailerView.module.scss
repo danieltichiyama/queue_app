@@ -16,7 +16,7 @@
 
     h3 {
       font-size: 2em;
-      font-weight: 200;
+      font-weight: 400;
     }
 
     .time {
@@ -83,18 +83,35 @@
       position: absolute;
       top: 2%;
       left: 47%;
+      opacity: 1;
+      transition: opacity 0.25s;
     }
 
     .header {
       color: white;
 
-      .collapse {
-        height: 2em;
-        width: 2em;
-        transform: rotate(45deg);
-        border-bottom: 8px solid rgba($color: #ffffff, $alpha: 0.3);
-        border-right: 8px solid rgba($color: #ffffff, $alpha: 0.3);
-        margin-right: 12px;
+      h3 {
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      .collapseContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin-bottom: 12px;
+
+        .collapse {
+          height: 2em;
+          width: 2em;
+          transform: rotate(45deg);
+          border-bottom: 8px solid rgba($color: #ffffff, $alpha: 0.3);
+          border-right: 8px solid rgba($color: #ffffff, $alpha: 0.3);
+          margin-right: 12px;
+          opacity: 0;
+          transition: opacity 0.25s;
+        }
       }
     }
 
