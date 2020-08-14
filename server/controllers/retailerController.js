@@ -1,5 +1,5 @@
-const Retailer = require("../models/Retailer");
-const Customer = require("../models/Customer");
+const { Retailer } = require("../models");
+const { Customer } = require("../models");
 
 const retailerController = {
   getAllRetailers(req, res) {
@@ -104,17 +104,21 @@ const retailerController = {
         {
           new: true,
         }
-      ).populate({
-        path: "waitList",
-        select: "-__v",
-      })
+      )
+        .populate({
+          path: "waitList",
+          select: "-__v",
+        })
         .populate({
           path: "holdList",
           select: "-__v",
-        }).then((results) => {
-          console.log(results)
+        })
+        .then((results) => {
+          console.log(results);
           if (!results)
-            res.status(404).json({ message: "No retailer found with this id." });
+            res
+              .status(404)
+              .json({ message: "No retailer found with this id." });
 
           res.json(results);
         });
