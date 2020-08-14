@@ -1,4 +1,4 @@
-const Customer = require("../models/Customer");
+const { Customer } = require("../models");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
