@@ -4,8 +4,12 @@ const moment = require("moment");
 const CustomerSchema = new Schema(
   {
     customer_id: mongoose.ObjectId,
-    name: { type: String },
+    name: { first: String, last: String },
     phoneNumber: { type: String },
+    queue: [{
+      type: Schema.Types.ObjectId,
+      ref: "Reservation"
+    }]
   },
   {
     timestamps: true,
