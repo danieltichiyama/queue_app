@@ -11,7 +11,7 @@ const {
   moveCustomerFromWaitListToHoldList,
   removeCustomerFromHoldList,
   moveCustomerFromHoldListToWaitList,
-} = require("../database/controllers/retailerController");
+} = require("../controllers/retailerController");
 
 router.route("/").get(getAllRetailers).post(createRetailer);
 
