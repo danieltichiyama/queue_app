@@ -3,36 +3,15 @@ const moment = require("moment");
 
 const CustomerSchema = new Schema(
   {
+    customer_id: mongoose.ObjectId,
     name: { type: String },
     phoneNumber: { type: String },
-    partySize: { type: Number },
-    status: { type: String, default: "pending" },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: (timestamp) => {
-        moment.updateLocale("en", {
-          relativeTime: {
-            future: "in %s",
-            past: "%s ago",
-            s: "just now",
-            ss: "just now",
-            m: "%d min",
-            mm: "%d mins",
-            h: "%d hour",
-            hh: "%d hours",
-          },
-        });
-
-        return moment(timestamp).fromNow(true);
-      },
-    },
   },
   {
+    timestamps: true,
     toJSON: {
       getters: true,
-    },
-    id: false,
+    }
   }
 );
 
