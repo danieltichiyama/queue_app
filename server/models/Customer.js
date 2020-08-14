@@ -1,38 +1,28 @@
-const { Schema, model } = require("mongoose");
-const moment = require("moment");
+const { Schema, model, Types } = require("mongoose");
 
 const CustomerSchema = new Schema(
   {
-    name: { type: String },
-    phoneNumber: { type: String },
-    partySize: { type: Number },
-    status: { type: String, default: "pending" },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: (timestamp) => {
-        moment.updateLocale("en", {
-          relativeTime: {
-            future: "in %s",
-            past: "%s ago",
-            s: "just now",
-            ss: "just now",
-            m: "%d min",
-            mm: "%d mins",
-            h: "%d hour",
-            hh: "%d hours",
-          },
-        });
-
-        return moment(timestamp).fromNow(true);
-      },
+    customerId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
     },
+    name: {
+      first: String,
+      last: String
+    },
+    phoneNumber: {
+      type: String
+    },
+    reservations: [{
+      type: Schema.Types.ObjectId,
+      ref: "Reservation"
+    }]
   },
   {
+    timestamps: true,
     toJSON: {
       getters: true,
-    },
-    id: false,
+    }
   }
 );
 
