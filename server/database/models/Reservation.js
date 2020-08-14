@@ -1,18 +1,23 @@
-const { Schema, model, Mongoose } = require("mongoose");
-const moment = require("moment");
+const { Schema, model, Types } = require("mongoose");
 
 const ReservationSchema = new Schema(
     {
-        reservation_id: mongoose.ObjectId,
-        retailer_id: { type: Schema.Types.ObjectId, ref: "Retailer" },
-        customer_id: { type: Schema.Types.ObjectId, ref: "Customer" },
+        reservationId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId()
+        },
+        retailerId: { type: Schema.Types.ObjectId, ref: "Retailer" },
+        customerId: { type: Schema.Types.ObjectId, ref: "Customer" },
         queueStatus: { type: String },
         replyStatus: { type: String },
         partySize: { Type: Number },
         archivedAt: { type: Date, default: null }
     },
     {
-        timestamps: true
+        timestamps: true,
+        toJSON: {
+            virtuals: true,
+        }
     }
 )
 

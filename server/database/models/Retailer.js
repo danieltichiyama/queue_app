@@ -2,16 +2,20 @@ const { Schema, model, Types } = require("mongoose");
 
 const RetailerSchema = new Schema(
   {
+    retailerId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
+    },
+    retailerName: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,
       unique: true,
     },
     password: {
-      type: String,
-      required: true,
-    },
-    retailerName: {
       type: String,
       required: true,
     },
@@ -23,32 +27,44 @@ const RetailerSchema = new Schema(
       zipcode: Number,
     },
     phoneNumber: { type: String },
-    openingTime: { type: Number },
-    closingTime: { type: Number },
-    maxCapacity: { type: Number },
-    avgWaitTime: { type: Number },
-    notificationTimer: { type: Number },
-    waitList: [{ type: Types.ObjectId, ref: "Customer" }],
-    holdList: [{ type: Types.ObjectId, ref: "Customer" }],
-    customersInStore: {
-      type: Number,
-      default: 0,
+    storeHours: {
+      open: Number,
+      close: Number
     },
+    capacity: {
+      max: Number,
+      current: {
+        type: Number,
+        default: 0
+      },
+    },
+    timers: {
+      averageWait: { type: Number },
+      notification: { type: Number }
+    },
+    reservations: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reservation"
+      }
+    ],
   },
   {
+    timestamps: true,
     toJSON: {
       virtuals: true,
-    },
-    id: false,
+    }
   }
 );
 
 RetailerSchema.virtual("waitListCount").get(function () {
-  return this.waitList.length;
+  let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
+  return waitList.length;
 });
 
 RetailerSchema.virtual("holdListCount").get(function () {
-  return this.holdList.length;
+  let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
+  return holdList.length;
 });
 
 const Retailer = model("Retailer", RetailerSchema);

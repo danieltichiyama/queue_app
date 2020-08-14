@@ -1,11 +1,19 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const CustomerSchema = new Schema(
   {
-    customer_id: mongoose.ObjectId,
-    name: { first: String, last: String },
-    phoneNumber: { type: String },
-    queue: [{
+    customerId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
+    },
+    name: {
+      first: String,
+      last: String
+    },
+    phoneNumber: {
+      type: String
+    },
+    reservations: [{
       type: Schema.Types.ObjectId,
       ref: "Reservation"
     }]
