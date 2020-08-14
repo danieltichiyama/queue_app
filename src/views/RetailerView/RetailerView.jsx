@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
 import moment from "moment";
 import clock from "../../utils/imgs/clock.png";
+import CheckButton from "../../components/CheckButton";
+import NotificationButton from "../../components/NotificationButton";
+import HoldButton from "../../components/HoldButton";
+import CancelButton from "../../components/CancelButton"
 
 moment.updateLocale("en", {
   relativeTime: {
@@ -73,8 +77,12 @@ const Customers = (props) => {
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
           {/* placeholders */}
-          <div className={styles.icon} onClick={toggleConfirm}></div>
-          <div className={styles.icon} onClick={toggleConfirm}></div>
+          <CheckButton props={props} />
+          <NotificationButton props={props}/>
+          <HoldButton props={props}/>
+          <CancelButton props={props}/>
+          {/* <div className={styles.icon} onClick={toggleConfirm}></div>
+          <div className={styles.icon} onClick={toggleConfirm}></div> */}
         </div>
       ) : null}
 
@@ -94,25 +102,25 @@ const Customers = (props) => {
 };
 
 function RetailerView(props) {
-  // const [retailer, setRetailer] = useState({
-  //   // Mock retailer data
-  //   id: 1,
-  //   retailerName: "Mybuzz",
-  //   address: {
-  //     streetNumber: 2,
-  //     street: "Anhalt Hill",
-  //     city: "Honolulu",
-  //     state: "HI",
-  //     zipcode: 12345,
-  //   },
-  //   phoneNumber: "759-408-3657",
-  //   openingTime: "9:17 AM",
-  //   closingTime: "10:50 PM",
-  //   avgWaitTime: 67,
-  //   waitListCount: 11,
-  //   maxCapacity: 100,
-  //   inStoreCount: 22,
-  // });
+  const [retailer] = useState({
+    // Mock retailer data
+    id: 1,
+    retailerName: "Mybuzz",
+    address: {
+      streetNumber: 2,
+      street: "Anhalt Hill",
+      city: "Honolulu",
+      state: "HI",
+      zipcode: 12345,
+    },
+    phoneNumber: "759-408-3657",
+    openingTime: "9:17 AM",
+    closingTime: "10:50 PM",
+    avgWaitTime: 67,
+    waitListCount: 11,
+    maxCapacity: 100,
+    inStoreCount: 22,
+  });
   const [waitList] = useState([
     {
       id: 1,
@@ -332,9 +340,11 @@ function RetailerView(props) {
             return (
               <Customers
                 customer={customer}
+                retailer={retailer}
                 color={color}
                 index={index}
                 key={index}
+                listType="wait"
               ></Customers>
             );
           })}
@@ -368,9 +378,11 @@ function RetailerView(props) {
             return (
               <Customers
                 customer={customer}
+                retailer={retailer}
                 color={color}
                 index={index}
                 key={index}
+                listType="hold"
               ></Customers>
             );
           })}{" "}

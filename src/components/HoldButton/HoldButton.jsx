@@ -6,9 +6,13 @@ import { connect } from "react-redux";
 
 function HoldButton(props) {
   //PUTS ON HOLD LIST
-
   return (
-    <button onClick={props.dispatchMoveCustomerToHoldList} className={styles.HoldButton}>
+    <button onClick={() => {
+      props.dispatchMoveCustomerToHoldList({
+        retailerId: props.props.retailer.id,
+        customerId: props.props.customer.id
+      })
+    }} className={styles.HoldButton}>
       <img src={pauseIcon} alt=""></img>
     </button>
   );

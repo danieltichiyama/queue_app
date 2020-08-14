@@ -6,8 +6,24 @@ import { connect } from "react-redux";
 
 function CancelButton(props) {
   // REMOVE FROM LIST
+
+  const runDispatch = (data) => {
+    // still need to wait for login to get retailer id to hit route
+    if (data.listType === "wait") {
+      return props.dispatchRemoveCustomerFromWaitList({ 
+        retailerId: data.retailer.id,
+        customerId: data.customer.id 
+      })
+    } else if (props.listType === "hold") {
+      return props.dispatchRemoveCustomerFromHoldList({
+        retailerId: data.retailer.id, 
+        customerId: data.customer.id 
+      })
+    }
+  }
+
   return (
-    <button className={styles.CancelButton}>
+    <button onClick={() => runDispatch(props.props)} className={styles.CancelButton}>
       <img src={cancelIcon} alt=""></img>
     </button>
   );
@@ -15,11 +31,11 @@ function CancelButton(props) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    dispatchRemoveCustomerFromWaitList: () => {
-      return dispatch(removeCustomerFromWaitlist());
+    dispatchRemoveCustomerFromWaitList: (data) => {
+      return dispatch(removeCustomerFromWaitlist(data));
     },
-    dispatchRemoveCustomerFromHoldList: () => {
-      return dispatch(removeCustomerFromHoldlist());
+    dispatchRemoveCustomerFromHoldList: (data) => {
+      return dispatch(removeCustomerFromHoldlist(data));
     }
   }
 }

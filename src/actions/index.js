@@ -55,7 +55,7 @@ export const addToWaitlist = data => async dispatch => {
 }
 
 export const moveToHoldlist = data => async dispatch => {
-    await Axios.get("/api/retailers", data).then(customer => {
+    await Axios.put(`/api/retailers/${data.retailerId}/waitlist/${data.customerId}`, data).then(customer => {
         dispatch({
             type: MOVE_TO_HOLDLIST,
             payload: customer.data
@@ -66,7 +66,7 @@ export const moveToHoldlist = data => async dispatch => {
 }
 
 export const moveToWaitlist = data => async dispatch => {
-    await Axios.get("/api/retailers", data).then(customer => {
+    await Axios.put(`/api/retailers${data.retailerId}/holdlist/${data.customerId}`, data).then(customer => {
         dispatch({
             type: MOVE_TO_WAITLIST,
             payload: customer.data
@@ -77,7 +77,7 @@ export const moveToWaitlist = data => async dispatch => {
 }
 
 export const removeCustomerFromHoldlist = data => async dispatch => {
-    await Axios.delete("/api/retailers", data).then(customer => {
+    await Axios.delete(`/api/retailers/${data.retailerId}/waitlist/${data.customerId}`, data).then(customer => {
         dispatch({
             type: REMOVE_CUSTOMER_FROM_HOLDLIST,
             payload: customer.data
@@ -88,7 +88,7 @@ export const removeCustomerFromHoldlist = data => async dispatch => {
 }
 
 export const removeCustomerFromWaitlist = data => async dispatch => {
-    await Axios.delete("/api/retailers", data).then(customer => {
+    await Axios.delete(`/api/retailers/${data.retailerId}/waitlist/${data.customerId}`, data).then(customer => {
         dispatch({
             type: REMOVE_CUSTOMER_FROM_WAITLIST,
             payload: customer.data
