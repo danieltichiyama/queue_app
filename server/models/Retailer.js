@@ -6,6 +6,7 @@ const RetailerSchema = new Schema(
     retailerId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
+      index: true,
     },
     retailerName: {
       type: String,
@@ -60,11 +61,17 @@ const RetailerSchema = new Schema(
 );
 
 RetailerSchema.virtual("waitListCount").get(function () {
+  if (!this.reservations) {
+    return 0;
+  }
   let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
   return waitList.length;
 });
 
 RetailerSchema.virtual("holdListCount").get(function () {
+  if (!this.reservations) {
+    return 0;
+  }
   let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
   return holdList.length;
 });
