@@ -2,46 +2,9 @@ const { Retailer } = require("../models");
 const { Customer } = require("../models");
 
 const retailerController = {
-  getAllRetailers(req, res) {
-    Retailer.find({})
-      .populate({
-        path: "waitList",
-        select: "-__v",
-      })
-      .populate({
-        path: "holdList",
-        select: "-__v",
-      })
-      .then((results) => {
-        if (!results)
-          res.status(404).json({ message: "No retailers found in database" });
-
-        res.json(results);
-      });
-  },
-  getAllRetailersBasedOnSearch({ params, body }, res) {
-    Retailer.find({ retailerName: new RegExp(params.searchTerm, "i") }).then(
-      (results) => {
-        if (!results || results.length === 0)
-          res
-            .status(404)
-            .json({ message: "No retailers match that search term." });
-
-        res.json(results);
-      }
-    );
-  },
   getRetailerById({ params }, res) {
-    Retailer.findOne({ retailerName: params.retailerName })
-      .populate({
-        path: "waitList",
-        select: "-__v",
-      })
-      .populate({
-        path: "holdList",
-        select: "-__v",
-      })
-      .select("-__v")
+    console.log(params);
+    Retailer.findOne({ retailerId: params.retailerName })
       .then((results) => {
         if (!results) {
           res.status(404).json({ message: "No retailer found with this id." });

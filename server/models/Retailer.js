@@ -4,7 +4,7 @@ const RetailerSchema = new Schema(
   {
     retailerId: {
       type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId()
+      default: () => new Types.ObjectId(),
     },
     retailerName: {
       type: String,
@@ -29,42 +29,50 @@ const RetailerSchema = new Schema(
     phoneNumber: { type: String },
     storeHours: {
       open: Number,
-      close: Number
+      close: Number,
     },
     capacity: {
       max: Number,
       current: {
         type: Number,
-        default: 0
+        default: 0,
       },
     },
     timers: {
       averageWait: { type: Number },
-      notification: { type: Number }
+      notification: { type: Number },
     },
     reservations: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Reservation"
-      }
+        ref: "Reservation",
+      },
     ],
   },
   {
     timestamps: true,
     toJSON: {
       virtuals: true,
-    }
+    },
   }
 );
 
 RetailerSchema.virtual("waitListCount").get(function () {
-  let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
-  return waitList.length;
+  if (!this.reservations) {
+    return 0;
+  } else {
+    let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
+    return waitList.length;
+  }
 });
 
 RetailerSchema.virtual("holdListCount").get(function () {
-  let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
-  return holdList.length;
+  if (!this.reservations) {
+    return 0;
+  } else {
+    let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
+    return holdList.length;
+  }
 });
 
 const Retailer = model("Retailer", RetailerSchema);
