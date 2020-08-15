@@ -11,19 +11,16 @@ const {
   moveCustomerFromWaitListToHoldList,
   removeCustomerFromHoldList,
   moveCustomerFromHoldListToWaitList,
-  createReservation,
-  createCustomer,
-  getAllRes,
 } = require("../controllers/retailerController");
 
 router.route("/").get(getAllRetailers).post(createRetailer);
 
 router.route("/search/:searchTerm").get(getAllRetailersBasedOnSearch);
-// router
-//   .route("/:retailerName")
-//   .get(getRetailerById)
-//   .put(updateRetailer)
-//   .delete(deleteRetailer);
+router
+  .route("/:retailerName")
+  .get(getRetailerById)
+  .put(updateRetailer)
+  .delete(deleteRetailer);
 
 router.route("/:retailerName/waitlist").put(addCustomerToWaitList);
 
@@ -36,8 +33,5 @@ router
   .route("/:retailerName/holdlist/:customerId")
   .put(moveCustomerFromHoldListToWaitList)
   .delete(removeCustomerFromHoldList);
-
-router.route("/createRes").get(getAllRes).post(createReservation);
-router.route("/createCustomer").post(createCustomer);
 
 module.exports = router;

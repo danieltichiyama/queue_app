@@ -1,13 +1,23 @@
-const { Retailer, Customer, Reservation } = require("../models");
+const { Retailer } = require("../models");
+const { Customer } = require("../models");
 
 const retailerController = {
   getAllRetailers(req, res) {
-    Retailer.find({}).then((results) => {
-      if (!results)
-        res.status(404).json({ message: "No retailers found in database" });
+    Retailer.find({})
+      .populate({
+        path: "waitList",
+        select: "-__v",
+      })
+      .populate({
+        path: "holdList",
+        select: "-__v",
+      })
+      .then((results) => {
+        if (!results)
+          res.status(404).json({ message: "No retailers found in database" });
 
-      res.json(results);
-    });
+        res.json(results);
+      });
   },
   getAllRetailersBasedOnSearch({ params, body }, res) {
     Retailer.find({ retailerName: new RegExp(params.searchTerm, "i") }).then(
@@ -164,28 +174,6 @@ const retailerController = {
     ).then((results) => {
       if (!results)
         res.status(404).json({ message: "No retailer found with this id" });
-
-      res.json(results);
-    });
-  },
-  createReservation({ body }, res) {
-    Reservation.create(body)
-      .then((results) => res.json(results))
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  },
-  createCustomer({ body }, res) {
-    Customer.create(body)
-      .then((results) => res.json(results))
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  },
-  getAllRes(req, res) {
-    Reservation.find({}).then((results) => {
-      if (!results)
-        res.status(404).json({ message: "No retailers found in database" });
 
       res.json(results);
     });
