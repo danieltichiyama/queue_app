@@ -2,36 +2,45 @@ const { Retailer, Customer, Reservation } = require("../models");
 
 const customerController = {
   getAllRetailers(req, res) {
-    console.log("get all retail route works");
     Retailer.find(
       {},
       "retailerId retailerName address phoneNumber storeHours capacity timers"
-    ).then((results) => {
-      if (!results)
-        res.status(404).json({ message: "No retailers found in database" });
-
-      res.json(results);
-    });
-  },
-  searchRetailers({ params, body }, res) {
-    Retailer.find({ retailerName: new RegExp(params.searchTerm, "i") }).then(
-      (results) => {
-        if (!results || results.length === 0)
-          res
+    )
+      .then((retailers) => {
+        if (!retailers)
+          return res
             .status(404)
-            .json({ message: "No retailers match that search term." });
-        res.json(results);
-      }
-    );
+            .json({ message: "No retailers found in database" });
+
+        res.json(retailers);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
+  searchRetailers({ query }, res) {
+    Retailer.find({ retailerName: new RegExp(query.searchTerm, "i") })
+      .then((retailer) => {
+        if (!retailer || retailer.length === 0)
+          return res
+            .status(404)
+            .json({ message: "No retailers match that search term" });
+
+        res.json(retailer);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
   },
   getCustomerReservations({ params }, res) {
-    Customer.find(
+    Reservation.find(
       { customerId: params.customerId },
       "retailerId queueStatus replyStatus partySize"
-    ).then((results) => {
-      if (!results || results.length === 0)
-        res.status(404).json({ message: "No reservations made." });
-      res.json(results);
+    ).then((customerReservations) => {
+      if (!customerReservations || customerReservations.length === 0)
+        res.status(200).json({ message: "No reservations made." });
+
+      res.json(customerReservations);
     });
   },
 };

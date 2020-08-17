@@ -3,7 +3,6 @@ const { Customer } = require("../models");
 
 const retailerController = {
   getRetailerById({ params }, res) {
-    console.log(params);
     Retailer.findOne({ retailerId: params.retailerName })
       .then((results) => {
         if (!results) {
@@ -13,7 +12,6 @@ const retailerController = {
         res.json(results);
       })
       .catch((err) => {
-        console.log(err);
         res.status(400).json(err);
       });
   },
@@ -77,7 +75,6 @@ const retailerController = {
           select: "-__v",
         })
         .then((results) => {
-          console.log(results);
           if (!results)
             res
               .status(404)
