@@ -4,27 +4,34 @@ const CustomerSchema = new Schema(
   {
     customerId: {
       type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId()
+      default: () => new Types.ObjectId(),
     },
     name: {
       first: String,
-      last: String
+      last: String,
     },
     phoneNumber: {
-      type: String
+      type: String,
+      unique: true,
     },
-    reservations: [{
-      type: Schema.Types.ObjectId,
-      ref: "Reservation"
-    }]
+    reservations: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reservation",
+      },
+    ],
   },
   {
     timestamps: true,
     toJSON: {
-      getters: true,
-    }
+      virtuals: true,
+    },
   }
 );
+
+CustomerSchema.virtual("reservationsCount").get(function () {
+  return this.reservations.length;
+});
 
 const Customer = model("Customer", CustomerSchema);
 

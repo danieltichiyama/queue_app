@@ -12,7 +12,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "moment": "^2.27.0",
-    "mongoose": "^5.9.28",
+    "mongo-seeding": "^3.4.1",
+    "mongoose": "^5.10.0",
     "mongoose-data-seed": "^2.1.6",
     "node-sass": "^4.14.1",
     "path": "^0.12.7",
@@ -33,7 +34,8 @@
     "deploy": "aws s3 sync build/ s3://thequeue.dev --acl public-read",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "seed": "node server/seeds"
   },
   "eslintConfig": {
     "extends": "react-app"
