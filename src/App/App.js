@@ -4,15 +4,17 @@ import { connect } from "react-redux";
 
 import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
+import AuthView from "../views/AuthView";
 
 class App extends Component {
   render() {
     return (
       <div className={styles.App}>
-        <div className={styles.appMobileContainer}>
+        <AuthView />
+        {/* <div className={styles.appMobileContainer}>
           <RetailerView></RetailerView>
           <Dashboard></Dashboard>
-        </div>
+        </div> */}
       </div>
     );
   }

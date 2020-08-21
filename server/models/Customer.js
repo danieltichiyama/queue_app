@@ -2,14 +2,8 @@ const { Schema, model, Types } = require("mongoose");
 
 const CustomerSchema = new Schema(
   {
-    customerId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    name: {
-      first: String,
-      last: String,
-    },
+    firstName: { type: String },
+    lastName: { type: String },
     phoneNumber: {
       type: String,
       unique: true,

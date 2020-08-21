@@ -3,10 +3,6 @@ const moment = require("moment");
 
 const ReservationSchema = new Schema(
   {
-    reservationId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
     retailerId: {
       type: Schema.Types.ObjectId,
       ref: "Retailer",
