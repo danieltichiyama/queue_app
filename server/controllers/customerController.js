@@ -4,7 +4,7 @@ const customerController = {
   getAllRetailers(req, res) {
     Retailer.find(
       {},
-      "-username -notification -averageWait -reservations -createdAt -updatedAt"
+      "-username -notification -reservations -createdAt -updatedAt"
     )
       .then((results) => {
         if (!results)
@@ -36,7 +36,8 @@ const customerController = {
       });
   },
   getCustomerReservations({ params }, res) {
-    Customer.find({ customerId: params.customerId }, "reservations")
+    let customerId = params.customerId;
+    Customer.find({ _id: customerId }, "reservations")
       .populate({ path: "reservations" })
       .then((results) => {
         if (!results || results.length === 0)
