@@ -4,6 +4,7 @@ const retailerController = {
   getAuthRetailer({ params }, res) {
     let retailerId = params.retailerId;
     Retailer.findById({ _id: retailerId }, "-password")
+      .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
           return res
@@ -27,6 +28,7 @@ const retailerController = {
     let retailerId = params.retailerId;
     Retailer.findByIdAndUpdate({ _id: retailerId }, body, { new: true })
       .select("-password")
+      .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
           return res

@@ -33,14 +33,14 @@ const customerController = {
       });
   },
   getCustomerReservations({ params }, res) {
-    Customer.find({ customerId: params.customerId }, "reservations").then(
-      (customerReservations) => {
+    Customer.find({ customerId: params.customerId }, "reservations")
+      .populate({ path: "reservations" })
+      .then((customerReservations) => {
         if (!customerReservations || customerReservations.length === 0)
           res.status(200).json({ message: "No reservations made." });
 
         res.json(customerReservations);
-      }
-    );
+      });
   },
 };
 

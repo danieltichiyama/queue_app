@@ -1,9 +1,11 @@
+const { Types } = require("mongoose");
 module.exports = [
   {
+    _id: new Types.ObjectId("111111111111111111111111"),
     username: "queue_admin",
     password: "password",
     retailerName: "QueueApp",
-    address: "Kapiolani Blvd",
+    address: "1234 Kapiolani Blvd",
     city: "Honolulu",
     state: "HI",
     zipcode: 96813,
@@ -12,13 +14,19 @@ module.exports = [
     close: 2100,
     maxCapacity: 4,
     notification: 60,
-    reservations: [],
+    reservations: [
+      "111111111111111111111111",
+      "222222222222222222222222",
+      "333333333333333333333333",
+      "444444444444444444444444",
+    ],
   },
   {
+    _id: new Types.ObjectId("222222222222222222222222"),
     username: "hotTopic808",
     password: "password",
     retailerName: "HotTopic",
-    address: "Cool Street",
+    address: "1234 Cool Street",
     city: "Honolulu",
     state: "HI",
     zipcode: 96813,
@@ -27,6 +35,11 @@ module.exports = [
     close: 2100,
     maxCapacity: 3,
     notification: 300,
-    reservations: [],
+    reservations: [
+      "555555555555555555555555",
+      "666666666666666666666666",
+      "777777777777777777777777",
+      "888888888888888888888888",
+    ],
   },
 ];
