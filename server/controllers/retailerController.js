@@ -34,6 +34,26 @@ const retailerController = {
             .json({ message: "No retailer found with this id." });
         }
         res.json(results);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
+  deleteRetailer({ params }, res) {
+    let retailerId = params.retailerId;
+    Retailer.findByIdAndDelete({ _id: retailerId })
+      .then((results) => {
+        if (!results) {
+          return res
+            .status(404)
+            .json({ message: "No retailer found with this id." });
+        }
+        res.json({
+          message: `${results.retailerName} has been successfully deleted.`,
+        });
+      })
+      .catch((err) => {
+        res.status(400).json(err);
       });
   },
 };
