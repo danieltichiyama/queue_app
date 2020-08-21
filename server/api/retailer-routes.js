@@ -11,11 +11,15 @@ const {
   moveCustomerFromWaitListToHoldList,
   removeCustomerFromHoldList,
   moveCustomerFromHoldListToWaitList,
+  loginRetailer,
 } = require("../controllers/retailerController");
 
 router.route("/").get(getAllRetailers).post(createRetailer);
 
+router.route("/login").post(loginRetailer);
+
 router.route("/search/:searchTerm").get(getAllRetailersBasedOnSearch);
+
 router
   .route("/:retailerName")
   .get(getRetailerById)
