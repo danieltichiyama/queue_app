@@ -1,5 +1,6 @@
 const { Retailer } = require("../models");
 const { Customer } = require("../models");
+const passport = require("passport");
 
 const retailerController = {
   getAllRetailers(req, res) {
@@ -173,6 +174,15 @@ const retailerController = {
       res.json(results);
     });
   },
+  loginRetailer(req, res, next) {
+    passport.authenticate("login", (err, retailer, info) => {
+      if (!retailer) {
+        return res.status(404).json({ message: info.message });
+      } else {
+        return req.logIn(retailer)
+      }
+    })(req, res, next)
+  }
 };
 
 module.exports = retailerController;
