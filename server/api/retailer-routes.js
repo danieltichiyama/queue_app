@@ -1,10 +1,10 @@
 const retailerRouter = require("express").Router();
 const {
-  getRetailerById,
   createRetailer,
+  getAuthRetailer,
 } = require("../controllers/retailerController");
 
-retailerRouter.route("/:retailerId").get(getRetailerById);
+retailerRouter.route("/:retailerId").get(getAuthRetailer);
 retailerRouter.route("/register").post(createRetailer);
 
 module.exports = retailerRouter;

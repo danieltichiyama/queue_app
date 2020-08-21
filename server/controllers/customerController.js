@@ -20,28 +20,27 @@ const customerController = {
   },
   searchRetailers({ query }, res) {
     Retailer.find({ retailerName: new RegExp(query.searchTerm, "i") })
-      .then((retailer) => {
-        if (!retailer || retailer.length === 0)
+      .then((searchResults) => {
+        if (!searchResults || searchResults.length === 0)
           return res
             .status(404)
             .json({ message: "No retailers match that search term" });
 
-        res.json(retailer);
+        res.json(searchResults);
       })
       .catch((err) => {
         res.status(400).json(err);
       });
   },
   getCustomerReservations({ params }, res) {
-    Reservation.find(
-      { customerId: params.customerId },
-      "retailerId queueStatus replyStatus partySize"
-    ).then((customerReservations) => {
-      if (!customerReservations || customerReservations.length === 0)
-        res.status(200).json({ message: "No reservations made." });
+    Customer.find({ customerId: params.customerId }, "reservations").then(
+      (customerReservations) => {
+        if (!customerReservations || customerReservations.length === 0)
+          res.status(200).json({ message: "No reservations made." });
 
-      res.json(customerReservations);
-    });
+        res.json(customerReservations);
+      }
+    );
   },
 };
 
