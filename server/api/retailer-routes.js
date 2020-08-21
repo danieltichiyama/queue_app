@@ -3,10 +3,14 @@ const {
   createRetailer,
   getAuthRetailer,
   updateRetailer,
+  deleteRetailer,
 } = require("../controllers/retailerController");
 
-retailerRouter.route("/:retailerId").get(getAuthRetailer);
-retailerRouter.route("/:retailerId/edit").put(updateRetailer);
+retailerRouter
+  .route("/:retailerId")
+  .get(getAuthRetailer)
+  .put(updateRetailer)
+  .delete(deleteRetailer);
 retailerRouter.route("/register").post(createRetailer);
 
 module.exports = retailerRouter;
