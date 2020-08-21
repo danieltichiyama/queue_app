@@ -3,7 +3,7 @@ const { Retailer } = require("../models");
 const retailerController = {
   getAuthRetailer({ params }, res) {
     let retailerId = params.retailerId;
-    Retailer.findById({ _id: retailerId }, "-password")
+    Retailer.findById({ _id: retailerId })
       .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
@@ -14,20 +14,25 @@ const retailerController = {
         res.json(results);
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   createRetailer({ body }, res) {
     Retailer.create(body)
-      .then((results) => res.json(results))
+      .then((results) => {
+        return results.toJSON();
+      })
+      .then((results) => {
+        delete results.password;
+        res.json(results);
+      })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   updateRetailer({ params, body }, res) {
     let retailerId = params.retailerId;
     Retailer.findByIdAndUpdate({ _id: retailerId }, body, { new: true })
-      .select("-password")
       .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
@@ -38,7 +43,7 @@ const retailerController = {
         res.json(results);
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   deleteRetailer({ params }, res) {
@@ -55,7 +60,7 @@ const retailerController = {
         });
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
 };

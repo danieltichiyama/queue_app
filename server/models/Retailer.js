@@ -15,6 +15,7 @@ const RetailerSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     address: { type: String, required: true },
     city: { type: String, required: true },
