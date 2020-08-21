@@ -4,7 +4,7 @@ const customerController = {
   getAllRetailers(req, res) {
     Retailer.find(
       {},
-      "retailerId retailerName address phoneNumber storeHours capacity timers"
+      "-username -password -notification -averageWait -reservations -createdAt -updatedAt"
     )
       .then((retailers) => {
         if (!retailers)
