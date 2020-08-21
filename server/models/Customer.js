@@ -2,10 +2,8 @@ const { Schema, model, Types } = require("mongoose");
 
 const CustomerSchema = new Schema(
   {
-    name: {
-      first: String,
-      last: String,
-    },
+    firstName: { type: String },
+    lastName: { type: String },
     phoneNumber: {
       type: String,
       unique: true,

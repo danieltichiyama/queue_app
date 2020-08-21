@@ -16,30 +16,21 @@ const RetailerSchema = new Schema(
       type: String,
       required: true,
     },
-    address: {
-      street: { type: String, required: true },
-      streetNumber: { type: Number, required: true },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      zipcode: { type: Number, required: true },
-    },
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    zipcode: { type: Number, required: true },
     phoneNumber: { type: String, required: true },
-    storeHours: {
-      open: { type: Number, required: true },
-      close: { type: Number, required: true },
+    open: { type: Number, required: true },
+    close: { type: Number, required: true },
+    maxCapacity: { type: Number, required: true },
+    currentCapacity: {
+      type: Number,
+      default: 0,
+      required: true,
     },
-    capacity: {
-      max: { type: Number, required: true },
-      current: {
-        type: Number,
-        default: 0,
-        required: true,
-      },
-    },
-    timers: {
-      averageWait: { type: Number, default: 0, required: true },
-      notification: { type: Number, required: true },
-    },
+    averageWait: { type: Number, default: 0, required: true },
+    notification: { type: Number, required: true },
     reservations: [
       {
         type: Schema.Types.ObjectId,
