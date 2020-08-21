@@ -7,6 +7,14 @@ const CustomerSchema = new Schema(
     phoneNumber: {
       type: String,
       unique: true,
+      validate: [
+        (value) => {
+          if (value.length !== 11) {
+            return false;
+          }
+        },
+        "invalid phoneNumber, must be a string of 11 numbers",
+      ],
     },
     reservations: [
       {

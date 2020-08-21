@@ -37,6 +37,7 @@ const customerController = {
   },
   getCustomerReservations({ params }, res) {
     Customer.find({ customerId: params.customerId }, "reservations")
+      .populate({ path: "reservations" })
       .then((results) => {
         if (!results || results.length === 0)
           res.status(200).json({ message: "No reservations made." });
