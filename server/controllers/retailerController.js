@@ -32,7 +32,10 @@ const retailerController = {
   },
   updateRetailer({ params, body }, res) {
     let retailerId = params.retailerId;
-    Retailer.findByIdAndUpdate({ _id: retailerId }, body, { new: true })
+    Retailer.findByIdAndUpdate({ _id: retailerId }, body, {
+      runValidators: true,
+      new: true,
+    })
       .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {

@@ -24,14 +24,15 @@ const RetailerSchema = new Schema(
     phoneNumber: {
       type: String,
       required: true,
-      validate: [
-        (value) => {
+      validate: {
+        validator: (value) => {
+          console.log(value.length);
           if (value.length !== 11) {
             return false;
           }
         },
-        "invalid phoneNumber, must be a string of 11 numbers",
-      ],
+        message: () => "invalid phoneNumber, must be a string of 11 numbers",
+      },
     },
     open: { type: Number, required: true },
     close: { type: Number, required: true },
