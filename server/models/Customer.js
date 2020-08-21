@@ -8,6 +8,7 @@ const CustomerSchema = new Schema(
     },
     phoneNumber: {
       type: String,
+      unique: true,
     },
     reservations: [
       {
@@ -19,10 +20,14 @@ const CustomerSchema = new Schema(
   {
     timestamps: true,
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
   }
 );
+
+CustomerSchema.virtual("reservationsCount").get(function () {
+  return this.reservations.length;
+});
 
 const Customer = model("Customer", CustomerSchema);
 

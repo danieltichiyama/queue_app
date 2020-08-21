@@ -5,5 +5,5 @@ const Reservation = require("./Reservation");
 module.exports = {
   Retailer,
   Customer,
-  Reservation
+  Reservation,
 };

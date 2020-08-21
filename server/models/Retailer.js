@@ -1,4 +1,5 @@
 const { Schema, model, Types } = require("mongoose");
+const moment = require("moment");
 
 const RetailerSchema = new Schema(
   {
@@ -16,27 +17,28 @@ const RetailerSchema = new Schema(
       required: true,
     },
     address: {
-      street: String,
-      streetNumber: Number,
-      city: String,
-      state: String,
-      zipcode: Number,
+      street: { type: String, required: true },
+      streetNumber: { type: Number, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zipcode: { type: Number, required: true },
     },
-    phoneNumber: { type: String },
+    phoneNumber: { type: String, required: true },
     storeHours: {
-      open: Number,
-      close: Number,
+      open: { type: Number, required: true },
+      close: { type: Number, required: true },
     },
     capacity: {
-      max: Number,
+      max: { type: Number, required: true },
       current: {
         type: Number,
         default: 0,
+        required: true,
       },
     },
     timers: {
-      averageWait: { type: Number },
-      notification: { type: Number },
+      averageWait: { type: Number, default: 0, required: true },
+      notification: { type: Number, required: true },
     },
     reservations: [
       {
@@ -56,19 +58,17 @@ const RetailerSchema = new Schema(
 RetailerSchema.virtual("waitListCount").get(function () {
   if (!this.reservations) {
     return 0;
-  } else {
-    let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
-    return waitList.length;
   }
+  let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
+  return waitList.length;
 });
 
 RetailerSchema.virtual("holdListCount").get(function () {
   if (!this.reservations) {
     return 0;
-  } else {
-    let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
-    return holdList.length;
   }
+  let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
+  return holdList.length;
 });
 
 const Retailer = model("Retailer", RetailerSchema);
