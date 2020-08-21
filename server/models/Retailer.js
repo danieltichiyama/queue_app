@@ -3,11 +3,6 @@ const moment = require("moment");
 
 const RetailerSchema = new Schema(
   {
-    retailerId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-      index: true,
-    },
     retailerName: {
       type: String,
       required: true,
