@@ -91,7 +91,6 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 |`GET("/")`| getAllRetailers()| gets all retailers for customer view|
 |`GET("/search/search?=searchTerm")`| searchRetailers()| gets all retailers based on query.searchTerm|
 |`GET("/:customerId/reservations")`| getCustomerReservations()| gets reservations for a customer, based on :customerId|
-|`GET("/:retailerId")`| getOneRetailer()| gets detailed information for one retailer, based on :retailerId|
 |`POST("/login")`| login()| login a user|
 |`POST("/register")`| register()| registers a new user|
 |`PUT("/:customerId/edit")`| updateCustomer()| updates a customer's information |
