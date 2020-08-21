@@ -10,132 +10,146 @@ export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
 export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
+export const LOGIN_RETAILER = "LOGIN_RETAILER";
 
 export const updateRetailer = (data) => async (dispatch) => {
-    await Axios.put("/api/retailers/QueueApp", data)
-        .then((retailer) => {
-            dispatch({
-                type: UPDATE_RETAILER,
-                payload: retailer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.put("/api/retailers/QueueApp", data)
+  .then((retailer) => {
+    dispatch({
+      type: UPDATE_RETAILER,
+      payload: retailer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const fetchRetailer = () => async (dispatch) => {
-    await Axios.get("/api/retailers")
-        .then((retailers) => {
-            dispatch({
-                type: FETCH_RETAILERS,
-                payload: retailers,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.get("/api/retailers")
+  .then((retailers) => {
+    dispatch({
+      type: FETCH_RETAILERS,
+      payload: retailers,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const searchRetailersByName = (data) => async (dispatch) => {
-    await Axios.get("/api/retailers", data)
-        .then((retailers) => {
-            dispatch({
-                type: SEARCH_RETAILERS_BY_NAME,
-                payload: retailers.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.get("/api/retailers", data)
+  .then((retailers) => {
+    dispatch({
+      type: SEARCH_RETAILERS_BY_NAME,
+      payload: retailers.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const fetchOneRetailer = (data) => async (dispatch) => {
     // needs to be replaced later with dynamically generated ids
-    await Axios.get(`/api/retailers/${data}`)
-        .then((retailer) => {
-            dispatch({
-                type: FETCH_ONE_RETAILER,
-                payload: retailer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.get(`/api/retailers/${data}`)
+  .then((retailer) => {
+    dispatch({
+      type: FETCH_ONE_RETAILER,
+      payload: retailer.data,
+    });
+  })
+  .catch((err) => {
+      console.log(err.message);
+});
 };
 
 export const addToWaitlist = (data) => async (dispatch) => {
-    await Axios.put("/api/retailers/QueueApp/waitlist", data)
-        .then((customer) => {
-            dispatch({
-                type: ADD_TO_WAITLIST,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.put("/api/retailers/QueueApp/waitlist", data)
+  .then((customer) => {
+    dispatch({
+      type: ADD_TO_WAITLIST,
+      payload: customer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const moveToHoldlist = (data) => async (dispatch) => {
-    await Axios.get("/api/retailers", data)
-        .then((customer) => {
-            dispatch({
-                type: MOVE_TO_HOLDLIST,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.get("/api/retailers", data)
+  .then((customer) => {
+    dispatch({
+      type: MOVE_TO_HOLDLIST,
+      payload: customer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const moveToWaitlist = data => async dispatch => {
-    await Axios.get("/api/retailers", data).then(customer => {
-        dispatch({
-            type: MOVE_TO_WAITLIST,
-            payload: customer.data
-        })
-    }).catch(err => {
-        console.log(err.message)
+  await Axios.get("/api/retailers", data).then(customer => {
+    dispatch({
+      type: MOVE_TO_WAITLIST,
+      payload: customer.data
     })
+  }).catch(err => {
+    console.log(err.message)
+  })
 };
 
 export const removeCustomerFromHoldlist = (data) => async (dispatch) => {
-    await Axios.delete("/api/retailers", data)
-        .then((customer) => {
-            dispatch({
-                type: REMOVE_CUSTOMER_FROM_HOLDLIST,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.delete("/api/retailers", data)
+  .then((customer) => {
+    dispatch({
+      type: REMOVE_CUSTOMER_FROM_HOLDLIST,
+      payload: customer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
-    await Axios.delete("/api/retailers", data)
-        .then((customer) => {
-            dispatch({
-                type: REMOVE_CUSTOMER_FROM_WAITLIST,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.delete("/api/retailers", data)
+  .then((customer) => {
+    dispatch({
+      type: REMOVE_CUSTOMER_FROM_WAITLIST,
+      payload: customer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
 
 export const notifyCustomer = () => async (dispatch) => {
-    await Axios.post("/api/sms/send")
-        .then((customer) => {
-            dispatch({
-                type: TWILIO_NOTIFICATION,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.post("/api/sms/send")
+  .then((customer) => {
+    dispatch({
+      type: TWILIO_NOTIFICATION,
+      payload: customer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 };
+
+export const loginRetailer = (data) => async (dispatch) => {
+  await Axios.post("/api/retailers/login", data)
+  .then((retailer) => {
+    dispatch({
+      type: LOGIN_RETAILER,
+      payload: retailer.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+} 
