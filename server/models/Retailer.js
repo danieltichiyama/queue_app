@@ -2,10 +2,6 @@ const { Schema, model, Types } = require("mongoose");
 
 const RetailerSchema = new Schema(
   {
-    retailerId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
     retailerName: {
       type: String,
       required: true,

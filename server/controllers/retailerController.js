@@ -1,12 +1,9 @@
 const { Retailer } = require("../models");
-const { Customer } = require("../models");
 
 const retailerController = {
   getAuthRetailer({ params }, res) {
-    Retailer.findOne(
-      { retailerId: params.retailerId },
-      "retailerId retailerName address phoneNumber storeHours capacity timers"
-    )
+    let retailerId = params.retailerId;
+    Retailer.findById({ _id: retailerId }, "-password")
       .then((results) => {
         if (!results) {
           res.status(404).json({ message: "No retailer found with this id." });
