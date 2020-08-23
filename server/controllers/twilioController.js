@@ -8,7 +8,7 @@ const client = require("twilio")(accountSid, authToken);
 
 const twilioController = {
   changeCustomerStatus(req, res) {
-    const phoneNumber = req.body.From.slice(1);
+    const phoneNumber = req.body.From;
     let reply = req.body.Body.charAt(0).toUpperCase();
     const twiml = new MessagingResponse();
 

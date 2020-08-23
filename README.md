@@ -1,10 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Queue App - README
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Introduction](#Introduction)
+- [Contributors](#Contributors)
+- [Installation](#Installation)
+- [Routes](#Routes)
 
-### `yarn start`
+## Introduction
+
+Queue is an JavaScript web application targeted at making reservation tracking and queue management for retailers easier during the Covid-19 pandemic.
+
+## Technologies
+
+### Version: 0.1.0
+
+- create-react-app
+- react-redux
+- express.js
+- mongooseJS
+- mongoDB
+
+## Contributors
+
+- [Brian Huffman](https://github.com/Brianwkhuffman)
+- [Calvin Moon](https://github.com/calmoon808)
+- [Daniel Ichiyama](https://github.com/danieltichiyama)
+- [Kevin Guo](https://github.com/kevinchguo)
+
+## Installation
+
+---
+
+### `npm install`
+
+Install dependencies
+
+### `npm run server`
+
+Runs the server.js file
+
+### `npm run seed`
+
+Runs the seed files for the database
+
+### `npm run start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -12,12 +52,16 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test`
+---
+
+### Other commands
+
+#### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### `npm build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -27,7 +71,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+#### `npm eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -37,32 +81,47 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Routes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`api/customers`
+| Route | Controller Method | Description |
+|-------|-------------------|-------------|
+|`GET("/")`| getAllRetailers()| gets all retailers for customer view|
+|`GET("/search/search?=searchTerm")`| searchRetailers()| gets all retailers based on query.searchTerm|
+|`GET("/:customerId/reservations")`| getCustomerReservations()| gets reservations for a customer, based on :customerId|
+|`POST("/login")`| login()| login a user|
+|`POST("/register")`| register()| registers a new user|
+|`PUT("/:customerId/edit")`| updateCustomer()| updates a customer's information |
 
-### Code Splitting
+<br/>
+<br/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+`api/retailers`
+| Route | Controller Method | Description |
+|-------|-------------------|-------------|
+|`GET("/:retailerId")`| getAuthRetailer()| checks for authorization and gets data for a retailer, based on :retailerId|
+|`GET("/:retailerId/reservations")`| getRetailerRes()| gets all reservations for a retailer, based on :retailerId|
+|`PUT("/:retailerId")`| updateRetailer()| checks for authorization and updates retailer information, based on :retailerId|
+|`DELETE("/:retailerId")`| deleteRetailer()| checks for authorization and deletes retailer information, based on :retailerId|
+|`POST("/login")`| login()| login a retailer|
+|`POST("/register")`| register()| registers a new retailer|
 
-### Analyzing the Bundle Size
+<br/>
+<br/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+`api/reservations`
+| Route | Controller Method | Description |
+|-------|-------------------|-------------|
+|`POST("/")`| newReservation()| checks or creates a Customer, creates a reservation using CustomerId and RetailerId, and saves a references to the new reservation in the Customer's and Retailer's reservations arry|
+|`PUT("/:reservationId")`| updateReservation()| changes reservation's queueStatus or replyStatus, if queuStatus === "enter" or "cancelled", remove reservation from Retailer.reservations and Customer.reservations|
 
-### Making a Progressive Web App
+<br/>
+<br/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`api/sms`
+| Route | Controller Method | Description |
+|-------|-------------------|-------------|
+|`POST("/send")`| smsSend()| sends a notification text message to the customer's phone number|
+|`POST("/reply")`| smsReply()| updates replyStatus of a reservation based on incoming data and sends a follow up message to customer's phone number|

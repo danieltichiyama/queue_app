@@ -4,7 +4,8 @@ const passport = require("passport");
 const retailerController = {
   getAuthRetailer({ params }, res) {
     let retailerId = params.retailerId;
-    Retailer.findById({ _id: retailerId }, "-password")
+    Retailer.findById({ _id: retailerId })
+      .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
           return res
@@ -14,7 +15,7 @@ const retailerController = {
         res.json(results);
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   createRetailer(req, res, next) {
@@ -34,8 +35,11 @@ const retailerController = {
   },
   updateRetailer({ params, body }, res) {
     let retailerId = params.retailerId;
-    Retailer.findByIdAndUpdate({ _id: retailerId }, body, { new: true })
-      .select("-password")
+    Retailer.findByIdAndUpdate({ _id: retailerId }, body, {
+      runValidators: true,
+      new: true,
+    })
+      .populate({ path: "reservations" })
       .then((results) => {
         if (!results) {
           return res
@@ -43,6 +47,26 @@ const retailerController = {
             .json({ message: "No retailer found with this id." });
         }
         res.json(results);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
+  deleteRetailer({ params }, res) {
+    let retailerId = params.retailerId;
+    Retailer.findByIdAndDelete({ _id: retailerId })
+      .then((results) => {
+        if (!results) {
+          return res
+            .status(404)
+            .json({ message: "No retailer found with this id." });
+        }
+        res.json({
+          message: `${results.retailerName} has been successfully deleted.`,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
       });
   },
   loginRetailer(req, res, next) {
