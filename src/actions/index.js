@@ -153,3 +153,10 @@ export const loginRetailer = (data) => async (dispatch) => {
     console.log(err.message);
   });
 } 
+
+export const registerRetailer = (data) => async (dispatch) => {
+  await Axios.post("/api/retailers/register", data)
+  .then((retailer) => {
+    console.log(retailer);
+  })
+}
