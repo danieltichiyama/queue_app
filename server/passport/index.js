@@ -25,12 +25,41 @@ passport.use(
                 return done(null, false, { message: 'Username or password invalid. '});
               }
               console.log("user found & authenticated");
-              return done(null, retailer);
+              return done(null, true, "Success");
             })
           }
         })
       } catch (err) {
         done(err)
+      }
+    }
+  )
+)
+
+passport.use(
+  "register",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    (username, password, done) => {
+      try {
+        Retailer.findOne({ username: username })
+        .then(async retailer => {
+          if (retailer) {
+            return done(null, false, { message: 'Email already taken.' });
+          } else {
+            await bcrypt.hash(password, saltRounds, (err, hash) => {
+              if (err) {
+                return err;
+              }
+              return done(null, true, hash)
+            })
+          }
+        })
+      } catch (err) {
+        done(err);
       }
     }
   )
