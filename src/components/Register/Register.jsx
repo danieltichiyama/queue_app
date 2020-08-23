@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import styles from "./Register.module.scss";
+import { connect } from "react-redux";
+import { registerRetailer } from "../../actions";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+const states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
 function Register(props) {
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -9,15 +18,58 @@ function Register(props) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("")
-  const [storeHours, setStoreHours] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [timers, setTimers] = useState("");
+  const [state, setState] = useState("AL");
+  const [zipcode, setZipcode] = useState("");
+  const [openingTime, setOpeningTime] = useState("");
+  const [closingTime, setClosingTime] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState("");
+
+  const registerRetailer = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorMsg("Passwords do not match.");
+      setIsError(true);
+      return;
+    }
+    let retailerObj = {
+      username,
+      password,
+      retailerName,
+      phoneNumber,
+      address,
+      city,
+      state,
+      zipcode,
+      open: parseInt(openingTime.split(":").join()),
+      close: parseInt(closingTime.split(":").join()),
+      maxCapacity
+    }
+    props.dispatchRegisterSubmit(retailerObj);
+    props.setIsLogin(true);
+  }
 
   return (
     <div className={styles.Register}>
       <h1>Register</h1>
-      <form onSubmit={(e) => props.setIsLogin(true)}>
+      {isError && 
+        <div className="errorMessage">
+          <i onClick={(e) => {setIsError(false)}}>
+            <FontAwesomeIcon icon={faTimes} />
+          </i>
+          <div className="header">
+            {errorMsg}
+          </div>
+        </div>}
+      <form onSubmit={(e) => registerRetailer(e)}>
         <ul>
+          <li>
+            <input 
+              type="text"
+              name="retailerName"
+              onChange={(e) => setRetailerName(e.target.value)}
+              placeholder="Store Name"
+            />
+          </li>
           <li>
             <input
               type="text"
@@ -35,20 +87,94 @@ function Register(props) {
             />
           </li>
           <li>
-            <input />
+            <input 
+              type="password"
+              name="password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
+            />
           </li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li>
+            <input 
+              type="text"
+              name="address"
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Address"
+            />
+          </li>
+          <li>
+            <input 
+              type="text"
+              name="city"
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City"
+            />
+            <select 
+              name="state" 
+              id="state"
+              onChange={(e) => setState(e.target.value)}
+            >
+              {states.map((state) => {
+                return <option key={state} value={state}>{state}</option>
+              })}
+            </select>
+            <input 
+              type="text"
+              name="zipCode"
+              onChange={(e) => setZipcode(e.target.value)}
+              placeholder="Zip Code"
+            />
+          </li>
+          <li>
+            <input 
+              type="text"
+              name="phoneNumber"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="Phone Number"
+            />
+          </li>
+          <li>
+            Opening Time: <input 
+              type="time"
+              name="openingTime"
+              onChange={(e) => setOpeningTime(e.target.value)}
+              placeholder="Opening Time"
+            />
+            Closing Time: <input 
+              type="time"
+              name="closingTime"
+              onChange={(e) => setClosingTime(e.target.value)}
+              placeholder="Closing Time"
+            />
+          </li>
+          <li>
+            <input 
+              type="number"
+              name="maxCapacity"
+              onChange={(e) => setMaxCapacity(e.target.value)}
+              placeholder="Max Capacity"
+            />
+          </li>
         </ul>
         <button type="submit">
           Register
+        </button>
+        <button onClick={() => props.setIsLogin(false)}>
+          Cancel
         </button>
       </form>
     </div>
   );
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchRegisterSubmit: data => {
+      return dispatch(registerRetailer(data))
+    }
+  }
+}
+
+Register = connect(null, mapDispatchToProps)(Register);
 
 export default Register;
