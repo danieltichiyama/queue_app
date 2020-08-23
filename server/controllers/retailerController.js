@@ -17,12 +17,20 @@ const retailerController = {
         res.status(400).json(err);
       });
   },
-  createRetailer({ body }, res) {
-    Retailer.create(body)
-      .then((results) => res.json(results))
-      .catch((err) => {
-        res.status(400).json(err);
-      });
+  createRetailer(req, res, next) {
+    passport.authenticate("register", (err, retailer, info) => {
+      console.log(retailer, info);
+      if (!retailer) {
+        return res.status(401).json({ message: info.message })
+      }
+      req.body.password = info;
+      Retailer.create(req.body)
+        .then((results) => res.json(results))
+        .catch((err) => {
+          console.log(err)
+          res.status(400).json(err);
+        });
+    })(req, res, next);
   },
   updateRetailer({ params, body }, res) {
     let retailerId = params.retailerId;
@@ -41,10 +49,11 @@ const retailerController = {
     passport.authenticate("login", (err, retailer, info) => {
       if (!retailer) {
         return res.status(404).json({ message: info.message });
-      } else {
-        return req.logIn(retailer)
       }
-    })(req, res, next)
+      req.logIn(retailer, (err) => {
+        if (err) { return err; }
+      });
+    })(req, res, next);
   }
 };
 
