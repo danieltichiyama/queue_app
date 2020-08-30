@@ -2,7 +2,7 @@ import {
   FETCH_RETAILERS,
   SEARCH_RETAILERS_BY_NAME,
   FETCH_ONE_RETAILER,
-  ADD_TO_WAITLIST,
+  CREATE_RESERVATION,
   MOVE_TO_HOLDLIST,
   MOVE_TO_WAITLIST,
   REMOVE_CUSTOMER_FROM_HOLDLIST,
@@ -16,8 +16,7 @@ const initialState = {
   customers: [],
   currentRetailer: {
     customersInStore: null,
-    waitList: [],
-    holdList: [],
+    reservations: [],
   },
 };
 
@@ -31,7 +30,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { retailers: action.payload });
     case FETCH_ONE_RETAILER:
       return Object.assign({}, state, { currentRetailer: action.payload });
-    case ADD_TO_WAITLIST:
+    case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
     case MOVE_TO_HOLDLIST:
       return Object.assign({}, state, {});
