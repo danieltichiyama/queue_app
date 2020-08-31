@@ -30,11 +30,10 @@ const ReservationSchema = new Schema(
     },
     replyStatus: {
       type: String,
-      default: "pending",
-      required: true,
+      default: null,
       validate: [
         (value) => {
-          let statuses = ["pending", "confirmed", "hold", "cancelled"];
+          let statuses = [null, "pending", "confirmed", "hold", "cancelled"];
 
           if (!statuses.includes(value)) {
             return false;

@@ -41,7 +41,22 @@ const reducer = (state = initialState, action) => {
     case REMOVE_CUSTOMER_FROM_WAITLIST:
       return Object.assign({}, state, {});
     case TWILIO_NOTIFICATION:
-      return Object.assign({}, state, {});
+      let { reservations } = state.currentRetailer;
+
+      console.log("var reservations" + " ", reservations);
+      console.log("----------");
+
+      for (let i = 0; i < reservations.length; i++) {
+        if (reservations[i]._id === action.payload._id) {
+          reservations.splice(i, 1, action.payload);
+        }
+      }
+      return Object.assign({}, state, {
+        currentRetailer: {
+          ...state.currentRetailer,
+          reservations: reservations,
+        },
+      });
     default:
       return state;
   }
