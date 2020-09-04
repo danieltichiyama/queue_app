@@ -17,7 +17,7 @@ const twilioController = {
       Customer.findOneAndUpdate(
         { phoneNumber: phoneNumber, status: reply },
         { new: true }
-      ).then((results) => {
+      ).then(results => {
         twiml.message("Thank you for confirming your reservation");
         res.writeHead(200, { "Content-Type": "text/xml" });
         res.end(twiml.toString());
@@ -27,7 +27,7 @@ const twilioController = {
       Customer.findOneAndUpdate(
         { phoneNumber: phoneNumber, status: reply },
         { new: true }
-      ).then((results) => {
+      ).then(results => {
         twiml.message("Your reservation has been put on hold.");
         res.writeHead(200, { "Content-Type": "text/xml" });
         res.end(twiml.toString());
@@ -37,7 +37,7 @@ const twilioController = {
       Customer.findOneAndUpdate(
         { phoneNumber: phoneNumber, status: reply },
         { new: true }
-      ).then((results) => {
+      ).then(results => {
         twiml.message("Your reservation has been canceled.");
         res.writeHead(200, { "Content-Type": "text/xml" });
         res.end(twiml.toString());
@@ -51,11 +51,11 @@ const twilioController = {
         body:
           "Your reservation is coming up soon. Please make your way back to the store in the next 5 minutes. You can respond with Y to confirm, P to push back your reservation, or C to cancel.",
         from: twilioNumber,
-        to: toNumber,
+        to: toNumber
       })
-      .then((message) => console.log(message))
-      .catch((err) => console.log(err));
-  },
+      .then(message => console.log(message))
+      .catch(err => console.log(err));
+  }
 };
 
 module.exports = twilioController;

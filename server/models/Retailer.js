@@ -5,23 +5,24 @@ const RetailerSchema = new Schema(
   {
     retailerName: {
       type: String,
-      required: true,
+      required: true
     },
     username: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     password: {
       type: String,
       required: true,
-      select: false,
+      select: false
     },
     verificationPIN: {
-      type: Number,
+      type: Number
     },
     verificationStatus: {
       type: Boolean,
+      default: false
     },
     address: { type: String, required: true },
     city: { type: String, required: true },
@@ -31,14 +32,14 @@ const RetailerSchema = new Schema(
       type: String,
       required: true,
       validate: {
-        validator: (value) => {
+        validator: value => {
           console.log(value.length);
           if (value.length !== 11) {
             return false;
           }
         },
-        message: () => "invalid phoneNumber, must be a string of 11 numbers",
-      },
+        message: () => "invalid phoneNumber, must be a string of 11 numbers"
+      }
     },
     open: { type: Number, required: true },
     close: { type: Number, required: true },
@@ -46,38 +47,38 @@ const RetailerSchema = new Schema(
     currentCapacity: {
       type: Number,
       default: 0,
-      required: true,
+      required: true
     },
     averageWait: { type: Number, default: 0, required: true },
     notification: { type: Number, required: true },
     reservations: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Reservation",
-      },
-    ],
+        ref: "Reservation"
+      }
+    ]
   },
   {
     timestamps: true,
     toJSON: {
-      virtuals: true,
-    },
+      virtuals: true
+    }
   }
 );
 
-RetailerSchema.virtual("waitListCount").get(function () {
+RetailerSchema.virtual("waitListCount").get(function() {
   if (!this.reservations) {
     return 0;
   }
-  let waitList = this.reservations.filter((i) => i.queueStatus === "wait");
+  let waitList = this.reservations.filter(i => i.queueStatus === "wait");
   return waitList.length;
 });
 
-RetailerSchema.virtual("holdListCount").get(function () {
+RetailerSchema.virtual("holdListCount").get(function() {
   if (!this.reservations) {
     return 0;
   }
-  let holdList = this.reservations.filter((i) => i.queueStatus === "hold");
+  let holdList = this.reservations.filter(i => i.queueStatus === "hold");
   return holdList.length;
 });
 
