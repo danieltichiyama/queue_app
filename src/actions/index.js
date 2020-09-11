@@ -1,5 +1,6 @@
 import Axios from "axios";
 
+//PLEASE LABEL ALL FUNCTIONS STARTING WITH "action"
 export const FETCH_RETAILERS = "FETCH_RETAILERS";
 export const SEARCH_RETAILERS_BY_NAME = "SEARCH_RETAILERS_BY_NAME";
 export const FETCH_ONE_RETAILER = "FETCH_ONE_RETAILER";
@@ -10,6 +11,7 @@ export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
 export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
+export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER"
 
 export const updateRetailer = (data) => async (dispatch) => {
     await Axios.put("/api/retailers/QueueApp", data)
@@ -76,8 +78,7 @@ export const addToWaitlist = (data) => async (dispatch) => {
             console.log(err.message);
         });
 };
-
-export const moveToHoldlist = (data) => async (dispatch) => {
+export const moveToHoldList = (data) => async (dispatch) => {
     await Axios.get("/api/retailers", data)
         .then((customer) => {
             dispatch({
@@ -133,6 +134,19 @@ export const notifyCustomer = () => async (dispatch) => {
             dispatch({
                 type: TWILIO_NOTIFICATION,
                 payload: customer.data,
+            });
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+};
+
+export const actionFindRetailers = () => async (dispatch) => {
+    await Axios.get("/api/customers/")
+        .then((retailers) => {
+            dispatch({
+                type: FIND_RETAILERS_FOR_CUSTOMER,
+                payload: retailers.data
             });
         })
         .catch((err) => {

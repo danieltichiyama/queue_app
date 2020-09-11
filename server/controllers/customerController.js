@@ -13,6 +13,7 @@ const customerController = {
             .json({ message: "No retailers found in database" });
 
         res.json(results);
+
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -29,7 +30,7 @@ const customerController = {
             .status(404)
             .json({ message: "No retailers match that search term" });
 
-        res.json(results);
+        res.json({ results });
       })
       .catch((err) => {
         res.status(500).json(err);

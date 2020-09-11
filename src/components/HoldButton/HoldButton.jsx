@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./HoldButton.module.scss";
 import pauseIcon from "../../assests/pauseIcon.png";
-import { moveToHoldlist } from "../../actions";
+import { moveToHoldList } from "../../actions";
 import { connect } from "react-redux";
 
 function HoldButton(props) {
@@ -17,7 +17,7 @@ function HoldButton(props) {
 const mapDispatchToProps = dispatch => {
   return {
     dispatchMoveCustomerToHoldList: (data) => {
-      return dispatch(moveToHoldlist(data))
+      return dispatch(moveToHoldList(data))
     }
   }
 }
