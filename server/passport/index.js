@@ -55,7 +55,7 @@ passport.use(
       try {
         Retailer.findOne({ username: username }).then(async (retailer) => {
           if (retailer) {
-            return done(null, false, { message: "Email already taken." });
+            return done(null, false, { message: "Username already taken." });
           } else {
             await bcrypt.hash(password, saltRounds, (err, hash) => {
               if (err) {

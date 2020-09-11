@@ -45,6 +45,7 @@ const reducer = (state = initialState, action) => {
     case TWILIO_NOTIFICATION:
       return Object.assign({}, state, {});
     case LOGIN_RETAILER:
+      localStorage.setItem("retailer", JSON.stringify(action.payload));
       return Object.assign({}, state, { currentRetailer: action.payload })
     default:
       return state;

@@ -20,7 +20,6 @@ const retailerController = {
   },
   createRetailer(req, res, next) {
     passport.authenticate("register", (err, retailer, info) => {
-      console.log(retailer, info);
       if (!retailer) {
         return res.status(401).json({ message: info.message });
       }
