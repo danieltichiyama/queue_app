@@ -15,12 +15,25 @@ const RetailerSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     address: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipcode: { type: Number, required: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: {
+      type: String,
+      required: true,
+      validate: {
+        validator: (value) => {
+          console.log(value.length);
+          if (value.length !== 11) {
+            return false;
+          }
+        },
+        message: () => "invalid phoneNumber, must be a string of 11 numbers",
+      },
+    },
     open: { type: Number, required: true },
     close: { type: Number, required: true },
     maxCapacity: { type: Number, required: true },
