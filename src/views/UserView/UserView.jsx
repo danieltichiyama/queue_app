@@ -17,8 +17,7 @@ class UserView extends Component {
   }
 
   render() {
-    console.log('11111', this.state)
-    console.log('22222', this.props.customerSearchRetailer)
+    console.log('customerSearchRetailer', this.props.customerSearchRetailer)
     let foundRetailers = this.props.customerSearchRetailer;
     return (
       <div className={styles.UserView}>
@@ -27,7 +26,7 @@ class UserView extends Component {
             type="search"
             placeholder="Search"
             className={styles.searchbar}
-          ></input>
+          />
           <img src={magGlass} alt="search" />
         </div>
         <ul className={styles.results}>
@@ -37,9 +36,12 @@ class UserView extends Component {
                 <div className={styles.generalInfo}>
                   <h3>{store.retailerName}</h3>
                   <p>
-                    {`${store.address.streetNumber} ${store.address.street}`}
+                    {`Open: ${store.open} ~ Close: ${store.close}`}
+                  </p>
+                  <p>
+                    {`${store.address}`}
                     <br />
-                    {`${store.address.city}, ${store.address.state} ${store.address.zipcode}`}
+                    {`${store.city}, ${store.state} ${store.zipcode}`}
                   </p>
                   <a href={`tel:${store.phoneNumber}`}>{store.phoneNumber}</a>
                 </div>
@@ -47,6 +49,7 @@ class UserView extends Component {
                 <div className={styles.counter}>
                   <p className={styles.count}>{store.waitListCount}</p>
                   <p>waiting</p>
+                  <p>{`Max: ${store.maxCapacity}`}</p>
                 </div>
               </li>
             );
