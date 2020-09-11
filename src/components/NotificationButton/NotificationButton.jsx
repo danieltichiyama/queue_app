@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styles from "./NotificationButton.module.scss";
 import bellIcon from "../../assests/bellIcon.png";
 import { connect } from "react-redux";
@@ -8,17 +8,14 @@ function NotificationButton(props) {
   // NOTIFY USER
 
   return (
-    <button onClick={props.dispatchNotifyCustomer} className={styles.NotificationButton}>
+    <button
+      onClick={props.handleClick}
+      disabled={props.disableButton}
+      className={styles.NotificationButton}
+    >
       <img src={bellIcon} alt=""></img>
     </button>
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchNotifyCustomer: () => {
-      return dispatch(notifyCustomer())
-    }
-  }
-}
-export default connect(null, mapDispatchToProps)(NotificationButton);
+export default NotificationButton;

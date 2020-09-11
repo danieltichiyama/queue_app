@@ -5,7 +5,7 @@ const retailerController = {
   getAuthRetailer({ params }, res) {
     let retailerId = params.retailerId;
     Retailer.findById({ _id: retailerId })
-      .populate({ path: "reservations" })
+      .populate({ path: "reservations", populate: { path: "customerId" } })
       .then((results) => {
         if (!results) {
           return res

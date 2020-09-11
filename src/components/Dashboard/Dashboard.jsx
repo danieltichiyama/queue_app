@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { addToWaitlist } from './../../actions'
-import { connect } from 'react-redux'
-import PhoneInput from 'react-phone-number-input/input';
-import { formatPhoneNumber, isValidPhoneNumber } from "react-phone-number-input"
+import { createReservation } from "./../../actions";
+import { connect } from "react-redux";
+import PhoneInput from "react-phone-number-input/input";
+import {
+  formatPhoneNumber,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
 import { updateRetailer } from "../../actions";
 
@@ -15,6 +18,7 @@ const Dashboard = (props) => {
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
 
+  // adds to countInStore for "+" press
   const handlePlus = () => {
     let plus = count + 1;
     setCount(plus);
@@ -22,6 +26,7 @@ const Dashboard = (props) => {
     props.changeCustomersInStore(data);
   };
 
+  // minuses from countInStore for "-" press
   const handleMinus = () => {
     let minus = count - 1;
     setCount(minus);
@@ -40,26 +45,28 @@ const Dashboard = (props) => {
   const handleName = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setCustomerName(e.target.value)
-  }
+    setCustomerName(e.target.value);
+  };
 
   const handlePartySize = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setPartySize(e.target.value)
-  }
+    setPartySize(e.target.value);
+  };
 
-  const addToQueue = (e) => {
+  const createReservation = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    // phoneNumber === "+12345678901"
     let formData = {
       phoneNumber: phoneNumber,
       name: customerName,
-      partySize: partySize
-    }
-    props.dispatchAddToWaitlist(formData);
-  }
+      partySize: partySize,
+    };
+    props.dispatchCreateReservation(formData);
+  };
 
+  // opens and closes dashboard for adding guests to waitlist
   useEffect(() => {
     let dashboard = document.querySelector("#dashboard");
     let addbutton = document.querySelector("#dynamic-add");
@@ -79,6 +86,7 @@ const Dashboard = (props) => {
     }
   }, [isOpen]);
 
+  // sets the number of people in the store to the redux-store customersInStore value
   useEffect(() => {
     setCount(props.customersInStore);
   }, [props.customersInStore]);
@@ -100,7 +108,7 @@ const Dashboard = (props) => {
       <button className={styles.addToQueue} id="dynamic-add">
         ADD TO QUEUE
       </button>
-      <form className={styles.modal} onSubmit={addToQueue}>
+      <form className={styles.modal} onSubmit={createReservation}>
         <label htmlFor="phoneNumber">
           <PhoneInput
             country="US"
@@ -109,7 +117,13 @@ const Dashboard = (props) => {
             placeholder="XXX-XXX-XXXX"
             value={phoneNumber}
             onChange={setPhoneNumber}
-            error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : "Invalid phone number") : "Phone number is required"}
+            error={
+              phoneNumber
+                ? isValidPhoneNumber(phoneNumber)
+                  ? undefined
+                  : "Invalid phone number"
+                : "Phone number is required"
+            }
             required
           />
           <span className={styles.validity}></span>
@@ -156,9 +170,9 @@ const mapDispatchToProps = (dispatch) => {
     changeCustomersInStore: (data) => {
       return dispatch(updateRetailer(data));
     },
-    dispatchAddToWaitlist: (data) => {
-      return dispatch(addToWaitlist(data))
-    }
+    dispatchCreateReservation: (data) => {
+      return dispatch(createReservation(data));
+    },
   };
 };
 

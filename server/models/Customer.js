@@ -12,6 +12,9 @@ const CustomerSchema = new Schema(
           if (value.length !== 11) {
             return false;
           }
+          if (value[0] !== "+") {
+            return false;
+          }
         },
         "invalid phoneNumber, must be a string of 11 numbers",
       ],

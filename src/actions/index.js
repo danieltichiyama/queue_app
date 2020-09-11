@@ -3,7 +3,7 @@ import Axios from "axios";
 export const FETCH_RETAILERS = "FETCH_RETAILERS";
 export const SEARCH_RETAILERS_BY_NAME = "SEARCH_RETAILERS_BY_NAME";
 export const FETCH_ONE_RETAILER = "FETCH_ONE_RETAILER";
-export const ADD_TO_WAITLIST = "ADD_TO_WAITLIST";
+export const CREATE_RESERVATION = "CREATE_RESERVATION";
 export const MOVE_TO_HOLDLIST = "MOVE_TO_HOLDLIST";
 export const MOVE_TO_WAITLIST = "MOVE_TO_WAITLIST";
 export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
@@ -11,6 +11,8 @@ export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
 export const LOGIN_RETAILER = "LOGIN_RETAILER";
+
+const mockRetailerId = "111111111111111111111111";
 
 export const updateRetailer = (data) => async (dispatch) => {
   await Axios.put("/api/retailers/QueueApp", data)
@@ -53,7 +55,7 @@ export const searchRetailersByName = (data) => async (dispatch) => {
 
 export const fetchOneRetailer = (data) => async (dispatch) => {
   // needs to be replaced later with dynamically generated ids
-  await Axios.get(`/api/retailers/${data}`)
+  await Axios.get(`/api/retailers/${mockRetailerId}`)
     .then((retailer) => {
       dispatch({
         type: FETCH_ONE_RETAILER,
@@ -65,12 +67,15 @@ export const fetchOneRetailer = (data) => async (dispatch) => {
     });
 };
 
-export const addToWaitlist = (data) => async (dispatch) => {
-  await Axios.put("/api/retailers/QueueApp/waitlist", data)
-    .then((customer) => {
+export const createReservation = (data) => async (dispatch) => {
+  // mock up until login works
+  data.retailerId = mockRetailerId;
+
+  await Axios.post("/api/reservations", data)
+    .then((response) => {
       dispatch({
-        type: ADD_TO_WAITLIST,
-        payload: customer.data,
+        type: CREATE_RESERVATION,
+        payload: response.data,
       });
     })
     .catch((err) => {
@@ -130,12 +135,13 @@ export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
     });
 };
 
-export const notifyCustomer = () => async (dispatch) => {
-  await Axios.post("/api/sms/send")
-    .then((customer) => {
+export const notifyCustomer = (data) => async (dispatch) => {
+  await Axios.post("/api/sms/send", data)
+    .then((response) => {
+      console.log(response.data);
       dispatch({
         type: TWILIO_NOTIFICATION,
-        payload: customer.data,
+        payload: response.data,
       });
     })
     .catch((err) => {
