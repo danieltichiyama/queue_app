@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./Register.module.scss";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { registerRetailer } from "../../actions";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
 function Register(props) {
+  const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ function Register(props) {
   const [closingTime, setClosingTime] = useState("");
   const [maxCapacity, setMaxCapacity] = useState("");
 
-  const registerRetailer = (e) => {
+  const registerRetailerSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMsg("Passwords do not match.");
@@ -44,7 +45,7 @@ function Register(props) {
       close: parseInt(closingTime.split(":").join()),
       maxCapacity
     }
-    props.dispatchRegisterSubmit(retailerObj);
+    dispatch(registerRetailer(retailerObj));
     props.setIsLogin(true);
   }
 
@@ -60,7 +61,7 @@ function Register(props) {
             {errorMsg}
           </div>
         </div>}
-      <form onSubmit={(e) => registerRetailer(e)}>
+      <form onSubmit={(e) => registerRetailerSubmit(e)}>
         <ul>
           <li>
             <input 
@@ -166,15 +167,5 @@ function Register(props) {
     </div>
   );
 }
-
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchRegisterSubmit: data => {
-      return dispatch(registerRetailer(data))
-    }
-  }
-}
-
-Register = connect(null, mapDispatchToProps)(Register);
 
 export default Register;

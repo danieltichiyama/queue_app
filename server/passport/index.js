@@ -16,6 +16,7 @@ passport.use(
     (username, password, done) => {
       try {
         Retailer.findOne({ username: username })
+        // .select("password")
         .then(async retailer => {
           if (!retailer) {
             return done(null, false, {message: "Username or password invalid." });
@@ -24,8 +25,7 @@ passport.use(
               if (!result) {
                 return done(null, false, { message: 'Username or password invalid. '});
               }
-              console.log("user found & authenticated");
-              return done(null, true, "Success");
+              return done(null, retailer, "Success");
             })
           }
         })
@@ -48,7 +48,7 @@ passport.use(
         Retailer.findOne({ username: username })
         .then(async retailer => {
           if (retailer) {
-            return done(null, false, { message: 'Email already taken.' });
+            return done(null, false, { message: 'Username already taken.' });
           } else {
             await bcrypt.hash(password, saltRounds, (err, hash) => {
               if (err) {

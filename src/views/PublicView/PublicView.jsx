@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from "../../components/Login";
 import Register from "../../components/Register";
-import styles from "./AuthView.module.scss";
+import styles from "./PublicView.module.scss";
 
-function AuthView(props) {
+function PublicView(props) {
   const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    props.setRetailerLoggedIn(isLogin);
+  }, [isLogin, props])
 
   return (
     <div className={styles.AuthView}>
@@ -16,4 +20,4 @@ function AuthView(props) {
   );
 }
 
-export default AuthView;
+export default PublicView;

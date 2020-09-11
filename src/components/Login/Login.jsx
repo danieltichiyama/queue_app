@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import styles from "./Login.module.scss";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginRetailer } from '../../actions';
 
 function Login(props) {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const loginSubmit = (e, loginData) => {
     e.preventDefault();
-    props.dispatchLoginSubmit(loginData);
+    dispatch(loginRetailer(loginData));
   }
 
   return (
@@ -49,15 +50,5 @@ function Login(props) {
     </div>
   );
 }
-
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchLoginSubmit: data => {
-      return dispatch(loginRetailer(data))
-    }
-  }
-}
-
-Login = connect(null, mapDispatchToProps)(Login);
 
 export default Login;

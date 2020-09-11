@@ -19,7 +19,6 @@ const retailerController = {
   },
   createRetailer(req, res, next) {
     passport.authenticate("register", (err, retailer, info) => {
-      console.log(retailer, info);
       if (!retailer) {
         return res.status(401).json({ message: info.message })
       }
@@ -50,9 +49,11 @@ const retailerController = {
       if (!retailer) {
         return res.status(404).json({ message: info.message });
       }
+      console.log("login worked")
       req.logIn(retailer, (err) => {
-        if (err) { return err; }
+        if (err) { return err; }a
       });
+      res.json(retailer)
     })(req, res, next);
   }
 };
