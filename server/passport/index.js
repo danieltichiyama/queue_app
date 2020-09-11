@@ -11,30 +11,38 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "username",
-      passwordField: "password"
+      passwordField: "password",
     },
     (username, password, done) => {
-      try {
-        Retailer.findOne({ username: username })
-        .then(async retailer => {
+      return Retailer.findOne({ username: username }, "password")
+        .then(async (retailer) => {
           if (!retailer) {
-            return done(null, false, {message: "Username or password invalid." });
+            return done(null, false, {
+              message: "Username or password invalid.",
+            });
           } else {
-            bcrypt.compare(password, retailer.password).then(result => {
-              if (!result) {
-                return done(null, false, { message: 'Username or password invalid. '});
-              }
-              console.log("user found & authenticated");
-              return done(null, true, "Success");
-            })
+            bcrypt
+              .compare(password, retailer.password)
+              .then((result) => {
+                if (!result) {
+                  return done(null, false, {
+                    message: "Username or password invalid.",
+                  });
+                }
+                return done(null, retailer);
+              })
+              .catch((err) => {
+                return done(err, false);
+              });
           }
         })
-      } catch (err) {
-        done(err)
-      }
+        .catch((err) => {
+          console.log(err);
+          done(err, false, { message: "something went wrong." });
+        });
     }
   )
-)
+);
 
 passport.use(
   "register",
@@ -45,30 +53,31 @@ passport.use(
     },
     (username, password, done) => {
       try {
-        Retailer.findOne({ username: username })
-        .then(async retailer => {
+        Retailer.findOne({ username: username }).then(async (retailer) => {
           if (retailer) {
-            return done(null, false, { message: 'Email already taken.' });
+            return done(null, false, { message: "Email already taken." });
           } else {
             await bcrypt.hash(password, saltRounds, (err, hash) => {
               if (err) {
                 return err;
               }
-              return done(null, true, hash)
-            })
+              return done(null, true, hash);
+            });
           }
-        })
+        });
       } catch (err) {
         done(err);
       }
     }
   )
-)
+);
 
-passport.serializeUser(function(retailer, done) {
-  return done(null, { id: retailer._id, username: retailer.username, name: retailer.retailerName });
+passport.serializeUser(function (retailer, done) {
+  return done(null, retailer._id);
 });
 
-passport.deserializeUser(function(retailer, done) {
-  return done(null, retailer);
+passport.deserializeUser(function (id, done) {
+  Retailer.findById(id, function (err, user) {
+    done(null, user);
+  });
 });
