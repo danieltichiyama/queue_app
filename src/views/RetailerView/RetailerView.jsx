@@ -122,15 +122,19 @@ function RetailerView(props) {
 
 const mapStateToProps = (state) => {
   return {
-    waitList: [...state.currentRetailer.waitList],
-    holdList: [...state.currentRetailer.holdList],
+    waitList: state.currentRetailer.reservations.filter((res) => {
+      return res.queueStatus === "wait";
+    }),
+    holdList: state.currentRetailer.reservations.filter((res) => {
+      return res.queueStatus === "hold";
+    }),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchFetchOneRetailer: (retailerName) => {
-      dispatch(fetchOneRetailer(retailerName));
+    dispatchFetchOneRetailer: () => {
+      dispatch(fetchOneRetailer());
     },
   };
 };

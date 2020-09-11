@@ -45,6 +45,7 @@ const twilioController = {
     }
   },
   twilioSend(req, res) {
+    // req.body.number === "+12345678901"
     const toNumber = req.body.number;
     client.messages
       .create({

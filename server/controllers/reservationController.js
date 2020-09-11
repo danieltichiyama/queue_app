@@ -19,6 +19,7 @@ const reservationController = {
             Retailer.findByIdAndUpdate(body.retailerId, {
               $push: { reservations: reservation._id },
             })
+              .populate({ path: "reservations" })
               .then((retailer) => {
                 Customer.findByIdAndUpdate(customer._id, {
                   $push: { reservations: reservation._id },
@@ -83,12 +84,10 @@ const reservationController = {
                 })
                 .catch((err) => {
                   console.log(err);
-                  return res
-                    .status(500)
-                    .json({
-                      message: "could not find the retailer with that id",
-                      error: err,
-                    });
+                  return res.status(500).json({
+                    message: "could not find the retailer with that id",
+                    error: err,
+                  });
                 });
             })
             .catch((err) => {
