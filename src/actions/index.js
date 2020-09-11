@@ -68,7 +68,7 @@ export const fetchOneRetailer = (data) => async (dispatch) => {
 
 export const createReservation = (data) => async (dispatch) => {
   // mock up until login works
-  data.retailerId = "111111111111111111111111";
+  data.retailerId = mockRetailerId;
 
   await Axios.post("/api/reservations", data)
     .then((response) => {
@@ -134,15 +134,16 @@ export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
     });
 };
 
-export const notifyCustomer = () => async (dispatch) => {
-  await Axios.post("/api/sms/send")
-    .then((customer) => {
+export const notifyCustomer = (data) => async (dispatch) => {
+  await Axios.post("/api/sms/send", data)
+    .then((response) => {
+      console.log(response.data);
       dispatch({
         type: TWILIO_NOTIFICATION,
-        payload: customer.data,
+        payload: response.data,
       });
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log(err);
     });
 };

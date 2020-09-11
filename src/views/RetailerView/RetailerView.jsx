@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
-import Customer from "../../components/CustomerInList";
+import Reservation from "../../components/Reservation";
 import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer } from "../../actions";
@@ -53,8 +53,8 @@ function RetailerView(props) {
           </div>
         </div>
         <div className={styles.listContainer}>
-          {props.waitList.map((customer, index) => {
-            let statuses = {
+          {props.waitList.map((reservation, index) => {
+            let replyStatuses = {
               confirmed: "#6d9773",
               hold: "#ffba00",
               cancelled: "#ff421f",
@@ -62,18 +62,18 @@ function RetailerView(props) {
 
             let color;
             if (
-              customer.status !== "pending" ||
-              customer.status !== "entered"
+              reservation.replyStatus !== "pending" ||
+              reservation.replyStatus !== "entered"
             ) {
-              color = statuses[customer.status];
+              color = replyStatuses[reservation.replyStatus];
             }
             return (
-              <Customer
-                customer={customer}
+              <Reservation
+                reservation={reservation}
                 color={color}
                 index={index}
                 key={index}
-              ></Customer>
+              ></Reservation>
             );
           })}
         </div>
@@ -91,8 +91,8 @@ function RetailerView(props) {
           </div>
         </div>
         <div className={styles.listContainer}>
-          {props.holdList.map((customer, index) => {
-            let statuses = {
+          {props.holdList.map((reservation, index) => {
+            let replyStatuses = {
               confirmed: "#6d9773",
               hold: "#ffba00",
               cancelled: "#ff421f",
@@ -100,18 +100,18 @@ function RetailerView(props) {
 
             let color;
             if (
-              customer.status !== "pending" ||
-              customer.status !== "entered"
+              reservation.replyStatus !== "pending" ||
+              reservation.replyStatus !== "entered"
             ) {
-              color = statuses[customer.status];
+              color = replyStatuses[reservation.replyStatus];
             }
             return (
-              <Customer
-                customer={customer}
+              <Reservation
+                reservation={reservation}
                 color={color}
                 index={index}
                 key={index}
-              ></Customer>
+              ></Reservation>
             );
           })}{" "}
         </div>
