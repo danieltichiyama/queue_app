@@ -21,7 +21,7 @@ const retailerController = {
   createRetailer(req, res, next) {
     passport.authenticate("register", (err, retailer, info) => {
       if (!retailer) {
-        return res.status(401).json({ message: info.message });
+        return res.status(401).json({ error: err, message: info.message });
       }
       req.body.password = info;
       Retailer.create(req.body)
@@ -68,26 +68,35 @@ const retailerController = {
         res.status(500).json(err);
       });
   },
-  loginRetailer(req, res) {
-    console.log("req", req);
+  loginRetailer(req, res, next) {
+    passport.authenticate("login", (err, retailer, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!retailer) {
+        return res.status(401).json({ message: info.message });
+      }
 
-    if (!req.user) {
-      return res.status(404).json({ message: "something went wrong." });
-    }
-
-    return Retailer.findById(req.user._id)
-      .populate({ path: "reservations" })
-      .then((results) => {
-        if (!results) {
-          return res.status(404).json({ message: "Retailer not found." });
+      req.logIn(retailer, (err) => {
+        if (err) {
+          return next(err);
         }
 
-        return res.json(results);
-      })
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json({ error: err });
+        return Retailer.findById(req.user._id)
+          .populate({ path: "reservations" })
+          .then((results) => {
+            if (!results) {
+              return res.status(404).json({ message: "Retailer not found." });
+            }
+
+            return res.json(results);
+          })
+          .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: err });
+          });
       });
+    })(req, res, next);
   },
 };
 

@@ -11,6 +11,9 @@ export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
 export const LOGIN_RETAILER = "LOGIN_RETAILER";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+export const REGISTER_RETAILER = "REGISTER_RETAILER";
+export const REGISTRATION_ERROR = "REGISTRATION_ERROR";
 
 const mockRetailerId = "111111111111111111111111";
 
@@ -152,19 +155,36 @@ export const notifyCustomer = (data) => async (dispatch) => {
 export const loginRetailer = (data) => async (dispatch) => {
   await Axios.post("/api/retailers/login", data)
     .then((response) => {
-      console.log("loginRetailer response", response);
       dispatch({
         type: LOGIN_RETAILER,
         payload: response.data,
       });
     })
-    .catch((err) => {
-      console.log(err.message);
+    .catch(({ message, response }) => {
+      console.log(response);
+      console.log(message);
+      if (response.status === 401) {
+        dispatch({
+          type: LOGIN_ERROR,
+          payload: response.data.message,
+        });
+      }
     });
 };
 
 export const registerRetailer = (data) => async (dispatch) => {
-  await Axios.post("/api/retailers/register", data).then((retailer) => {
-    console.log(retailer);
-  });
+  await Axios.post("/api/retailers/register", data)
+    .then((response) => {
+      dispatch({
+        type: REGISTER_RETAILER,
+        payload: response.data,
+      });
+    })
+    .catch(({ message, response }) => {
+      console.log(response);
+      console.log(message);
+      dispatch({
+        type: REGISTRATION_ERROR,
+      });
+    });
 };

@@ -10,6 +10,8 @@ import {
   TWILIO_NOTIFICATION,
   UPDATE_RETAILER,
   LOGIN_RETAILER,
+  LOGIN_ERROR,
+  REGISTRATION_ERROR,
 } from "../actions";
 
 const initialState = {
@@ -43,10 +45,6 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {});
     case TWILIO_NOTIFICATION:
       let { reservations } = state.currentRetailer;
-
-      console.log("var reservations" + " ", reservations);
-      console.log("----------");
-
       for (let i = 0; i < reservations.length; i++) {
         if (reservations[i]._id === action.payload._id) {
           reservations.splice(i, 1, action.payload);
@@ -61,7 +59,14 @@ const reducer = (state = initialState, action) => {
     case LOGIN_RETAILER:
       localStorage.setItem("retailer", JSON.stringify(action.payload));
       return Object.assign({}, state, { currentRetailer: action.payload });
-      xdefault: return state;
+    case LOGIN_ERROR:
+      alert(action.payload);
+      return state;
+    case REGISTRATION_ERROR:
+      alert("something went wrong with your registration.");
+      return state;
+    default:
+      return state;
   }
 };
 

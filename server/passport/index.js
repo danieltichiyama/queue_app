@@ -32,6 +32,7 @@ passport.use(
                 return done(null, retailer);
               })
               .catch((err) => {
+                console.log(err);
                 return done(err, false);
               });
           }
@@ -52,8 +53,8 @@ passport.use(
       passwordField: "password",
     },
     (username, password, done) => {
-      try {
-        Retailer.findOne({ username: username }).then(async (retailer) => {
+      return Retailer.findOne({ username: username })
+        .then(async (retailer) => {
           if (retailer) {
             return done(null, false, { message: "Username already taken." });
           } else {
@@ -64,10 +65,11 @@ passport.use(
               return done(null, true, hash);
             });
           }
+        })
+        .catch((err) => {
+          console.log(err);
+          done(err, false, { message: "something went wrong." });
         });
-      } catch (err) {
-        done(err);
-      }
     }
   )
 );
@@ -77,7 +79,14 @@ passport.serializeUser(function (retailer, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-  Retailer.findById(id, function (err, user) {
-    done(null, user);
-  });
+  return Retailer.findById(id)
+    .then((err, user) => {
+      if (err) {
+        return done(err);
+      }
+      return done(null, user);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });

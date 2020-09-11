@@ -1,12 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styles from "./Register.module.scss";
 import { useDispatch } from "react-redux";
 import { registerRetailer } from "../../actions";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-const states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+const states = [
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+];
 
 function Register(props) {
   const dispatch = useDispatch();
@@ -18,7 +68,7 @@ function Register(props) {
   const [retailerName, setRetailerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [city, setCity] = useState("")
+  const [city, setCity] = useState("");
   const [state, setState] = useState("AL");
   const [zipcode, setZipcode] = useState("");
   const [openingTime, setOpeningTime] = useState("");
@@ -43,28 +93,30 @@ function Register(props) {
       zipcode,
       open: parseInt(openingTime.split(":").join()),
       close: parseInt(closingTime.split(":").join()),
-      maxCapacity
-    }
+      maxCapacity,
+    };
     dispatch(registerRetailer(retailerObj));
-    props.setIsLogin(true);
-  }
+  };
 
   return (
     <div className={styles.Register}>
       <h1>Register</h1>
-      {isError && 
+      {isError && (
         <div className="errorMessage">
-          <i onClick={(e) => {setIsError(false)}}>
+          <i
+            onClick={(e) => {
+              setIsError(false);
+            }}
+          >
             <FontAwesomeIcon icon={faTimes} />
           </i>
-          <div className="header">
-            {errorMsg}
-          </div>
-        </div>}
+          <div className="header">{errorMsg}</div>
+        </div>
+      )}
       <form onSubmit={(e) => registerRetailerSubmit(e)}>
         <ul>
           <li>
-            <input 
+            <input
               type="text"
               name="retailerName"
               onChange={(e) => setRetailerName(e.target.value)}
@@ -88,7 +140,7 @@ function Register(props) {
             />
           </li>
           <li>
-            <input 
+            <input
               type="password"
               name="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -96,7 +148,7 @@ function Register(props) {
             />
           </li>
           <li>
-            <input 
+            <input
               type="text"
               name="address"
               onChange={(e) => setAddress(e.target.value)}
@@ -104,22 +156,26 @@ function Register(props) {
             />
           </li>
           <li>
-            <input 
+            <input
               type="text"
               name="city"
               onChange={(e) => setCity(e.target.value)}
               placeholder="City"
             />
-            <select 
-              name="state" 
+            <select
+              name="state"
               id="state"
               onChange={(e) => setState(e.target.value)}
             >
               {states.map((state) => {
-                return <option key={state} value={state}>{state}</option>
+                return (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                );
               })}
             </select>
-            <input 
+            <input
               type="text"
               name="zipCode"
               onChange={(e) => setZipcode(e.target.value)}
@@ -127,7 +183,7 @@ function Register(props) {
             />
           </li>
           <li>
-            <input 
+            <input
               type="text"
               name="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -135,13 +191,15 @@ function Register(props) {
             />
           </li>
           <li>
-            Opening Time: <input 
+            Opening Time:{" "}
+            <input
               type="time"
               name="openingTime"
               onChange={(e) => setOpeningTime(e.target.value)}
               placeholder="Opening Time"
             />
-            Closing Time: <input 
+            Closing Time:{" "}
+            <input
               type="time"
               name="closingTime"
               onChange={(e) => setClosingTime(e.target.value)}
@@ -149,7 +207,7 @@ function Register(props) {
             />
           </li>
           <li>
-            <input 
+            <input
               type="number"
               name="maxCapacity"
               onChange={(e) => setMaxCapacity(e.target.value)}
@@ -157,12 +215,8 @@ function Register(props) {
             />
           </li>
         </ul>
-        <button type="submit">
-          Register
-        </button>
-        <button onClick={() => props.setIsLogin(false)}>
-          Cancel
-        </button>
+        <button type="submit">Register</button>
+        <button onClick={() => props.setIsLogin(false)}>Cancel</button>
       </form>
     </div>
   );
