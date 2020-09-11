@@ -19,7 +19,8 @@ const verificationController = {
 
     Retailer.findByIdAndUpdate(
       { _id: retailerId },
-      { verificationPIN: randomPIN }
+      { verificationPIN: randomPIN },
+      { new: true }
     ).then((results) => {
       let retailerName = results.retailerName;
       let verificationPIN = results.verificationPIN;
@@ -43,7 +44,7 @@ const verificationController = {
         sgMail
           .send({
             to: `${toEmail}`,
-            from: "kevinchguo@gmail.com",
+            from: "admin@thequeue.dev",
             subject: "Queue App Verification",
             text: `Hello ${retailerName}, your PIN is ${verificationPIN}. Please verify through our app. Thank you!`,
             html: `<body><h1>Hello ${retailerName},</h1><p>your PIN is ${verificationPIN}. Please verify through our app. Thank you!</p></body>`,
@@ -53,7 +54,25 @@ const verificationController = {
       }
     });
   },
-  checkPIN() {},
+  checkPIN({ params, body }, res) {
+    let retailerId = params.retailerId;
+    let enteredPIN = body.enteredPIN;
+    Retailer.findById({ _id: retailerId }).then((results) => {
+      let verificationPIN = results.verificationPIN;
+      if (enteredPIN === verificationPIN) {
+        return Retailer.findByIdAndUpdate(
+          { _id: retailerId },
+          { verificationStatus: true },
+          { new: true }
+        ).then((results) => {
+          res
+            .status(200)
+            .json({ message: "Your business has been successfully verified." });
+        });
+      }
+      res.status(200).json({ error: "Sorry the PIN does not match." });
+    });
+  },
 };
 
 module.exports = verificationController;
