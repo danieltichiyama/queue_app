@@ -14,45 +14,58 @@ const verificationController = {
     let verificationType = body.verificationType;
     let retailerId = params.retailerId;
     let randomPIN = Math.floor(100000 + Math.random() * 900000);
-    let toNumber = body.number;
+    let toNumber = body.phoneNumber;
     let toEmail = body.email;
 
     Retailer.findByIdAndUpdate(
       { _id: retailerId },
       { verificationPIN: randomPIN },
       { new: true }
-    ).then((results) => {
-      let retailerName = results.retailerName;
-      let verificationPIN = results.verificationPIN;
-      if (verificationType === "text") {
-        client.messages
-          .create({
-            body: `Hello ${retailerName}, your verification PIN is ${verificationPIN}`,
-            from: twilioNumber,
-            to: toNumber,
-          })
-          .then((message) => console.log(message))
-          .catch((err) => console.log(err));
-      } else if (verificationType === "call") {
-        client.calls
-          .create({
-            twiml: `<Response><Say>Hello ${retailerName}, this is a call from Queue App. Your verification pin is ${verificationPIN}. Please verify your pin in our app. Again, your verification pin is ${verificationPIN}. Thank you.</Say></Response>`,
-          })
-          .then((message) => console.log(message))
-          .catch((err) => console.log(err));
-      } else if (verificationType === "email") {
-        sgMail
-          .send({
-            to: `${toEmail}`,
-            from: "admin@thequeue.dev",
-            subject: "Queue App Verification",
-            text: `Hello ${retailerName}, your PIN is ${verificationPIN}. Please verify through our app. Thank you!`,
-            html: `<body><h1>Hello ${retailerName},</h1><p>your PIN is ${verificationPIN}. Please verify through our app. Thank you!</p></body>`,
-          })
-          .then((message) => console.log(message))
-          .catch((err) => console.log(err));
-      }
-    });
+    )
+      .select("verificationPIN retailerName")
+      .then((results) => {
+        console.log("verificationController: ", results);
+        let retailerName = results.retailerName;
+        let verificationPIN = results.verificationPIN;
+        if (verificationType === "text") {
+          client.messages
+            .create({
+              body: `Hello ${retailerName}, your verification PIN is ${verificationPIN}`,
+              from: twilioNumber,
+              to: toNumber,
+            })
+            .then((message) => console.log(message))
+            .catch((err) => console.log(err));
+        } else if (verificationType === "call") {
+          client.calls
+            .create({
+              to: toNumber,
+              from: twilioNumber,
+              twiml: `<Response><Say>Hello ${retailerName}, this is a call from Queue App. Your verification pin is ${verificationPIN
+                .toString()
+                .split("")
+                .join(
+                  ", "
+                )}. Please verify your pin in our app. Again, your verification pin is ${verificationPIN
+                .toString()
+                .split("")
+                .join(", ")}. Thank you.</Say></Response>`,
+            })
+            .then((message) => console.log(message))
+            .catch((err) => console.log(err));
+        } else if (verificationType === "email") {
+          sgMail
+            .send({
+              to: `${toEmail}`,
+              from: "admin@thequeue.dev",
+              subject: "Queue App Verification",
+              text: `Hello ${retailerName}, your PIN is ${verificationPIN}. Please verify through our app. Thank you!`,
+              html: `<body><h1>Hello ${retailerName},</h1><p>your PIN is ${verificationPIN}. Please verify through our app. Thank you!</p></body>`,
+            })
+            .then((message) => console.log(message))
+            .catch((err) => console.log(err));
+        }
+      });
   },
   checkPIN({ params, body }, res) {
     let retailerId = params.retailerId;
