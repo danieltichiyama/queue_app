@@ -27,10 +27,9 @@ const customerController = {
       .then((results) => {
         if (!results || results.length === 0)
           return res
-            .status(404)
-            .json({ message: "No retailers match that search term" });
-
-        res.json({ results });
+            .status(500)
+            .json([]);
+        res.json(results);
       })
       .catch((err) => {
         res.status(500).json(err);
