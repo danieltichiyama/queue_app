@@ -1,4 +1,4 @@
-const { Customer } = require("../models");
+const { Customer, Reservation } = require("../models");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -11,6 +11,8 @@ const twilioController = {
     const phoneNumber = req.body.From;
     let reply = req.body.Body.charAt(0).toUpperCase();
     const twiml = new MessagingResponse();
+
+    console.log(req.body);
 
     if (reply === "Y") {
       reply = "confirmed";
@@ -45,16 +47,39 @@ const twilioController = {
     }
   },
   twilioSend(req, res) {
-    const toNumber = req.body.number;
+    // req.body.number example "+12345678901"
+    const toNumber = req.body.phoneNumber;
+    const retailer = req.body.retailerName;
     client.messages
       .create({
-        body:
-          "Your reservation is coming up soon. Please make your way back to the store in the next 5 minutes. You can respond with Y to confirm, P to push back your reservation, or C to cancel.",
+        body: `Your reservation at ${retailer} is coming up soon. Please make your way back to the store in the next 5 minutes. You can respond with Y to confirm, P to push back your reservation, or C to cancel.`,
         from: twilioNumber,
         to: toNumber,
       })
-      .then((message) => console.log(message))
-      .catch((err) => console.log(err));
+      .then((response) => {
+        console.log(response);
+        if (response.status !== "queued") {
+          res.status(500).json({ message: "Could not send text message." });
+          return;
+        }
+        // changes replyStatus from null to pending
+        Reservation.findOneAndUpdate(
+          { _id: req.body.reservationId },
+          { replyStatus: "pending" },
+          { new: true }
+        )
+          .populate({ path: "customerId" })
+          .then((results) => {
+            return res.json(results);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          message: "Something went wrong with api/sms/send",
+          error: err,
+        });
+      });
   },
 };
 
