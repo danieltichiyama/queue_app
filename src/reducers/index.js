@@ -9,6 +9,9 @@ import {
   REMOVE_CUSTOMER_FROM_WAITLIST,
   TWILIO_NOTIFICATION,
   UPDATE_RETAILER,
+  FIND_RETAILERS_FOR_CUSTOMER,
+  SEARCH_FOR_RETAILER,
+  NO_SEARCH_RESULTS
 } from "../actions";
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
     customersInStore: null,
     reservations: [],
   },
+  customerSearchRetailer: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -42,10 +46,6 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {});
     case TWILIO_NOTIFICATION:
       let { reservations } = state.currentRetailer;
-
-      console.log("var reservations" + " ", reservations);
-      console.log("----------");
-
       for (let i = 0; i < reservations.length; i++) {
         if (reservations[i]._id === action.payload._id) {
           reservations.splice(i, 1, action.payload);
@@ -57,6 +57,12 @@ const reducer = (state = initialState, action) => {
           reservations: reservations,
         },
       });
+    case FIND_RETAILERS_FOR_CUSTOMER:
+      return Object.assign({}, state, { customerSearchRetailer: action.payload });
+    case SEARCH_FOR_RETAILER:
+      return Object.assign({}, state, { customerSearchRetailer: action.payload });
+    case NO_SEARCH_RESULTS:
+      return Object.assign({}, state, { customerSearchRetailer: [] })
     default:
       return state;
   }
