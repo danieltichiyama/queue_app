@@ -33,7 +33,7 @@ const verificationController = {
               from: twilioNumber,
               to: toNumber,
             })
-            .then((message) => console.log(message))
+            .then((message) => res.json(message))
             .catch((err) => console.log(err));
         } else if (verificationType === "call") {
           client.calls
@@ -50,7 +50,7 @@ const verificationController = {
                 .split("")
                 .join(", ")}. Thank you.</Say></Response>`,
             })
-            .then((message) => console.log(message))
+            .then((message) => res.json(message))
             .catch((err) => console.log(err));
         } else if (verificationType === "email") {
           sgMail
@@ -61,7 +61,7 @@ const verificationController = {
               text: `Hello ${retailerName}, your PIN is ${verificationPIN}. Please verify through our app. Thank you!`,
               html: `<body><h1>Hello ${retailerName},</h1><p>your PIN is ${verificationPIN}. Please verify through our app. Thank you!</p></body>`,
             })
-            .then((message) => console.log(message))
+            .then((message) => res.json(message))
             .catch((err) => console.log(err));
         }
       });
