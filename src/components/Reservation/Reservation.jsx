@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import styles from "./CustomerInList.module.scss";
+import styles from "./Reservation.module.scss";
 import clock from "../../utils/imgs/clock.png";
 import CancelButton from "../CancelButton";
 import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 
-const Customer = (props) => {
+import { connect } from "react-redux";
+import { notifyCustomer } from "../../actions";
+
+const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -46,12 +49,24 @@ const Customer = (props) => {
     setConfirmOpen(false);
   };
 
+  const handleNotificationClick = () => {
+    let data = {
+      phoneNumber: props.reservation.customerId.phoneNumber,
+      retailerName: props.retailerName,
+      reservationId: props.reservation._id,
+    };
+    return props.dispatchNotifyCustomer(data);
+  };
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
-      <p className={styles.phoneNumber}> {props.customer.phoneNumber}</p>
+      <p className={styles.phoneNumber}>
+        {" "}
+        {props.reservation.customerId.phoneNumber}
+      </p>
       <div className={styles.time}>
         <img src={clock} alt="time in queue" />
-        <p> {props.customer.createdAt}</p>
+        <p> {props.reservation.createdAt}</p>
       </div>
 
       <div className={styles.menuButton} onClick={toggleMenu}>
@@ -63,7 +78,13 @@ const Customer = (props) => {
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
           <CheckButton onClick={toggleConfirm}></CheckButton>
-          <NotificationButton onClick={toggleConfirm}></NotificationButton>
+          <NotificationButton
+            onClick={toggleConfirm}
+            handleClick={handleNotificationClick}
+            disableButton={
+              props.reservation.replyStatus === "pending" ? true : false
+            }
+          ></NotificationButton>
           <HoldButton onClick={toggleConfirm}></HoldButton>
           <CancelButton onClick={toggleConfirm}></CancelButton>
         </div>
@@ -84,4 +105,18 @@ const Customer = (props) => {
   );
 };
 
-export default Customer;
+const mapStateToProps = (state) => {
+  return {
+    retailerName: state.currentRetailer.retailerName,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchNotifyCustomer: (data) => {
+      return dispatch(notifyCustomer(data));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reservation);

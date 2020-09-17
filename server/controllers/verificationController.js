@@ -72,18 +72,15 @@ const verificationController = {
     Retailer.findById({ _id: retailerId }, "+verificationPIN").then(
       (results) => {
         let verificationPIN = results.verificationPIN;
-        console.log(results);
         if (enteredPIN === verificationPIN) {
           return Retailer.findByIdAndUpdate(
             { _id: retailerId },
             { verificationStatus: true },
             { new: true }
           ).then((results) => {
-            res
-              .status(200)
-              .json({
-                message: "Your business has been successfully verified.",
-              });
+            res.status(200).json({
+              message: "Your business has been successfully verified.",
+            });
           });
         }
         res.status(200).json({ error: "Sorry the PIN does not match." });

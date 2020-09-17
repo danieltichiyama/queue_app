@@ -115,7 +115,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 | Route | Controller Method | Description |
 |-------|-------------------|-------------|
 |`POST("/")`| newReservation()| checks or creates a Customer, creates a reservation using CustomerId and RetailerId, and saves a references to the new reservation in the Customer's and Retailer's reservations arry|
-|`PUT("/:reservationId")`| updateReservation()| changes reservation's queueStatus or replyStatus, if queuStatus === "enter" or "cancelled", remove reservation from Retailer.reservations and Customer.reservations|
+|`PUT("/:reservationId")`| updateReservation()| changes reservation's queueStatus, if queuStatus === "enter" or "cancelled", remove reservation from Retailer.reservations and Customer.reservations|
 
 <br/>
 <br/>
