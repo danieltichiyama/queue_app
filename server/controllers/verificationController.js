@@ -69,23 +69,25 @@ const verificationController = {
   checkPIN({ params, body }, res) {
     let retailerId = params.retailerId;
     let enteredPIN = body.enteredPIN;
-    Retailer.findById({ _id: retailerId }, "+verificationPIN").then(
-      (results) => {
+    Retailer.findById({ _id: retailerId }, "+verificationPIN")
+      .then((results) => {
         let verificationPIN = results.verificationPIN;
         if (enteredPIN === verificationPIN) {
           return Retailer.findByIdAndUpdate(
             { _id: retailerId },
             { verificationStatus: true },
             { new: true }
-          ).then((results) => {
-            res.status(200).json({
-              message: "Your business has been successfully verified.",
-            });
-          });
+          )
+            .then((results) => {
+              res.status(200).json({
+                message: "Your business has been successfully verified.",
+              });
+            })
+            .catch((err) => console.log(err));
         }
         res.status(200).json({ error: "Sorry the PIN does not match." });
-      }
-    );
+      })
+      .catch((err) => console.log(err));
   },
 };
 
