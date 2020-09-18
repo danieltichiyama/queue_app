@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createReservation } from "./../../actions";
 import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
-import {
-  formatPhoneNumber,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
 import { updateRetailer } from "../../actions";
 

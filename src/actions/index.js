@@ -4,7 +4,7 @@ export const FETCH_RETAILERS = "FETCH_RETAILERS";
 export const SEARCH_RETAILERS_BY_NAME = "SEARCH_RETAILERS_BY_NAME";
 export const FETCH_ONE_RETAILER = "FETCH_ONE_RETAILER";
 export const CREATE_RESERVATION = "CREATE_RESERVATION";
-export const MOVE_TO_HOLDLIST = "MOVE_TO_HOLDLIST";
+export const HOLD_RESERVATION = "HOLD_RESERVATION";
 export const MOVE_TO_WAITLIST = "MOVE_TO_WAITLIST";
 export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
 export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
@@ -82,16 +82,20 @@ export const createReservation = (data) => async (dispatch) => {
     });
 };
 
-export const moveToHoldlist = (data) => async (dispatch) => {
-  await Axios.get("/api/retailers", data)
-    .then((customer) => {
+export const holdReservation = (data) => async (dispatch) => {
+  let url = `/api/reservations/${data.reservationId}`;
+  delete data.reservationId;
+
+  await Axios.put(url, data)
+    .then((response) => {
+      console.log("response: ", response);
       dispatch({
-        type: MOVE_TO_HOLDLIST,
-        payload: customer.data,
+        type: HOLD_RESERVATION,
+        payload: response.data,
       });
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log(err);
     });
 };
 
@@ -137,7 +141,6 @@ export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
 export const notifyCustomer = (data) => async (dispatch) => {
   await Axios.post("/api/sms/send", data)
     .then((response) => {
-      console.log(response.data);
       dispatch({
         type: TWILIO_NOTIFICATION,
         payload: response.data,

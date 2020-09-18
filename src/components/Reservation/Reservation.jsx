@@ -7,7 +7,7 @@ import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 
 import { connect } from "react-redux";
-import { notifyCustomer } from "../../actions";
+import { notifyCustomer, holdReservation } from "../../actions";
 
 const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,6 +58,15 @@ const Reservation = (props) => {
     return props.dispatchNotifyCustomer(data);
   };
 
+  const handleHoldClick = () => {
+    let data = {
+      queueStatus: "hold",
+      reservationId: props.reservation._id,
+    };
+
+    return props.dispatchHoldReservation(data);
+  };
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
@@ -85,7 +94,10 @@ const Reservation = (props) => {
               props.reservation.replyStatus === "pending" ? true : false
             }
           ></NotificationButton>
-          <HoldButton onClick={toggleConfirm}></HoldButton>
+          <HoldButton
+            onClick={toggleConfirm}
+            handleClick={handleHoldClick}
+          ></HoldButton>
           <CancelButton onClick={toggleConfirm}></CancelButton>
         </div>
       ) : null}
@@ -115,6 +127,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatchNotifyCustomer: (data) => {
       return dispatch(notifyCustomer(data));
+    },
+    dispatchHoldReservation: (data) => {
+      return dispatch(holdReservation(data));
     },
   };
 };

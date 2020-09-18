@@ -3,7 +3,7 @@ import {
   SEARCH_RETAILERS_BY_NAME,
   FETCH_ONE_RETAILER,
   CREATE_RESERVATION,
-  MOVE_TO_HOLDLIST,
+  HOLD_RESERVATION,
   MOVE_TO_WAITLIST,
   REMOVE_CUSTOMER_FROM_HOLDLIST,
   REMOVE_CUSTOMER_FROM_WAITLIST,
@@ -32,8 +32,20 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { currentRetailer: action.payload });
     case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
-    case MOVE_TO_HOLDLIST:
-      return Object.assign({}, state, {});
+    case HOLD_RESERVATION:
+      let holdReservations = state.currentRetailer.reservations;
+
+      for (let i = 0; i < holdReservations.length; i++) {
+        if (holdReservations[i]._id === action.payload._id) {
+          holdReservations.splice(i, 1, action.payload);
+        }
+      }
+      return Object.assign({}, state, {
+        currentRetailer: {
+          ...state.currentRetailer,
+          reservations: holdReservations,
+        },
+      });
     case MOVE_TO_WAITLIST:
       return Object.assign({}, state, {});
     case REMOVE_CUSTOMER_FROM_HOLDLIST:
@@ -41,20 +53,17 @@ const reducer = (state = initialState, action) => {
     case REMOVE_CUSTOMER_FROM_WAITLIST:
       return Object.assign({}, state, {});
     case TWILIO_NOTIFICATION:
-      let { reservations } = state.currentRetailer;
+      let twilioNotifications = state.currentRetailer.reservations;
 
-      console.log("var reservations" + " ", reservations);
-      console.log("----------");
-
-      for (let i = 0; i < reservations.length; i++) {
-        if (reservations[i]._id === action.payload._id) {
-          reservations.splice(i, 1, action.payload);
+      for (let i = 0; i < twilioNotifications.length; i++) {
+        if (twilioNotifications[i]._id === action.payload._id) {
+          twilioNotifications.splice(i, 1, action.payload);
         }
       }
       return Object.assign({}, state, {
         currentRetailer: {
           ...state.currentRetailer,
-          reservations: reservations,
+          reservations: twilioNotifications,
         },
       });
     default:

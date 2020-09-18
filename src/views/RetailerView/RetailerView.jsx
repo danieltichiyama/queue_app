@@ -42,6 +42,12 @@ function RetailerView(props) {
     dispatchFetchOneRetailer("QueueApp");
   }, []);
 
+  // used to test if
+  const [test, setTest] = useState(false);
+  useEffect(() => {
+    setTest(!test);
+  }, [props.waitList, props.holdList]);
+
   return (
     <div className={styles.RetailerView}>
       <ul className={styles.WaitList}>
