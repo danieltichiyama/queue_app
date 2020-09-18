@@ -34,6 +34,7 @@ class UserView extends Component {
     let foundRetailers = this.props.customerSearchRetailer;
     return (
       <div className={styles.UserView}>
+        <h1>User view</h1>
         <form className={styles.searchContainer} onSubmit={this.handleSearchSubmit}>
           <input
             className={styles.searchbar}
@@ -49,7 +50,7 @@ class UserView extends Component {
             />
           </button>
         </form>
-        {foundRetailers.length == 0 ? <h1>{'No search results'}</h1> : null}
+        {foundRetailers.length === 0 ? <h1>{'No search results'}</h1> : null}
         <ul className={styles.results}>
           {foundRetailers.map((store, index) => {
             return (

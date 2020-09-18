@@ -1,19 +1,24 @@
 import React, { Component } from "react";
 import styles from "./App.module.scss";
 import { connect } from "react-redux";
-
 import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
+import { Switch, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return (
       <div className={styles.App}>
         <div className={styles.appMobileContainer}>
-          {/* <RetailerView></RetailerView>
-          <Dashboard></Dashboard> */}
-          <UserView />
+          <Switch>
+            <Route
+              path='/userView'
+              component={UserView} />
+            <Route
+              path='/retailerView'
+              component={RetailerView} />
+          </Switch>
         </div>
       </div>
     );
