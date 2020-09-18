@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
+import RetailerProfileView from '../views/RetailerProfileView'
 import { Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -13,11 +14,14 @@ class App extends Component {
         <div className={styles.appMobileContainer}>
           <Switch>
             <Route
-              path='/userView'
+              path='/userview'
               component={UserView} />
             <Route
-              path='/retailerView'
+              path='/retailerview'
               component={RetailerView} />
+            <Route
+              path='/retailerprofile'
+              component={RetailerProfileView} />
           </Switch>
         </div>
       </div>
