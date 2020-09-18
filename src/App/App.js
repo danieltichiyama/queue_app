@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import styles from "./App.module.scss";
 import { connect } from "react-redux";
-import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
-import RetailerProfileView from '../views/RetailerProfileView'
+import RetailerProfileView from '../views/RetailerProfileView';
+import UserProfileView from '../views/UserProfileView';
 import { Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -22,6 +22,9 @@ class App extends Component {
             <Route
               path='/retailerprofile'
               component={RetailerProfileView} />
+            <Route
+              path='/userprofile'
+              component={UserProfileView} />
           </Switch>
         </div>
       </div>
