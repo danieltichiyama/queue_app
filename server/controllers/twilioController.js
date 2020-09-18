@@ -12,8 +12,6 @@ const twilioController = {
     let reply = req.body.Body.charAt(0).toUpperCase();
     const twiml = new MessagingResponse();
 
-    console.log(req.body);
-
     if (reply === "Y") {
       reply = "confirmed";
       Customer.findOneAndUpdate(
@@ -57,7 +55,6 @@ const twilioController = {
         to: toNumber,
       })
       .then((response) => {
-        console.log(response);
         if (response.status !== "queued") {
           res.status(500).json({ message: "Could not send text message." });
           return;
