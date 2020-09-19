@@ -17,6 +17,14 @@ const RetailerSchema = new Schema(
       required: true,
       select: false,
     },
+    verificationPIN: {
+      type: Number,
+      select: false,
+    },
+    verificationStatus: {
+      type: Boolean,
+      default: false,
+    },
     address: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
@@ -43,7 +51,7 @@ const RetailerSchema = new Schema(
       required: true,
     },
     averageWait: { type: Number, default: 0, required: true },
-    notification: { type: Number, required: true },
+    notification: { type: Number, default: 300, required: true },
     reservations: [
       {
         type: Schema.Types.ObjectId,

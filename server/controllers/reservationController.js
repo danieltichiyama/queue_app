@@ -16,10 +16,17 @@ const reservationController = {
         let reservation = { ...body, customerId: customer._id };
         Reservation.create(reservation)
           .then((reservation) => {
-            Retailer.findByIdAndUpdate(body.retailerId, {
-              $push: { reservations: reservation._id },
-            })
-              .populate({ path: "reservations" })
+            Retailer.findByIdAndUpdate(
+              body.retailerId,
+              {
+                $push: { reservations: reservation._id },
+              },
+              { new: true }
+            )
+              .populate({
+                path: "reservations",
+                populate: { path: "customerId" },
+              })
               .then((retailer) => {
                 Customer.findByIdAndUpdate(customer._id, {
                   $push: { reservations: reservation._id },

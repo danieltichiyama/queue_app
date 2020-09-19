@@ -40,7 +40,7 @@ function RetailerView(props) {
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
     dispatchFetchOneRetailer("QueueApp");
-  }, []);
+  }, [dispatchFetchOneRetailer]);
 
   // used to test if
   const [test, setTest] = useState(false);
