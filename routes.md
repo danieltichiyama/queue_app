@@ -263,3 +263,61 @@ Input:
 Output:
 
 ```
+
+VERIFICATION CONTROLLER
+
+// /verification/
+POST("/api/verification/:retailerId/send") - sends a generated PIN to the chosen point of contact.
+
+---
+
+Input:
+{
+"verificationType": "text/email/call",
+"phoneNumber": "8083934251",
+"email": "kevinchguo@gmail.com",
+}
+
+Output:
+{
+"body": "Sent from your Twilio trial account - Hello QueueApp, your verification PIN is 148156",
+"numSegments": "1",
+"direction": "outbound-api",
+"from": "+18085007155",
+"to": "+18083934251",
+"dateUpdated": "2020-09-17T23:07:35.000Z",
+"price": null,
+"errorMessage": null,
+"uri": "/2010-04-01/Accounts/ACeb3a277534176727300b275fafc647e8/Messages/SM31f9efcf30814473ad722f922ca856d9.json",
+"accountSid": "ACeb3a277534176727300b275fafc647e8",
+"numMedia": "0",
+"status": "queued",
+"messagingServiceSid": null,
+"sid": "SM31f9efcf30814473ad722f922ca856d9",
+"dateSent": null,
+"dateCreated": "2020-09-17T23:07:35.000Z",
+"errorCode": null,
+"priceUnit": "USD",
+"apiVersion": "2010-04-01",
+"subresourceUris": {
+"media": "/2010-04-01/Accounts/ACeb3a277534176727300b275fafc647e8/Messages/SM31f9efcf30814473ad722f922ca856d9/Media.json"
+}
+}
+
+POST("/api/verification/:retailerId/check") - verifies and checks PIN sent in from client to databaase
+
+Input:
+{
+"enteredPIN": 111111
+}
+
+Output:
+{
+"message": "Your business has been successfully verified."
+}
+
+or
+
+{
+"error": "Sorry the PIN does not match."
+}

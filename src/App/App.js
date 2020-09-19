@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 
 import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
+import UserView from "../views/UserView";
+
 import PublicView from "../views/PublicView";
 
 var App = () => {
@@ -16,23 +18,21 @@ var App = () => {
     } else {
       setRetailerLoggedIn(true);
     }
-  }, [setRetailerLoggedIn])
+  }, [setRetailerLoggedIn]);
 
   return (
     <div className={styles.App}>
-      {
-        retailerLoggedIn ?
+      {retailerLoggedIn ? (
         <div className={styles.AuthView}>
           <RetailerView></RetailerView>
-          <Dashboard></Dashboard>  
-        </div> :
-        <PublicView
-          setRetailerLoggedIn={setRetailerLoggedIn}
-        />
-      }
+          <Dashboard></Dashboard>
+        </div>
+      ) : (
+        <PublicView setRetailerLoggedIn={setRetailerLoggedIn} />
+      )}
     </div>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   return {
