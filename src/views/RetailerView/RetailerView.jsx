@@ -40,7 +40,7 @@ function RetailerView(props) {
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
     dispatchFetchOneRetailer("QueueApp");
-  });
+  }, [dispatchFetchOneRetailer]);
 
   return (
     <div className={styles.RetailerView}>

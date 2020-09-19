@@ -11,9 +11,13 @@ export const REMOVE_CUSTOMER_FROM_HOLDLIST = "REMOVE_CUSTOMER_FROM_HOLDLIST";
 export const REMOVE_CUSTOMER_FROM_WAITLIST = "REMOVE_CUSTOMER_FROM_WAITLIST";
 export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
-export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER"
+export const LOGIN_RETAILER = "LOGIN_RETAILER";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+export const REGISTER_RETAILER = "REGISTER_RETAILER";
+export const REGISTRATION_ERROR = "REGISTRATION_ERROR";
+export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER";
 export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
-export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS"
+export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
 
 const mockRetailerId = "111111111111111111111111";
 
@@ -87,17 +91,16 @@ export const createReservation = (data) => async (dispatch) => {
 };
 
 export const moveToHoldList = (data) => async (dispatch) => {
-    await Axios.get("/api/retailers", data)
-        .then((customer) => {
-            dispatch({
-                type: MOVE_TO_HOLDLIST,
-                payload: customer.data,
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
-
+  await Axios.get("/api/retailers", data)
+    .then((customer) => {
+      dispatch({
+        type: MOVE_TO_HOLDLIST,
+        payload: customer.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 export const moveToWaitlist = (data) => async (dispatch) => {
@@ -149,38 +152,75 @@ export const notifyCustomer = (data) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err.message);
+    });
+};
+
+export const loginRetailer = (data) => async (dispatch) => {
+  await Axios.post("/api/retailers/login", data)
+    .then((response) => {
+      dispatch({
+        type: LOGIN_RETAILER,
+        payload: response.data,
+      });
+    })
+    .catch(({ message, response }) => {
+      console.log(response);
+      console.log(message);
+      if (response.status === 401) {
+        dispatch({
+          type: LOGIN_ERROR,
+          payload: response.data.message,
+        });
+      }
+    });
+};
+
+export const registerRetailer = (data) => async (dispatch) => {
+  await Axios.post("/api/retailers/register", data)
+    .then((response) => {
+      dispatch({
+        type: REGISTER_RETAILER,
+        payload: response.data,
+      });
+    })
+    .catch(({ message, response }) => {
+      console.log(response);
+      console.log(message);
+      dispatch({
+        type: REGISTRATION_ERROR,
+      });
     });
 };
 
 export const actionFindRetailers = () => async (dispatch) => {
-    await Axios.get("/api/customers/")
-        .then((retailers) => {
-            dispatch({
-                type: FIND_RETAILERS_FOR_CUSTOMER,
-                payload: retailers.data
-            });
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+  await Axios.get("/api/customers/")
+    .then((retailers) => {
+      dispatch({
+        type: FIND_RETAILERS_FOR_CUSTOMER,
+        payload: retailers.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
-    await Axios.get('/api/customers/search?searchTerm=' + searchTerm)
-        .then((retailers) => {
-            dispatch({
-                type: SEARCH_FOR_RETAILER,
-                payload: retailers.data
-            });
-        })
-        .catch((err) => {
-            if (err.response.status === 500) {
-                return dispatch({
-                    type: NO_SEARCH_RESULTS,
-                })
-            };
-            console.log('Error from actionSearchingRetailers', err.message);
-            console.log(err)
+  await Axios.get("/api/customers/search?searchTerm=" + searchTerm)
+    .then((retailers) => {
+      dispatch({
+        type: SEARCH_FOR_RETAILER,
+        payload: retailers.data,
+      });
+    })
+    .catch((err) => {
+      if (err.response.status === 500) {
+        return dispatch({
+          type: NO_SEARCH_RESULTS,
         });
+      }
+      console.log("Error from actionSearchingRetailers", err.message);
+      console.log(err);
+    });
 };
