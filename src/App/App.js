@@ -7,34 +7,35 @@ import RetailerProfileView from "../views/RetailerProfileView";
 import UserProfileView from "../views/UserProfileView";
 import { Switch, Route } from "react-router-dom";
 
-import PublicView from "../views/PublicView";
+import AuthView from "../views/AuthView";
 
-var App = () => {
+var App = (props) => {
   const [retailerLoggedIn, setRetailerLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("retailer"));
-    if (!loggedInUser) {
+    let lsRetailer = localStorage.getItem("retailer");
+
+    if (!lsRetailer) {
       setRetailerLoggedIn(false);
     } else {
       setRetailerLoggedIn(true);
     }
-  }, [setRetailerLoggedIn]);
+  }, [props.isLoggedIn]);
 
   return (
     <div className={styles.App}>
-      {retailerLoggedIn ? (
-        <div className={styles.appMobileContainer}>
-          <Switch>
-            <Route path="/userview" component={UserView} />
-            <Route path="/retailerview" component={RetailerView} />
-            <Route path="/retailerprofile" component={RetailerProfileView} />
-            <Route path="/userprofile" component={UserProfileView} />
-          </Switch>
-        </div>
-      ) : (
-        <PublicView setRetailerLoggedIn={setRetailerLoggedIn} />
-      )}
+      <div className={styles.appMobileContainer}>
+        <Switch>
+          <Route path="/userview" component={UserView} />
+          <Route
+            path="/retailerview"
+            component={retailerLoggedIn ? RetailerView : AuthView}
+          />
+          <Route path="/retailerprofile" component={RetailerProfileView} />
+          <Route path="/userprofile" component={UserProfileView} />
+          <Route path="/auth" component={AuthView} />
+        </Switch>
+      </div>
     </div>
   );
 };
@@ -42,6 +43,7 @@ var App = () => {
 const mapStateToProps = (state) => {
   return {
     retailers: state.retailers,
+    isLoggedIn: state.isLoggedIn,
   };
 };
 

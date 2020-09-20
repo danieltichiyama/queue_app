@@ -4,7 +4,7 @@ import Reservation from "../../components/Reservation";
 import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer } from "../../actions";
-import Dashboard from '../../components/Dashboard/Dashboard.jsx'
+import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 
 function RetailerView(props) {
   // handles open and close of On Hold list
@@ -40,17 +40,14 @@ function RetailerView(props) {
   // grabs the initial data when the view loads
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
-    dispatchFetchOneRetailer("QueueApp");
-<<<<<<< HEAD
-  }, [dispatchFetchOneRetailer]);
-=======
+    let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
+    return dispatchFetchOneRetailer(retailerID);
   }, []);
->>>>>>> e5c317175673f229c1bc4f757400f39886daab42
 
   return (
     <>
       <div className={styles.RetailerView}>
-        <h1>Retailer View</h1>
+        <h1>{props.retailerName}</h1>
         <ul className={styles.WaitList}>
           <div className={styles.header}>
             <h3>Queue</h3>
@@ -137,13 +134,16 @@ const mapStateToProps = (state) => {
     holdList: state.currentRetailer.reservations.filter((res) => {
       return res.queueStatus === "hold";
     }),
+    retailerName: state.currentRetailer
+      ? state.currentRetailer.retailerName
+      : null,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchFetchOneRetailer: () => {
-      dispatch(fetchOneRetailer());
+    dispatchFetchOneRetailer: (id) => {
+      dispatch(fetchOneRetailer(id));
     },
   };
 };
