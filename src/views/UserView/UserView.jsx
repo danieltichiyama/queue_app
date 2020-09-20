@@ -1,227 +1,97 @@
 import React, { Component } from "react";
 import styles from "./UserView.module.scss";
 import magGlass from "../../utils/imgs/magGlass.png";
+import { connect } from "react-redux";
+import { actionFindRetailers, actionSearchingRetailers } from "../../actions";
 
 class UserView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Mock data for Retailer list
-      storesList: [
-        {
-          id: 1,
-          retailerName: "Mybuzz",
-          address: {
-            streetNumber: 2,
-            street: "Anhalt Hill",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "759-408-3657",
-          openingTime: "9:17 AM",
-          closingTime: "10:50 PM",
-          avgWaitTime: 67,
-          waitListCount: 11,
-          maxCapacity: 100,
-        },
-        {
-          id: 2,
-          retailerName: "Yabox",
-          address: {
-            streetNumber: 55153,
-            street: "Parkside Junction",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "684-271-7893",
-          openingTime: "9:25 AM",
-          closingTime: "9:58 PM",
-          avgWaitTime: 1666,
-          waitListCount: 4,
-          maxCapacity: 100,
-        },
-        {
-          id: 3,
-          retailerName: "Gabtype",
-          address: {
-            streetNumber: 40113,
-            street: "Mayer Plaza",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "459-322-9548",
-          openingTime: "8:08 AM",
-          closingTime: "9:39 PM",
-          avgWaitTime: 1994,
-          waitListCount: 23,
-          maxCapacity: 100,
-        },
-        {
-          id: 4,
-          retailerName: "Fivebridge",
-          address: {
-            streetNumber: 5137,
-            street: "Ridgeway Road",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "227-157-9276",
-          openingTime: "9:15 AM",
-          closingTime: "7:17 PM",
-          avgWaitTime: 887,
-          waitListCount: 5,
-          maxCapacity: 100,
-        },
-        {
-          id: 5,
-          retailerName: "Pixoboo",
-          address: {
-            streetNumber: 998,
-            street: "Sauthoff Terrace",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "809-491-9900",
-          openingTime: "8:00 AM",
-          closingTime: "8:42 PM",
-          avgWaitTime: 1959,
-          waitListCount: 13,
-          maxCapacity: 100,
-        },
-        {
-          id: 6,
-          retailerName: "Feedfire",
-          address: {
-            streetNumber: 6631,
-            street: "Florence Alley",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "615-470-9087",
-          openingTime: "8:51 AM",
-          closingTime: "8:35 PM",
-          avgWaitTime: 292,
-          waitListCount: 14,
-          maxCapacity: 100,
-        },
-        {
-          id: 7,
-          retailerName: "Midel",
-          address: {
-            streetNumber: 70764,
-            street: "Dorton Road",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "543-887-9672",
-          openingTime: "8:45 AM",
-          closingTime: "9:12 PM",
-          avgWaitTime: 232,
-          waitListCount: 14,
-          maxCapacity: 100,
-        },
-        {
-          id: 8,
-          retailerName: "Realblab",
-          address: {
-            streetNumber: 8136,
-            street: "Texas Lane",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "606-249-1752",
-          openingTime: "8:11 AM",
-          closingTime: "8:05 PM",
-          avgWaitTime: 849,
-          waitListCount: 21,
-          maxCapacity: 100,
-        },
-        {
-          id: 9,
-          retailerName: "Midel",
-          address: {
-            streetNumber: 4,
-            street: "Victoria Court",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "972-613-1749",
-          openingTime: "8:43 AM",
-          closingTime: "8:08 PM",
-          avgWaitTime: 1480,
-          waitListCount: 5,
-          maxCapacity: 100,
-        },
-        {
-          id: 10,
-          retailerName: "Roombo",
-          address: {
-            streetNumber: 9,
-            street: "Warbler Terrace",
-            city: "Honolulu",
-            state: "HI",
-            zipcode: 12345,
-          },
-          phoneNumber: "958-269-0481",
-          openingTime: "8:32 AM",
-          closingTime: "8:50 PM",
-          avgWaitTime: 1719,
-          waitListCount: 14,
-          maxCapacity: 100,
-        },
-      ],
+      searchTerm: "",
     };
   }
 
-  mapStores = (storesList) => {
-    return storesList.map((store, index) => {
-      return (
-        <li className={styles.result} key={"retailers-" + index}>
-          <div className={styles.generalInfo}>
-            <h3>{store.retailerName}</h3>
-            <p>
-              {`${store.address.streetNumber} ${store.address.street}`}
-              <br />
-              {`${store.address.city}, ${store.address.state} ${store.address.zipcode}`}
-            </p>
-            <a href={`tel:${store.phoneNumber}`}>{store.phoneNumber}</a>
-          </div>
-
-          <div className={styles.counter}>
-            <p className={styles.count}>{store.waitListCount}</p>
-            <p>waiting</p>
-          </div>
-        </li>
-      );
-    });
+  handleSearchInput = (e) => {
+    e.preventDefault();
+    const { value } = e.target;
+    this.setState({ searchTerm: value });
   };
 
+  handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.searchTerm !== "") {
+      this.props.dispatchSearchingRetailers(this.state.searchTerm);
+    }
+    this.setState({ searchTerm: "" });
+  };
+
+  componentDidMount() {
+    this.props.dispatchFindRetailers();
+  }
+
   render() {
+    let foundRetailers = this.props.customerSearchRetailer;
     return (
       <div className={styles.UserView}>
-        <div className={styles.searchContainer}>
+        <h1>User view</h1>
+        <form className={styles.searchContainer} onSubmit={this.handleSearchSubmit}>
           <input
+            className={styles.searchbar}
             type="search"
             placeholder="Search"
-            className={styles.searchbar}
-          ></input>
-          <img src={magGlass} alt="search" />
-        </div>
+            value={this.state.searchTerm}
+            onChange={this.handleSearchInput}
+          />
+          <button type="submit">
+            <img src={magGlass} alt="search" />
+          </button>
+        </form>
+        {foundRetailers.length === 0 ? <h1>{'No search results'}</h1> : null}
         <ul className={styles.results}>
-          {this.mapStores(this.state.storesList)}
+          {foundRetailers.map((store, index) => {
+            return (
+              <li className={styles.result} key={"retailers-" + index}>
+                <div className={styles.generalInfo}>
+                  <h3>{store.retailerName}</h3>
+                  <p>{`Open: ${store.open} ~ Close: ${store.close}`}</p>
+                  <p>
+                    {`${store.address}`}
+                    <br />
+                    {`${store.city}, ${store.state} ${store.zipcode}`}
+                  </p>
+                  <a href={`tel:${store.phoneNumber}`}>{store.phoneNumber}</a>
+                </div>
+
+                <div className={styles.counter}>
+                  <p className={styles.count}>{store.waitListCount}</p>
+                  <p>waiting</p>
+                  <p>{`Max: ${store.maxCapacity}`}</p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
   }
 }
 
-export default UserView;
+const mapStateToProps = (state) => {
+  return {
+    customerSearchRetailer: [...state.customerSearchRetailer],
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchFindRetailers: () => {
+      dispatch(actionFindRetailers());
+    },
+    dispatchSearchingRetailers: (term) => {
+      return dispatch(actionSearchingRetailers(term));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserView);

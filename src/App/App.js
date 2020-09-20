@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./App.module.scss";
 import { connect } from "react-redux";
-
-import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
-import PublicView from "../views/PublicView";
+import UserView from "../views/UserView";
+import RetailerProfileView from '../views/RetailerProfileView';
+import UserProfileView from '../views/UserProfileView';
+import AuthView from '../views/AuthView';
+import { Switch, Route } from 'react-router-dom';
 
-var App = () => {
+function App(props) {
   const [retailerLoggedIn, setRetailerLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -16,24 +18,29 @@ var App = () => {
     } else {
       setRetailerLoggedIn(true);
     }
-  }, [setRetailerLoggedIn])
+  }, [setRetailerLoggedIn]);
 
   return (
     <div className={styles.App}>
-      {
-        retailerLoggedIn ?
-        <div className={styles.AuthView}>
-          <RetailerView></RetailerView>
-          <Dashboard></Dashboard>  
-        </div> :
-        <PublicView
-          setRetailerLoggedIn={setRetailerLoggedIn}
-        />
-      }
+      <div className={styles.appMobileContainer}>
+        <Switch>
+          <Route
+            path='/userview'
+            component={UserView} />
+          <Route
+            path='/retailerview'
+            component={retailerLoggedIn ? RetailerView : AuthView} />
+          <Route
+            path='/retailerprofile'
+            component={RetailerProfileView} />
+          <Route
+            path='/userprofile'
+            component={UserProfileView} />
+        </Switch>
+      </div>
     </div>
   );
-}
-
+};
 const mapStateToProps = (state) => {
   return {
     retailers: state.retailers,
