@@ -162,7 +162,7 @@ export const actionFindRetailers = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log('Error from actionFindRetailers', err.message);
     });
 };
 
@@ -181,6 +181,5 @@ export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
         })
       };
       console.log('Error from actionSearchingRetailers', err.message);
-      console.log(err)
     });
 };
