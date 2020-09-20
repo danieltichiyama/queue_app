@@ -17,6 +17,14 @@ const RetailerSchema = new Schema(
       required: true,
       select: false,
     },
+    verificationPIN: {
+      type: Number,
+      select: false,
+    },
+    verificationStatus: {
+      type: Boolean,
+      default: false,
+    },
     address: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
