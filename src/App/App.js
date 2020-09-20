@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./App.module.scss";
 import { connect } from "react-redux";
-
-import Dashboard from "../components/Dashboard";
 import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
+import RetailerProfileView from "../views/RetailerProfileView";
+import UserProfileView from "../views/UserProfileView";
+import { Switch, Route } from "react-router-dom";
 
 import PublicView from "../views/PublicView";
 
@@ -24,8 +25,12 @@ var App = () => {
     <div className={styles.App}>
       {retailerLoggedIn ? (
         <div className={styles.appMobileContainer}>
-          <RetailerView></RetailerView>
-          <Dashboard></Dashboard>
+          <Switch>
+            <Route path="/userview" component={UserView} />
+            <Route path="/retailerview" component={RetailerView} />
+            <Route path="/retailerprofile" component={RetailerProfileView} />
+            <Route path="/userprofile" component={UserProfileView} />
+          </Switch>
         </div>
       ) : (
         <PublicView setRetailerLoggedIn={setRetailerLoggedIn} />
@@ -40,6 +45,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-App = connect(mapStateToProps, null)(App);
-
-export default App;
+export default connect(mapStateToProps, null)(App);

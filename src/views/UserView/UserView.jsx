@@ -34,6 +34,7 @@ class UserView extends Component {
     let foundRetailers = this.props.customerSearchRetailer;
     return (
       <div className={styles.UserView}>
+        <h1>User view</h1>
         <form
           className={styles.searchContainer}
           onSubmit={this.handleSearchSubmit}
