@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./NotificationButton.module.scss";
 import bellIcon from "../../assests/bellIcon.png";
-import { connect } from "react-redux";
-import { notifyCustomer } from "../../actions";
+// import { notifyCustomer } from "../../actions";
 
 function NotificationButton(props) {
   // NOTIFY USER
