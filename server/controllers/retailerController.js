@@ -1,4 +1,5 @@
 const { Retailer } = require("../models");
+const passport = require("passport");
 
 const retailerController = {
   getAuthRetailer({ params }, res) {
@@ -17,18 +18,19 @@ const retailerController = {
         res.status(500).json(err);
       });
   },
-  createRetailer({ body }, res) {
-    Retailer.create(body)
-      .then((results) => {
-        return results.toJSON();
-      })
-      .then((results) => {
-        delete results.password;
-        res.json(results);
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+  createRetailer(req, res, next) {
+    passport.authenticate("register", (err, retailer, info) => {
+      if (!retailer) {
+        return res.status(401).json({ error: err, message: info.message });
+      }
+      req.body.password = info;
+      Retailer.create(req.body)
+        .then((results) => res.json(results))
+        .catch((err) => {
+          console.log(err);
+          res.status(400).json(err);
+        });
+    })(req, res, next);
   },
   updateRetailer({ params, body }, res) {
     let retailerId = params.retailerId;
@@ -65,6 +67,37 @@ const retailerController = {
       .catch((err) => {
         res.status(500).json(err);
       });
+  },
+  loginRetailer(req, res, next) {
+    console.log('loginretailer')
+    passport.authenticate("login", (err, retailer, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!retailer) {
+        return res.status(401).json({ message: info.message });
+      }
+
+      req.logIn(retailer, (err) => {
+        if (err) {
+          return next(err);
+        }
+
+        return Retailer.findById(req.user._id)
+          .populate({ path: "reservations" })
+          .then((results) => {
+            if (!results) {
+              return res.status(404).json({ message: "Retailer not found." });
+            }
+
+            return res.json(results);
+          })
+          .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: err });
+          });
+      });
+    })(req, res, next);
   },
 };
 
