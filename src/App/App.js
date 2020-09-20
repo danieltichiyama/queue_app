@@ -23,7 +23,7 @@ var App = () => {
   return (
     <div className={styles.App}>
       {retailerLoggedIn ? (
-        <div className={styles.AuthView}>
+        <div className={styles.appMobileContainer}>
           <RetailerView></RetailerView>
           <Dashboard></Dashboard>
         </div>

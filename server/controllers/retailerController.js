@@ -3,6 +3,7 @@ const passport = require("passport");
 
 const retailerController = {
   getAuthRetailer({ params }, res) {
+    console.log("should run");
     let retailerId = params.retailerId;
     Retailer.findById({ _id: retailerId })
       .populate({ path: "reservations", populate: { path: "customerId" } })
