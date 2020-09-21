@@ -75,9 +75,6 @@ export const fetchOneRetailer = (id) => async (dispatch) => {
 };
 
 export const createReservation = (data) => async (dispatch) => {
-  // mock up until login works
-  data.retailerId = mockRetailerId;
-
   await Axios.post("/api/reservations", data)
     .then((response) => {
       dispatch({

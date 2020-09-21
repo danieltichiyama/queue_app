@@ -59,6 +59,7 @@ const Dashboard = (props) => {
       phoneNumber: phoneNumber,
       name: customerName,
       partySize: partySize,
+      retailerId: props.retailerId,
     };
     props.dispatchCreateReservation(formData);
   };
@@ -159,6 +160,7 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   return {
     customersInStore: state.currentRetailer.customersInStore,
+    retailerId: state.currentRetailer._id,
   };
 };
 
