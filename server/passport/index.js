@@ -75,15 +75,18 @@ passport.use(
 );
 
 passport.serializeUser(function (retailer, done) {
+  console.log("serializing user...");
   return done(null, retailer._id);
 });
 
 passport.deserializeUser(function (id, done) {
-  return Retailer.findById(id)
-    .then((err, user) => {
-      if (err) {
-        return done(err);
+  console.log("deserializing user...", id);
+  return Retailer.findById({ _id: id })
+    .then((user) => {
+      if (!user) {
+        return done(new Error({ message: "User cannot be found." }));
       }
+
       return done(null, user);
     })
     .catch((err) => {

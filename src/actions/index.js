@@ -60,9 +60,9 @@ export const searchRetailersByName = (data) => async (dispatch) => {
     });
 };
 
-export const fetchOneRetailer = (data) => async (dispatch) => {
+export const fetchOneRetailer = (id) => async (dispatch) => {
   // needs to be replaced later with dynamically generated ids
-  await Axios.get(`/api/retailers/${mockRetailerId}`)
+  await Axios.get(`/api/retailers/${id}`)
     .then((retailer) => {
       dispatch({
         type: FETCH_ONE_RETAILER,
@@ -205,7 +205,7 @@ export const actionFindRetailers = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log("Error from actionFindRetailers", err.message);
     });
 };
 
@@ -224,6 +224,5 @@ export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
         });
       }
       console.log("Error from actionSearchingRetailers", err.message);
-      console.log(err);
     });
 };

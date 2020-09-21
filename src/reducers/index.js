@@ -75,7 +75,10 @@ const reducer = (state = initialState, action) => {
       });
     case LOGIN_RETAILER:
       localStorage.setItem("retailer", JSON.stringify(action.payload));
-      return Object.assign({}, state, { currentRetailer: action.payload });
+      return Object.assign({}, state, {
+        currentRetailer: action.payload,
+        isLoggedIn: true,
+      });
     case LOGIN_ERROR:
       alert(action.payload);
       return state;

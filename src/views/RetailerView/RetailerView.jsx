@@ -4,6 +4,7 @@ import Reservation from "../../components/Reservation";
 import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer } from "../../actions";
+import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 
 function RetailerView(props) {
   // handles open and close of On Hold list
@@ -39,8 +40,9 @@ function RetailerView(props) {
   // grabs the initial data when the view loads
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
-    dispatchFetchOneRetailer("QueueApp");
-  }, [dispatchFetchOneRetailer]);
+    let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
+    return dispatchFetchOneRetailer(retailerID);
+  }, []);
 
   // used to test if
   const [test, setTest] = useState(false);
@@ -49,80 +51,84 @@ function RetailerView(props) {
   }, [props.waitList, props.holdList]);
 
   return (
-    <div className={styles.RetailerView}>
-      <ul className={styles.WaitList}>
-        <div className={styles.header}>
-          <h3>Queue</h3>
-          <div className={styles.time}>
-            <img src={clock} alt="average wait time" />
-            <h3>5 min</h3>
+    <>
+      <div className={styles.RetailerView}>
+        <h1>{props.retailerName}</h1>
+        <ul className={styles.WaitList}>
+          <div className={styles.header}>
+            <h3>Queue</h3>
+            <div className={styles.time}>
+              <img src={clock} alt="average wait time" />
+              <h3>5 min</h3>
+            </div>
           </div>
-        </div>
-        <div className={styles.listContainer}>
-          {props.waitList.map((reservation, index) => {
-            let replyStatuses = {
-              confirmed: "#6d9773",
-              hold: "#ffba00",
-              cancelled: "#ff421f",
-            };
+          <div className={styles.listContainer}>
+            {props.waitList.map((reservation, index) => {
+              let replyStatuses = {
+                confirmed: "#6d9773",
+                hold: "#ffba00",
+                cancelled: "#ff421f",
+              };
 
-            let color;
-            if (
-              reservation.replyStatus !== "pending" ||
-              reservation.replyStatus !== "entered"
-            ) {
-              color = replyStatuses[reservation.replyStatus];
-            }
-            return (
-              <Reservation
-                reservation={reservation}
-                color={color}
-                index={index}
-                key={index}
-              ></Reservation>
-            );
-          })}
-        </div>
-      </ul>
-      <ul className={styles.HoldList} id="holdList">
-        <div className={styles.expand} onClick={handleExpand} id="expand" />
-        <div className={styles.header}>
-          <h3 id="onHoldH3">On Hold</h3>
-          <div className={styles.collapseContainer}>
-            <div
-              className={styles.collapse}
-              onClick={handleCollapse}
-              id="collapse"
-            ></div>
+              let color;
+              if (
+                reservation.replyStatus !== "pending" ||
+                reservation.replyStatus !== "entered"
+              ) {
+                color = replyStatuses[reservation.replyStatus];
+              }
+              return (
+                <Reservation
+                  reservation={reservation}
+                  color={color}
+                  index={index}
+                  key={index}
+                ></Reservation>
+              );
+            })}
           </div>
-        </div>
-        <div className={styles.listContainer}>
-          {props.holdList.map((reservation, index) => {
-            let replyStatuses = {
-              confirmed: "#6d9773",
-              hold: "#ffba00",
-              cancelled: "#ff421f",
-            };
+        </ul>
+        <ul className={styles.HoldList} id="holdList">
+          <div className={styles.expand} onClick={handleExpand} id="expand" />
+          <div className={styles.header}>
+            <h3 id="onHoldH3">On Hold</h3>
+            <div className={styles.collapseContainer}>
+              <div
+                className={styles.collapse}
+                onClick={handleCollapse}
+                id="collapse"
+              ></div>
+            </div>
+          </div>
+          <div className={styles.listContainer}>
+            {props.holdList.map((reservation, index) => {
+              let replyStatuses = {
+                confirmed: "#6d9773",
+                hold: "#ffba00",
+                cancelled: "#ff421f",
+              };
 
-            let color;
-            if (
-              reservation.replyStatus !== "pending" ||
-              reservation.replyStatus !== "entered"
-            ) {
-              color = replyStatuses[reservation.replyStatus];
-            }
-            return (
-              <Reservation
-                reservation={reservation}
-                color={color}
-                index={index}
-                key={index}
-              ></Reservation>
-            );
-          })}{" "}
-        </div>
-      </ul>
-    </div>
+              let color;
+              if (
+                reservation.replyStatus !== "pending" ||
+                reservation.replyStatus !== "entered"
+              ) {
+                color = replyStatuses[reservation.replyStatus];
+              }
+              return (
+                <Reservation
+                  reservation={reservation}
+                  color={color}
+                  index={index}
+                  key={index}
+                ></Reservation>
+              );
+            })}{" "}
+          </div>
+        </ul>
+      </div>
+      <Dashboard />
+    </>
   );
 }
 
@@ -134,13 +140,16 @@ const mapStateToProps = (state) => {
     holdList: state.currentRetailer.reservations.filter((res) => {
       return res.queueStatus === "hold";
     }),
+    retailerName: state.currentRetailer
+      ? state.currentRetailer.retailerName
+      : null,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchFetchOneRetailer: () => {
-      dispatch(fetchOneRetailer());
+    dispatchFetchOneRetailer: (id) => {
+      dispatch(fetchOneRetailer(id));
     },
   };
 };
