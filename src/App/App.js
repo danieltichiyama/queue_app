@@ -36,6 +36,9 @@ var App = (props) => {
           <Route path="/auth">
             {retailerLoggedIn ? <Redirect to="/retailerview" /> : <AuthView />}
           </Route>
+          <Route exact path="/">
+            <Redirect to="/retailerview" />
+          </Route>
         </Switch>
       </div>
     </div>
