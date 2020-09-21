@@ -5,7 +5,7 @@ import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
 import RetailerProfileView from "../views/RetailerProfileView";
 import UserProfileView from "../views/UserProfileView";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import AuthView from "../views/AuthView";
 
@@ -27,13 +27,18 @@ var App = (props) => {
       <div className={styles.appMobileContainer}>
         <Switch>
           <Route path="/userview" component={UserView} />
-          <Route
-            path="/retailerview"
-            component={retailerLoggedIn ? RetailerView : AuthView}
-          />
+          <Route path="/retailerview">
+            {" "}
+            {!retailerLoggedIn ? <Redirect to="/auth" /> : <RetailerView />}
+          </Route>
           <Route path="/retailerprofile" component={RetailerProfileView} />
           <Route path="/userprofile" component={UserProfileView} />
-          <Route path="/auth" component={AuthView} />
+          <Route path="/auth">
+            {retailerLoggedIn ? <Redirect to="/retailerview" /> : <AuthView />}
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/retailerview" />
+          </Route>
         </Switch>
       </div>
     </div>

@@ -96,6 +96,7 @@ function Register(props) {
       maxCapacity,
     };
     dispatch(registerRetailer(retailerObj));
+    return props.setIsLogin(true);
   };
 
   return (
