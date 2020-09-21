@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import { useDispatch } from "react-redux";
-import { loginRetailer } from '../../actions';
+import { loginRetailer } from "../../actions";
 
 function Login(props) {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ function Login(props) {
   const loginSubmit = (e, loginData) => {
     e.preventDefault();
     dispatch(loginRetailer(loginData));
-  }
+  };
 
   return (
     <div className={styles.Login}>
@@ -23,7 +23,7 @@ function Login(props) {
               type="text"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Email"
+              placeholder="Username"
             />
           </li>
           <li>
@@ -35,15 +35,15 @@ function Login(props) {
             />
           </li>
         </ul>
-        <button type="submit">
-          Login
-        </button>
+        <button type="submit">Login</button>
       </form>
       <div>
         <span>
           <p>
             Dont have an account?
-            <button onClick={() => props.setIsLogin(false)}>Register here</button>
+            <button onClick={() => props.setIsLogin(false)}>
+              Register here
+            </button>
           </p>
         </span>
       </div>
