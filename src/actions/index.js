@@ -203,7 +203,7 @@ export const actionFindRetailers = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log('Error from actionFindRetailers', err.message);
     });
 };
 
@@ -219,9 +219,15 @@ export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
       if (err.response.status === 500) {
         return dispatch({
           type: NO_SEARCH_RESULTS,
+<<<<<<< HEAD
         });
       }
       console.log("Error from actionSearchingRetailers", err.message);
       console.log(err);
+=======
+        })
+      };
+      console.log('Error from actionSearchingRetailers', err.message);
+>>>>>>> e5c317175673f229c1bc4f757400f39886daab42
     });
 };
