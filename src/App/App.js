@@ -28,7 +28,6 @@ var App = (props) => {
         <Switch>
           <Route path="/userview" component={UserView} />
           <Route path="/retailerview">
-            {" "}
             {!retailerLoggedIn ? <Redirect to="/auth" /> : <RetailerView />}
           </Route>
           <Route path="/retailerprofile" component={RetailerProfileView} />
