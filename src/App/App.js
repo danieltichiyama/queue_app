@@ -31,7 +31,7 @@ function App(props) {
             component={retailerLoggedIn ? RetailerView : AuthView}
           />
           <Route path="/retailerprofile" component={RetailerProfileView} />
-          <Route path="/verification" component={VerificationView} />
+          <Route path="/verify" component={VerificationView} />
           <Route path="/userprofile" component={UserProfileView} />
         </Switch>
       </div>

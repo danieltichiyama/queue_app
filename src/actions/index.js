@@ -157,7 +157,7 @@ export const notifyCustomer = (data) => async (dispatch) => {
 };
 
 export const loginRetailer = (data) => async (dispatch) => {
-  console.log('zzzzzz')
+  console.log("zzzzzz");
   await Axios.post("/api/retailers/login", data)
     .then((response) => {
       dispatch({
@@ -203,7 +203,7 @@ export const actionFindRetailers = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log('Error from actionFindRetailers', err.message);
+      console.log(err.message);
     });
 };
 
@@ -219,15 +219,9 @@ export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
       if (err.response.status === 500) {
         return dispatch({
           type: NO_SEARCH_RESULTS,
-<<<<<<< HEAD
         });
       }
       console.log("Error from actionSearchingRetailers", err.message);
       console.log(err);
-=======
-        })
-      };
-      console.log('Error from actionSearchingRetailers', err.message);
->>>>>>> e5c317175673f229c1bc4f757400f39886daab42
     });
 };
