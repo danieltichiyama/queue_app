@@ -18,8 +18,7 @@ export const REGISTRATION_ERROR = "REGISTRATION_ERROR";
 export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER";
 export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
 export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
-
-const mockRetailerId = "111111111111111111111111";
+export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 
 export const updateRetailer = (data) => async (dispatch) => {
   await Axios.put("/api/retailers/QueueApp", data)
@@ -87,6 +86,22 @@ export const createReservation = (data) => async (dispatch) => {
     });
 };
 
+export const actionUpdateReservation = (data) => async (dispatch) => {
+  let url = `/api/reservations/${data.reservationId}`;
+
+  await Axios.put(url, data)
+    .then((response) => {
+      console.log('test action response', response.data)
+      dispatch({
+        type: UPDATE_RESERVATION,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.log('Error from actionUpdateReservation ', err.message)
+    })
+}
+
 export const holdReservation = (data) => async (dispatch) => {
   let url = `/api/reservations/${data.reservationId}`;
   delete data.reservationId;
@@ -130,7 +145,7 @@ export const removeCustomerFromHoldlist = (data) => async (dispatch) => {
     });
 };
 
-export const removeCustomerFromWaitlist = (data) => async (dispatch) => {
+export const actionRemoveCustomerFromWaitlist = (data) => async (dispatch) => {
   await Axios.delete("/api/retailers", data)
     .then((customer) => {
       dispatch({

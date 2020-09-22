@@ -7,7 +7,11 @@ import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 
 import { connect } from "react-redux";
-import { notifyCustomer, holdReservation } from "../../actions";
+import {
+  notifyCustomer,
+  holdReservation,
+  actionUpdateReservation
+} from "../../actions";
 
 const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -67,10 +71,21 @@ const Reservation = (props) => {
     return props.dispatchHoldReservation(data);
   };
 
+  const handleRemoveCustomer = () => {
+    console.log('handleRemoveCustomer test')
+    let data = {
+      reservationId: props.reservation.id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: 'cancelled'
+    }
+    console.log('data in handleRemoveCustomer', data)
+    return props.dispatchUpdateReservation(data)
+  };
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
-        {" "}
         {props.reservation.customerId.phoneNumber}
       </p>
       <div className={styles.time}>
@@ -86,19 +101,19 @@ const Reservation = (props) => {
 
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
-          <CheckButton onClick={toggleConfirm}></CheckButton>
+          <CheckButton
+            onClick={toggleConfirm} />
           <NotificationButton
             onClick={toggleConfirm}
             handleClick={handleNotificationClick}
             disableButton={
               props.reservation.replyStatus === "pending" ? true : false
-            }
-          ></NotificationButton>
+            } />
           <HoldButton
             onClick={toggleConfirm}
-            handleClick={handleHoldClick}
-          ></HoldButton>
-          <CancelButton onClick={toggleConfirm}></CancelButton>
+            handleClick={handleHoldClick} />
+          <CancelButton
+            handleClick={handleRemoveCustomer} />
         </div>
       ) : null}
 
@@ -131,6 +146,9 @@ const mapDispatchToProps = (dispatch) => {
     dispatchHoldReservation: (data) => {
       return dispatch(holdReservation(data));
     },
+    dispatchUpdateReservation: (data) => {
+      return dispatch(actionUpdateReservation(data));
+    }
   };
 };
 

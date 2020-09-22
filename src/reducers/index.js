@@ -15,6 +15,7 @@ import {
   FIND_RETAILERS_FOR_CUSTOMER,
   SEARCH_FOR_RETAILER,
   NO_SEARCH_RESULTS,
+  UPDATE_RESERVATION,
 } from "../actions";
 
 const initialState = {
@@ -39,6 +40,9 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { currentRetailer: action.payload });
     case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
+    case UPDATE_RESERVATION:
+      console.log('test action payload', action.payload)
+      return Object.assign({}, state, { currentRetailer: action.payload })
     case HOLD_RESERVATION:
       let holdReservations = state.currentRetailer.reservations;
 
