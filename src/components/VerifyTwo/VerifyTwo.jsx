@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VerifyLaterModal from "../VerifyOne/VerifyLaterModal";
+import Modal from "../Modal";
 import styles from "./VerifyTwo.module.scss";
 
 const VerifyTwo = (props) => {
@@ -10,13 +10,14 @@ const VerifyTwo = (props) => {
         <input type="number" name="enteredPIN" />
       </div>
       <button onClick={props.toggleModal}>Verify PIN</button>
-      <button onClick={props.changeStep}>Resend PIN</button>
+      <button onClick={props.verify}>Resend PIN</button>
       {props.isOpen && (
-        <VerifyLaterModal
-          className={styles.modal}
-          isOpen={props.isOpen}
-          toggleModal={props.toggleModal}
-        ></VerifyLaterModal>
+        <Modal className={styles.modal}>
+          <p>Successfully verified. Thank you for verifying your business</p>
+          <div>
+            <button onClick={props.toggleModal}>Go to store</button>
+          </div>
+        </Modal>
       )}
     </div>
   );

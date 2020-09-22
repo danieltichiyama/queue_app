@@ -5,10 +5,14 @@ import VerifyTwo from "../../components/VerifyTwo";
 class VerificationView extends Component {
   constructor(props) {
     super(props);
-    this.state = { displayComponent: "first", isOpen: false };
+    this.state = {
+      displayComponent: "first",
+      isOpen: false,
+      contactMethod: "call",
+    };
   }
 
-  changeComponent = () => {
+  verifyStepTwo = () => {
     let { displayComponent } = this.state;
     this.setState({
       displayComponent: displayComponent === "first" ? "second" : "first",
@@ -30,7 +34,7 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          changeStep={this.changeComponent}
+          verify={this.verifyStepTwo}
         />
       );
     } else if (displayComponent === "second") {
@@ -39,7 +43,7 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          changeStep={this.changeComponent}
+          verify={this.verifyStepTwo}
         />
       );
     }
