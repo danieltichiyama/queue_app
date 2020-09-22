@@ -8,16 +8,24 @@ const VerifyOne = (props) => {
       <h1>Explain on how to verify and why</h1>
       <div>
         Please choose a mode of contact:
-        <button>Call</button>
-        <button>Text</button>
-        <button>Email</button>
+        <div>
+          <button>Call</button>
+          <button>Text</button>
+          <button>Email</button>
+        </div>
       </div>
       <input type="text" />
       <div>
         <button onClick={props.changeStep}>Send PIN</button>
-        <button>verify later</button>
+        <button onClick={props.toggleModal}>verify later</button>
       </div>
-      <VerifyLaterModal />
+      {props.isOpen && (
+        <VerifyLaterModal
+          className={styles.modal}
+          isOpen={props.isOpen}
+          toggleModal={props.toggleModal}
+        />
+      )}
     </div>
   );
 };

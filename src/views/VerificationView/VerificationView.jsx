@@ -5,7 +5,7 @@ import VerifyTwo from "../../components/VerifyTwo";
 class VerificationView extends Component {
   constructor(props) {
     super(props);
-    this.state = { displayComponent: "first" };
+    this.state = { displayComponent: "first", isOpen: false };
   }
 
   changeComponent = () => {
@@ -15,13 +15,21 @@ class VerificationView extends Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  };
+
   renderVerificationStep() {
-    let { displayComponent } = this.state;
+    let { displayComponent, isOpen } = this.state;
 
     if (displayComponent === "first") {
       return (
         <VerifyOne
           display={displayComponent}
+          toggleModal={this.toggleModal}
+          isOpen={isOpen}
           changeStep={this.changeComponent}
         />
       );
@@ -29,6 +37,8 @@ class VerificationView extends Component {
       return (
         <VerifyTwo
           display={displayComponent}
+          toggleModal={this.toggleModal}
+          isOpen={isOpen}
           changeStep={this.changeComponent}
         />
       );

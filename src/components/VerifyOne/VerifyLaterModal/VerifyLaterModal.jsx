@@ -3,9 +3,10 @@ import styles from "./VerifyLaterModal.module.scss";
 
 const VerifyLaterModal = (props) => {
   return (
-    <div className={styles.modal}>
+    <div className={props.isOpen ? styles.modal : null}>
       <div className={styles.modalBox}>
-        <p>Will not be shown on searches if verify later.</p>
+        <p>{props.message}</p>
+        {props.children}
       </div>
     </div>
   );

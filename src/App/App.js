@@ -8,6 +8,7 @@ import UserProfileView from "../views/UserProfileView";
 import AuthView from "../views/AuthView";
 import VerificationView from "../views/VerificationView";
 import { Switch, Route } from "react-router-dom";
+import Modal from "../components/Modal";
 
 function App(props) {
   const [retailerLoggedIn, setRetailerLoggedIn] = useState(false);
