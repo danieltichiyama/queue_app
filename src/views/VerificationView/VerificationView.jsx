@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import VerifyOne from "../../components/VerifyOne";
 import VerifyTwo from "../../components/VerifyTwo";
 
@@ -9,14 +10,18 @@ class VerificationView extends Component {
       displayComponent: "first",
       isOpen: false,
       contactMethod: "call",
+      contact: "",
     };
+    this.handleContact = this.handleContact.bind(this);
+    this.sendPIN = this.sendPIN.bind(this);
   }
 
-  verifyStepTwo = () => {
+  sendPIN = (e) => {
     let { displayComponent } = this.state;
     this.setState({
       displayComponent: displayComponent === "first" ? "second" : "first",
     });
+    console.log(this.state.contact);
   };
 
   toggleModal = () => {
@@ -25,8 +30,13 @@ class VerificationView extends Component {
     });
   };
 
+  handleContact = (e) => {
+    this.setState({ contact: e.target.value });
+    console.log(this.state.contact);
+  };
+
   renderVerificationStep() {
-    let { displayComponent, isOpen } = this.state;
+    let { displayComponent, isOpen, contact, sendPIN } = this.state;
 
     if (displayComponent === "first") {
       return (
@@ -34,7 +44,10 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          verify={this.verifyStepTwo}
+          verify={this.sendPIN}
+          contact={this.contact}
+          handleContact={this.handleContact}
+          sendPIN={this.sendPIN}
         />
       );
     } else if (displayComponent === "second") {
@@ -43,7 +56,10 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          verify={this.verifyStepTwo}
+          verify={this.sendPIN}
+          contact={this.contact}
+          handleContact={this.handleContact}
+          sendPIN={this.sendPIN}
         />
       );
     }
@@ -54,4 +70,12 @@ class VerificationView extends Component {
   }
 }
 
-export default VerificationView;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapDispatchToProps, mapStateToProps)(VerificationView);

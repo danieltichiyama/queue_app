@@ -15,7 +15,11 @@ const VerifyOne = (props) => {
         </div>
       </div>
       <div>
-        <input type="text" />
+        <input
+          type="text"
+          value={props.contact}
+          onChange={props.handleContact}
+        />
       </div>
       <div>
         <button onClick={props.verify}>Send PIN</button>
