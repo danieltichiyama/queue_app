@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./CancelButton.module.scss";
 import cancelIcon from "../../assests/cancelIcon.png"
-import { removeCustomerFromHoldlist, actionRemoveCustomerFromWaitlist } from "../../actions";
-import { connect } from "react-redux";
+// import { removeCustomerFromHoldlist, actionRemoveCustomerFromWaitlist } from "../../actions";
+// import { connect } from "react-redux";
 
 function CancelButton(props) {
   // REMOVE FROM LIST
@@ -15,15 +15,17 @@ function CancelButton(props) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchRemoveCustomerFromWaitList: () => {
-      return dispatch(actionRemoveCustomerFromWaitlist());
-    },
-    dispatchRemoveCustomerFromHoldList: () => {
-      return dispatch(removeCustomerFromHoldlist());
-    }
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     dispatchRemoveCustomerFromWaitList: () => {
+//       return dispatch(actionRemoveCustomerFromWaitlist());
+//     },
+//     dispatchRemoveCustomerFromHoldList: () => {
+//       return dispatch(removeCustomerFromHoldlist());
+//     }
+//   }
+// }
 
-export default connect(null, mapDispatchToProps)(CancelButton);
+// export default connect(null, mapDispatchToProps)(CancelButton);
+
+export default CancelButton;

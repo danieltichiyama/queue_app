@@ -77,9 +77,21 @@ const Reservation = (props) => {
       retailerId: props.reservation.retailerId,
       customerId: props.reservation.customerId,
       queueStatus: 'cancelled'
-    }
-    return props.dispatchUpdateReservation(data)
+    };
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
   };
+
+  const handleCheckinCustomer = () => {
+    let data = {
+      reservationId: props.reservation.id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: 'enter'
+    };
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
+  }
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
@@ -100,7 +112,8 @@ const Reservation = (props) => {
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
           <CheckButton
-            onClick={toggleConfirm} />
+            handleClick={handleCheckinCustomer}
+          />
           <NotificationButton
             onClick={toggleConfirm}
             handleClick={handleNotificationClick}
