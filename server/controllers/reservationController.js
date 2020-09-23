@@ -125,25 +125,6 @@ const reservationController = {
           error: err,
         });
       });
-  },
-  testUpdateReservation(req, res) {
-    // console.log(req.body.reservationId)
-    let filter = {
-      _id: req.body.reservationId
-    }
-    let update = {
-      queueStatus: req.body.queueStatus,
-    }
-    Reservation.findByIdAndUpdate(filter, update, {
-      runValidators: true,
-      new: true,
-    })
-      .then((reservation) => {
-        console.log('result from update: ', reservation)
-      })
-      .catch((err) => {
-        console.log("Error from testUpdateReservation", err.message)
-      })
   }
 };
 

@@ -72,14 +72,12 @@ const Reservation = (props) => {
   };
 
   const handleRemoveCustomer = () => {
-    console.log('handleRemoveCustomer test')
     let data = {
       reservationId: props.reservation.id,
       retailerId: props.reservation.retailerId,
       customerId: props.reservation.customerId,
       queueStatus: 'cancelled'
     }
-    console.log('data in handleRemoveCustomer', data)
     return props.dispatchUpdateReservation(data)
   };
 

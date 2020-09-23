@@ -88,10 +88,10 @@ export const createReservation = (data) => async (dispatch) => {
 
 export const actionUpdateReservation = (data) => async (dispatch) => {
   let url = `/api/reservations/${data.reservationId}`;
+  delete data.reservationId;
 
   await Axios.put(url, data)
     .then((response) => {
-      console.log('test action response', response.data)
       dispatch({
         type: UPDATE_RESERVATION,
         payload: response.data,
@@ -108,7 +108,6 @@ export const holdReservation = (data) => async (dispatch) => {
 
   await Axios.put(url, data)
     .then((response) => {
-      console.log("response: ", response);
       dispatch({
         type: HOLD_RESERVATION,
         payload: response.data,

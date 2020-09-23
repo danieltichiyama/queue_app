@@ -41,7 +41,6 @@ const reducer = (state = initialState, action) => {
     case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
     case UPDATE_RESERVATION:
-      console.log('test action payload', action.payload)
       return Object.assign({}, state, { currentRetailer: action.payload })
     case HOLD_RESERVATION:
       let holdReservations = state.currentRetailer.reservations;
