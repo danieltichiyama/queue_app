@@ -54,7 +54,6 @@ const Dashboard = (props) => {
   const createReservation = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // phoneNumber === "+12345678901"
     let formData = {
       phoneNumber: phoneNumber,
       name: customerName,
@@ -62,7 +61,14 @@ const Dashboard = (props) => {
       retailerId: props.retailerId,
     };
     props.dispatchCreateReservation(formData);
+    return resetQueueForm();
   };
+
+  const resetQueueForm = () => {
+    document.getElementById("phone-input-form").reset();
+    document.getElementsByName("phoneNumber")[0].value = '';
+    return
+  }
 
   // opens and closes dashboard for adding guests to waitlist
   useEffect(() => {
@@ -106,7 +112,11 @@ const Dashboard = (props) => {
       <button className={styles.addToQueue} id="dynamic-add">
         ADD TO QUEUE
       </button>
-      <form className={styles.modal} onSubmit={createReservation}>
+      <form
+        className={styles.modal}
+        id="phone-input-form"
+        onSubmit={createReservation}
+      >
         <label htmlFor="phoneNumber">
           <PhoneInput
             country="US"
