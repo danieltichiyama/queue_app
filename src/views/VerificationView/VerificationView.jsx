@@ -9,19 +9,41 @@ class VerificationView extends Component {
     this.state = {
       displayComponent: "first",
       isOpen: false,
-      contactMethod: "call",
+      verificationType: "call",
       contact: "",
+      enteredPIN: 0,
     };
+    this.handlePIN = this.handlePIN.bind(this);
     this.handleContact = this.handleContact.bind(this);
     this.sendPIN = this.sendPIN.bind(this);
   }
 
   sendPIN = (e) => {
+    e.preventDefault();
+    let { displayComponent, verificationType, contact } = this.state;
+    let sendPINForm = {
+      verificationType,
+      contact,
+    };
+    this.setState({
+      displayComponent: displayComponent === "first" ? "second" : "first",
+    });
+    console.log(
+      "To be sent to api/verification/:retailerId/send ",
+      sendPINForm
+    );
+  };
+
+  verifyPIN = (e) => {
+    e.preventDefault();
+    let { enteredPIN } = this.state;
+  };
+
+  resendPIN = (e) => {
     let { displayComponent } = this.state;
     this.setState({
       displayComponent: displayComponent === "first" ? "second" : "first",
     });
-    console.log(this.state.contact);
   };
 
   toggleModal = () => {
@@ -35,8 +57,16 @@ class VerificationView extends Component {
     console.log(this.state.contact);
   };
 
+  handlePIN = (e) => {
+    this.setState({ enteredPIN: e.target.value });
+  };
+
+  handleVerificationType = (e) => {
+    this.setState({ verificationType: e.target.value });
+  };
+
   renderVerificationStep() {
-    let { displayComponent, isOpen, contact, sendPIN } = this.state;
+    let { displayComponent, isOpen, contact, enteredPIN } = this.state;
 
     if (displayComponent === "first") {
       return (
@@ -44,10 +74,10 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          verify={this.sendPIN}
-          contact={this.contact}
-          handleContact={this.handleContact}
           sendPIN={this.sendPIN}
+          contact={contact}
+          handleContact={this.handleContact}
+          handleVerificationType={this.handleVerificationType}
         />
       );
     } else if (displayComponent === "second") {
@@ -56,10 +86,11 @@ class VerificationView extends Component {
           display={displayComponent}
           toggleModal={this.toggleModal}
           isOpen={isOpen}
-          verify={this.sendPIN}
-          contact={this.contact}
+          resendPIN={this.resendPIN}
+          contact={contact}
           handleContact={this.handleContact}
-          sendPIN={this.sendPIN}
+          enteredPIN={enteredPIN}
+          handlePIN={this.handlePIN}
         />
       );
     }

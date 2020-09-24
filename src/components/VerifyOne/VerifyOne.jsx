@@ -6,25 +6,37 @@ const VerifyOne = (props) => {
   return (
     <div className={styles.veryfyOne}>
       <h1>Explain on how to verify and why</h1>
-      <div>
-        <p>Please choose a mode of contact:</p>
+      <form onSubmit={props.sendPIN}>
         <div>
-          <button>Call</button>
-          <button>Text</button>
-          <button>Email</button>
+          <p>Please choose a mode of contact:</p>
+          <div>
+            <button value="call" onClick={props.handleVerificationType}>
+              Call
+            </button>
+            <button value="text" onClick={props.handleVerificationType}>
+              Text
+            </button>
+            <button value="email" onClick={props.handleVerificationType}>
+              Email
+            </button>
+          </div>
         </div>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={props.contact}
-          onChange={props.handleContact}
-        />
-      </div>
-      <div>
-        <button onClick={props.verify}>Send PIN</button>
-        <button onClick={props.toggleModal}>Verify later</button>
-      </div>
+        <div>
+          <input
+            type="text"
+            name="contact"
+            value={props.contact}
+            onChange={props.handleContact}
+          />
+        </div>
+        <div>
+          <button type="submit">Send PIN</button>
+          <button type="button" onClick={props.toggleModal}>
+            Verify later
+          </button>
+        </div>
+      </form>
+
       {props.isOpen && (
         <Modal className={styles.modal}>
           <p>
