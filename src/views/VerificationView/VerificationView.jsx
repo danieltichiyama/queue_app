@@ -11,7 +11,7 @@ class VerificationView extends Component {
       isOpen: false,
       verificationType: "call",
       contact: "",
-      enteredPIN: 0,
+      enteredPIN: null || "",
     };
     this.handlePIN = this.handlePIN.bind(this);
     this.handleContact = this.handleContact.bind(this);
@@ -37,6 +37,10 @@ class VerificationView extends Component {
   verifyPIN = (e) => {
     e.preventDefault();
     let { enteredPIN } = this.state;
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+    console.log(enteredPIN);
   };
 
   resendPIN = (e) => {
@@ -87,10 +91,10 @@ class VerificationView extends Component {
           toggleModal={this.toggleModal}
           isOpen={isOpen}
           resendPIN={this.resendPIN}
-          contact={contact}
           handleContact={this.handleContact}
           enteredPIN={enteredPIN}
           handlePIN={this.handlePIN}
+          verifyPIN={this.verifyPIN}
         />
       );
     }

@@ -10,13 +10,25 @@ const VerifyOne = (props) => {
         <div>
           <p>Please choose a mode of contact:</p>
           <div>
-            <button value="call" onClick={props.handleVerificationType}>
+            <button
+              value="call"
+              type="button"
+              onClick={props.handleVerificationType}
+            >
               Call
             </button>
-            <button value="text" onClick={props.handleVerificationType}>
+            <button
+              value="text"
+              type="button"
+              onClick={props.handleVerificationType}
+            >
               Text
             </button>
-            <button value="email" onClick={props.handleVerificationType}>
+            <button
+              value="email"
+              type="button"
+              onClick={props.handleVerificationType}
+            >
               Email
             </button>
           </div>

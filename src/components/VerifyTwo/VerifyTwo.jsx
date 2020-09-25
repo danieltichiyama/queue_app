@@ -16,7 +16,9 @@ const VerifyTwo = (props) => {
           />
         </div>
         <button type="submit">Verify PIN</button>
-        <button onClick={props.resendPIN}>Resend PIN</button>
+        <button type="button" onClick={props.resendPIN}>
+          Resend PIN
+        </button>
       </form>
 
       {props.isOpen && (
