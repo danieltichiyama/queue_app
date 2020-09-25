@@ -4,8 +4,6 @@ import bellIcon from "../../assests/bellIcon.png";
 // import { notifyCustomer } from "../../actions";
 
 function NotificationButton(props) {
-  // NOTIFY USER
-
   return (
     <button
       onClick={props.handleClick}

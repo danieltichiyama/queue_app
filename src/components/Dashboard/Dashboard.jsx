@@ -3,7 +3,7 @@ import { createReservation } from "./../../actions";
 import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
 import {
-  formatPhoneNumber,
+  // formatPhoneNumber,
   isValidPhoneNumber,
 } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";

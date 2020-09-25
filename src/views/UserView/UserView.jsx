@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./UserView.module.scss";
 import magGlass from "../../utils/imgs/magGlass.png";
 import { connect } from "react-redux";
-import { actionFindRetailers, actionSearchingRetailers } from "../../actions"
+import { actionFindRetailers, actionSearchingRetailers } from "../../actions";
 
 class UserView extends Component {
   constructor(props) {
@@ -15,16 +15,16 @@ class UserView extends Component {
   handleSearchInput = (e) => {
     e.preventDefault();
     const { value } = e.target;
-    this.setState({ searchTerm: value })
+    this.setState({ searchTerm: value });
   };
 
   handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (this.state.searchTerm !== '') {
-      this.props.dispatchSearchingRetailers(this.state.searchTerm)
+    if (this.state.searchTerm !== "") {
+      this.props.dispatchSearchingRetailers(this.state.searchTerm);
     }
-    this.setState({ searchTerm: '' });
-  }
+    this.setState({ searchTerm: "" });
+  };
 
   componentDidMount() {
     this.props.dispatchFindRetailers();
@@ -35,7 +35,10 @@ class UserView extends Component {
     return (
       <div className={styles.UserView}>
         <h1>User view</h1>
-        <form className={styles.searchContainer} onSubmit={this.handleSearchSubmit}>
+        <form
+          className={styles.searchContainer}
+          onSubmit={this.handleSearchSubmit}
+        >
           <input
             className={styles.searchbar}
             type="search"
@@ -44,22 +47,17 @@ class UserView extends Component {
             onChange={this.handleSearchInput}
           />
           <button type="submit">
-            <img
-              src={magGlass}
-              alt="search"
-            />
+            <img src={magGlass} alt="search" />
           </button>
         </form>
-        {foundRetailers.length === 0 ? <h1>{'No search results'}</h1> : null}
+        {foundRetailers.length === 0 ? <h1>{"No search results"}</h1> : null}
         <ul className={styles.results}>
           {foundRetailers.map((store, index) => {
             return (
               <li className={styles.result} key={"retailers-" + index}>
                 <div className={styles.generalInfo}>
                   <h3>{store.retailerName}</h3>
-                  <p>
-                    {`Open: ${store.open} ~ Close: ${store.close}`}
-                  </p>
+                  <p>{`Open: ${store.open} ~ Close: ${store.close}`}</p>
                   <p>
                     {`${store.address}`}
                     <br />
@@ -84,7 +82,7 @@ class UserView extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    customerSearchRetailer: [...state.customerSearchRetailer]
+    customerSearchRetailer: [...state.customerSearchRetailer],
   };
 };
 
@@ -95,7 +93,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     dispatchSearchingRetailers: (term) => {
       return dispatch(actionSearchingRetailers(term));
-    }
+    },
   };
 };
 

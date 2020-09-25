@@ -51,7 +51,7 @@ const RetailerSchema = new Schema(
       required: true,
     },
     averageWait: { type: Number, default: 0, required: true },
-    notification: { type: Number, required: true },
+    notification: { type: Number, default: 300, required: true },
     reservations: [
       {
         type: Schema.Types.ObjectId,
