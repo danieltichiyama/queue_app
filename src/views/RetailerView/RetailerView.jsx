@@ -42,7 +42,7 @@ function RetailerView(props) {
   useEffect(() => {
     let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
     return dispatchFetchOneRetailer(retailerID);
-  }, []);
+  }, [dispatchFetchOneRetailer]);
 
   return (
     <>
