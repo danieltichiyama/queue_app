@@ -9,7 +9,6 @@ import NotificationButton from "../NotificationButton";
 import { connect } from "react-redux";
 import {
   notifyCustomer,
-  holdReservation,
   actionUpdateReservation
 } from "../../actions";
 
@@ -64,11 +63,13 @@ const Reservation = (props) => {
 
   const handleHoldClick = () => {
     let data = {
-      queueStatus: "hold",
       reservationId: props.reservation._id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: "hold",
     };
-
-    return props.dispatchHoldReservation(data);
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
   };
 
   const handleRemoveCustomer = () => {
@@ -91,7 +92,7 @@ const Reservation = (props) => {
     };
     props.dispatchUpdateReservation(data);
     return toggleMenu();
-  }
+  };
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
@@ -121,7 +122,6 @@ const Reservation = (props) => {
               props.reservation.replyStatus === "pending" ? true : false
             } />
           <HoldButton
-            onClick={toggleConfirm}
             handleClick={handleHoldClick} />
           <CancelButton
             handleClick={handleRemoveCustomer} />
@@ -153,9 +153,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatchNotifyCustomer: (data) => {
       return dispatch(notifyCustomer(data));
-    },
-    dispatchHoldReservation: (data) => {
-      return dispatch(holdReservation(data));
     },
     dispatchUpdateReservation: (data) => {
       return dispatch(actionUpdateReservation(data));

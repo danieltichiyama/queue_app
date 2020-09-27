@@ -3,10 +3,6 @@ import {
   SEARCH_RETAILERS_BY_NAME,
   FETCH_ONE_RETAILER,
   CREATE_RESERVATION,
-  HOLD_RESERVATION,
-  MOVE_TO_WAITLIST,
-  REMOVE_CUSTOMER_FROM_HOLDLIST,
-  REMOVE_CUSTOMER_FROM_WAITLIST,
   TWILIO_NOTIFICATION,
   UPDATE_RETAILER,
   LOGIN_RETAILER,
@@ -41,27 +37,7 @@ const reducer = (state = initialState, action) => {
     case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
     case UPDATE_RESERVATION:
-      return Object.assign({}, state, { currentRetailer: action.payload })
-    case HOLD_RESERVATION:
-      let holdReservations = state.currentRetailer.reservations;
-
-      for (let i = 0; i < holdReservations.length; i++) {
-        if (holdReservations[i]._id === action.payload._id) {
-          holdReservations.splice(i, 1, action.payload);
-        }
-      }
-      return Object.assign({}, state, {
-        currentRetailer: {
-          ...state.currentRetailer,
-          reservations: holdReservations,
-        },
-      });
-    case MOVE_TO_WAITLIST:
-      return Object.assign({}, state, {});
-    case REMOVE_CUSTOMER_FROM_HOLDLIST:
-      return Object.assign({}, state, {});
-    case REMOVE_CUSTOMER_FROM_WAITLIST:
-      return Object.assign({}, state, {});
+      return Object.assign({}, state, { currentRetailer: action.payload });
     case TWILIO_NOTIFICATION:
       let twilioNotifications = state.currentRetailer.reservations;
 

@@ -4,7 +4,9 @@ import pauseIcon from "../../assests/pauseIcon.png";
 
 function HoldButton(props) {
   return (
-    <button onClick={props.handleClick} className={styles.HoldButton}>
+    <button
+      onClick={props.handleClick}
+      className={styles.HoldButton}>
       <img src={pauseIcon} alt=""></img>
     </button>
   );
