@@ -5,9 +5,10 @@ import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
 import RetailerProfileView from "../views/RetailerProfileView";
 import UserProfileView from "../views/UserProfileView";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, Link } from "react-router-dom";
 
 import AuthView from "../views/AuthView";
+import IsRetailerView from "../views/IsRetailerView";
 
 var App = (props) => {
   const [retailerLoggedIn, setRetailerLoggedIn] = useState(false);
@@ -24,6 +25,12 @@ var App = (props) => {
 
   return (
     <div className={styles.App}>
+      <button>
+        <Link 
+          to="/"
+          onClick={() => localStorage.clear()}
+        >Logout</Link>
+      </button>
       <div className={styles.appMobileContainer}>
         <Switch>
           <Route path="/userview" component={UserView} />
@@ -37,7 +44,7 @@ var App = (props) => {
             {retailerLoggedIn ? <Redirect to="/retailerview" /> : <AuthView />}
           </Route>
           <Route exact path="/">
-            <Redirect to="/retailerview" />
+            {retailerLoggedIn ? <Redirect to="/retailerview" /> : <IsRetailerView />}
           </Route>
         </Switch>
       </div>
