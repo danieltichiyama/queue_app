@@ -5,7 +5,7 @@ import CancelButton from "../CancelButton";
 import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
-
+import moment from "moment";
 import { connect } from "react-redux";
 import {
   notifyCustomer,
@@ -93,15 +93,18 @@ const Reservation = (props) => {
     props.dispatchUpdateReservation(data);
     return toggleMenu();
   };
+  const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
+  const formattedTime = moment(props.reservation.createdAt).fromNow();
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
-        {props.reservation.customerId.phoneNumber}
+        {phone}<br />
+        Party of {props.reservation.partySize}
       </p>
       <div className={styles.time}>
         <img src={clock} alt="time in queue" />
-        <p> {props.reservation.createdAt}</p>
+        <p> {formattedTime}</p>
       </div>
 
       <div className={styles.menuButton} onClick={toggleMenu}>

@@ -21,7 +21,6 @@ export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
 
   await Axios.put(url, data)
     .then((retailer) => {
-      console.log("retailer from action", retailer)
       dispatch({
         type: UPDATE_RETAILER,
         payload: retailer.data,

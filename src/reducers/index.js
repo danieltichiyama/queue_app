@@ -18,7 +18,7 @@ const initialState = {
   retailers: [],
   customers: [],
   currentRetailer: {
-    currentCapacity: null,
+    customersInStore: null,
     reservations: [],
   },
   customerSearchRetailer: [],
