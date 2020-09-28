@@ -7,7 +7,10 @@ import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 
 import { connect } from "react-redux";
-import { notifyCustomer } from "../../actions";
+import {
+  notifyCustomer,
+  actionUpdateReservation
+} from "../../actions";
 
 const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,10 +61,42 @@ const Reservation = (props) => {
     return props.dispatchNotifyCustomer(data);
   };
 
+  const handleHoldClick = () => {
+    let data = {
+      reservationId: props.reservation._id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: "hold",
+    };
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
+  };
+
+  const handleRemoveCustomer = () => {
+    let data = {
+      reservationId: props.reservation.id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: 'cancelled'
+    };
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
+  };
+
+  const handleCheckinCustomer = () => {
+    let data = {
+      reservationId: props.reservation.id,
+      retailerId: props.reservation.retailerId,
+      customerId: props.reservation.customerId,
+      queueStatus: 'enter'
+    };
+    props.dispatchUpdateReservation(data);
+    return toggleMenu();
+  };
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
-        {" "}
         {props.reservation.customerId.phoneNumber}
       </p>
       <div className={styles.time}>
@@ -77,16 +112,19 @@ const Reservation = (props) => {
 
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
-          <CheckButton onClick={toggleConfirm}></CheckButton>
+          <CheckButton
+            handleClick={handleCheckinCustomer}
+          />
           <NotificationButton
             onClick={toggleConfirm}
             handleClick={handleNotificationClick}
             disableButton={
               props.reservation.replyStatus === "pending" ? true : false
-            }
-          ></NotificationButton>
-          <HoldButton onClick={toggleConfirm}></HoldButton>
-          <CancelButton onClick={toggleConfirm}></CancelButton>
+            } />
+          <HoldButton
+            handleClick={handleHoldClick} />
+          <CancelButton
+            handleClick={handleRemoveCustomer} />
         </div>
       ) : null}
 
@@ -116,6 +154,9 @@ const mapDispatchToProps = (dispatch) => {
     dispatchNotifyCustomer: (data) => {
       return dispatch(notifyCustomer(data));
     },
+    dispatchUpdateReservation: (data) => {
+      return dispatch(actionUpdateReservation(data));
+    }
   };
 };
 
