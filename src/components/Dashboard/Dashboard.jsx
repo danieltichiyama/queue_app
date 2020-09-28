@@ -7,7 +7,8 @@ import styles from "./Dashboard.module.scss";
 import { updateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
-  const [count, setCount] = useState();
+
+  const [custCount, setCustCount] = useState(0);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,22 +19,28 @@ const Dashboard = (props) => {
   // adds to countInStore for "+" press
   const handlePlus = () => {
     console.log('++++')
-    let x = windows.localStorage;
-    console.log('local storage', x)
-    console.log(customersInStore)
-    // let plus = count + 1;
-    // setCount(plus);
+    let plus = custCount + 1;
+    setCustCount(plus);
+    localStorage.setItem("currentCapacity", JSON.stringify(plus));
     // let data = { customersInStore: plus };
     // props.changeCustomersInStore(data);
   };
-
   // minuses from countInStore for "-" press
   const handleMinus = () => {
-    let minus = count - 1;
-    setCount(minus);
-    let data = { customersInStore: minus };
-    props.changeCustomersInStore(data);
+    console.log('----')
+    if (custCount === 0) return;
+
+    let minus = custCount - 1;
+    setCustCount(minus);
+    localStorage.setItem("currentCapacity", JSON.stringify(minus));
+    // let data = { customersInStore: minus };
+    // props.changeCustomersInStore(data);
   };
+  //useEffect for + and -
+  useEffect(() => {
+    setCustCount(custCount)
+  }, [custCount]);
+  //will rerun when the second parameter changes 
 
   const handleExpand = () => {
     setIsOpen(true);
@@ -95,9 +102,9 @@ const Dashboard = (props) => {
   }, [isOpen]);
 
   // sets the number of people in the store to the redux-store customersInStore value
-  useEffect(() => {
-    setCount(props.customersInStore);
-  }, [props.customersInStore]);
+  // useEffect(() => {
+  //   setCount(props.customersInStore);
+  // }, [props.customersInStore]);
 
   return (
     <div className={styles.Dashboard} id="dashboard">
@@ -106,7 +113,7 @@ const Dashboard = (props) => {
           -
         </div>
         <div className={styles.count}>
-          <h3>{count}</h3>
+          <h3>{custCount}</h3>
           <p>in store</p>
         </div>
         <div className={styles.counterButton} onClick={handlePlus}>
