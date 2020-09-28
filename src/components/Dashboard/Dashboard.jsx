@@ -72,7 +72,7 @@ const Dashboard = (props) => {
     document.getElementById("phone-input-form").reset();
     document.getElementsByName("phoneNumber")[0].value = '';
     return
-  }
+  };
 
   // opens and closes dashboard for adding guests to waitlist
   useEffect(() => {
