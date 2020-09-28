@@ -84,9 +84,8 @@ export const createReservation = (data) => async (dispatch) => {
     });
 };
 
-export const actionUpdateReservation = (data) => async (dispatch) => {
-  let url = `/api/reservations/${data.reservationId}`;
-  delete data.reservationId;
+export const actionUpdateReservation = (data, id) => async (dispatch) => {
+  let url = `/api/reservations/${id}`;
 
   await Axios.put(url, data)
     .then((response) => {

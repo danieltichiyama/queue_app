@@ -4,17 +4,8 @@ import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
-import { actionUpdateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
-  let checkStorage = localStorage.getItem("currentCapacity");
-  let initialCount;
-  if (checkStorage) {
-    initialCount = parseInt(checkStorage);
-  } else {
-    initialCount = 0;
-  };
-  const [custCount, setCustCount] = useState(initialCount);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,30 +13,6 @@ const Dashboard = (props) => {
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
 
-  // adds to countInStore for "+" press
-  const handlePlus = () => {
-    let plus = custCount + 1;
-    setCustCount(plus);
-    localStorage.setItem("currentCapacity", JSON.stringify(plus));
-    let data = { currentCapacity: plus };
-    return props.changeCustomersInStore(data, props.retailerId);
-  };
-
-  // minuses from countInStore for "-" press
-  const handleMinus = () => {
-    if (custCount === 0) return;
-
-    let minus = custCount - 1;
-    setCustCount(minus);
-    localStorage.setItem("currentCapacity", JSON.stringify(minus));
-    let data = { currentCapacity: minus };
-    return props.changeCustomersInStore(data, props.retailerId);
-  };
-
-  //useEffect for + and -
-  useEffect(() => {
-    setCustCount(custCount)
-  }, [custCount]);
 
   const handleExpand = () => {
     setIsOpen(true);
@@ -109,14 +76,14 @@ const Dashboard = (props) => {
   return (
     <div className={styles.Dashboard} id="dashboard">
       <div className={styles.counter}>
-        <div className={styles.counterButton} onClick={handleMinus}>
+        <div className={styles.counterButton} onClick={props.handleMinus}>
           -
         </div>
         <div className={styles.count}>
-          <h3>{custCount}</h3>
+          <h3>{props.custCount}</h3>
           <p>in store</p>
         </div>
-        <div className={styles.counterButton} onClick={handlePlus}>
+        <div className={styles.counterButton} onClick={props.handlePlus}>
           +
         </div>
       </div>
@@ -187,9 +154,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCustomersInStore: (data, id) => {
-      return dispatch(actionUpdateRetailer(data, id));
-    },
     dispatchCreateReservation: (data) => {
       return dispatch(createReservation(data));
     },

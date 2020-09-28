@@ -3,10 +3,45 @@ import styles from "./RetailerView.module.scss";
 import Reservation from "../../components/Reservation";
 import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
-import { fetchOneRetailer } from "../../actions";
+import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 
 function RetailerView(props) {
+  //checks local storage for key
+  let checkStorage = localStorage.getItem("currentCapacity");
+  let maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
+  let initialCount;
+  if (checkStorage) {
+    initialCount = parseInt(checkStorage);
+  } else {
+    initialCount = 0;
+  };
+  const [custCount, setCustCount] = useState(initialCount);
+
+  const handlePlus = () => {
+    const retailerId = JSON.parse(localStorage.retailer).id;
+    let plus = custCount + 1;
+    setCustCount(plus);
+    localStorage.setItem("currentCapacity", JSON.stringify(plus));
+    let data = { currentCapacity: plus };
+    return props.changeCustomersInStore(data, retailerId);
+  };
+  const handleMinus = () => {
+    const retailerId = JSON.parse(localStorage.retailer).id;
+    if (custCount === 0) return;
+    let minus = custCount - 1;
+    setCustCount(minus);
+    localStorage.setItem("currentCapacity", JSON.stringify(minus));
+    let data = { currentCapacity: minus };
+    return props.changeCustomersInStore(data, retailerId);
+  };
+  useEffect(() => {
+    //start here
+    // if (custCount === maxCapacity){
+    // }
+  }, [custCount]);
+
+
   // handles open and close of On Hold list
   const [isOpen, setIsOpen] = useState(false);
 
@@ -76,6 +111,8 @@ function RetailerView(props) {
                   color={color}
                   index={index}
                   key={index}
+                  handlePlus={handlePlus}
+                  handleMinus={handleMinus}
                 ></Reservation>
               );
             })}
@@ -114,13 +151,19 @@ function RetailerView(props) {
                   color={color}
                   index={index}
                   key={index}
+                  handlePlus={handlePlus}
+                  handleMinus={handleMinus}
                 ></Reservation>
               );
             })}{" "}
           </div>
         </ul>
       </div>
-      <Dashboard />
+      <Dashboard
+        custCount={custCount}
+        handlePlus={handlePlus}
+        handleMinus={handleMinus}
+      />
     </>
   );
 }
@@ -144,7 +187,10 @@ const mapDispatchToProps = (dispatch) => {
     dispatchFetchOneRetailer: (id) => {
       dispatch(fetchOneRetailer(id));
     },
-  };
+    changeCustomersInStore: (data, id) => {
+      dispatch(actionUpdateRetailer(data, id));
+    },
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RetailerView);
