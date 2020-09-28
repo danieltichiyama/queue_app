@@ -17,14 +17,10 @@ const Dashboard = (props) => {
 
   // adds to countInStore for "+" press
   const handlePlus = () => {
-    console.log('test ++++')
-    let x = window.localStorage
-    console.log('local storage', x)
-    console.log('customers in store', props)
-    // let plus = count + 1;
-    // setCount(plus);
-    // let data = { customersInStore: plus };
-    // props.changeCustomersInStore(data);
+    let plus = count + 1;
+    setCount(plus);
+    let data = { customersInStore: plus };
+    props.changeCustomersInStore(data);
   };
 
   // minuses from countInStore for "-" press
