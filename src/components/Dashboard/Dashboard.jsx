@@ -4,11 +4,17 @@ import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
-import { updateRetailer } from "../../actions";
+import { actionUpdateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
-
-  const [custCount, setCustCount] = useState(0);
+  let checkStorage = localStorage.getItem("currentCapacity");
+  let initialCount;
+  if (checkStorage) {
+    initialCount = parseInt(checkStorage);
+  } else {
+    initialCount = 0;
+  };
+  const [custCount, setCustCount] = useState(initialCount);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,29 +24,28 @@ const Dashboard = (props) => {
 
   // adds to countInStore for "+" press
   const handlePlus = () => {
-    console.log('++++')
     let plus = custCount + 1;
     setCustCount(plus);
     localStorage.setItem("currentCapacity", JSON.stringify(plus));
-    // let data = { customersInStore: plus };
-    // props.changeCustomersInStore(data);
+    let data = { currentCapacity: plus };
+    return props.changeCustomersInStore(data, props.retailerId);
   };
+
   // minuses from countInStore for "-" press
   const handleMinus = () => {
-    console.log('----')
     if (custCount === 0) return;
 
     let minus = custCount - 1;
     setCustCount(minus);
     localStorage.setItem("currentCapacity", JSON.stringify(minus));
-    // let data = { customersInStore: minus };
-    // props.changeCustomersInStore(data);
+    let data = { currentCapacity: minus };
+    return props.changeCustomersInStore(data, props.retailerId);
   };
+
   //useEffect for + and -
   useEffect(() => {
     setCustCount(custCount)
   }, [custCount]);
-  //will rerun when the second parameter changes 
 
   const handleExpand = () => {
     setIsOpen(true);
@@ -100,11 +105,6 @@ const Dashboard = (props) => {
       addbutton.addEventListener("click", handleExpand);
     }
   }, [isOpen]);
-
-  // sets the number of people in the store to the redux-store customersInStore value
-  // useEffect(() => {
-  //   setCount(props.customersInStore);
-  // }, [props.customersInStore]);
 
   return (
     <div className={styles.Dashboard} id="dashboard">
@@ -187,8 +187,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCustomersInStore: (data) => {
-      return dispatch(updateRetailer(data));
+    changeCustomersInStore: (data, id) => {
+      return dispatch(actionUpdateRetailer(data, id));
     },
     dispatchCreateReservation: (data) => {
       return dispatch(createReservation(data));

@@ -16,9 +16,12 @@ export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
 export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
 export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 
-export const updateRetailer = (data) => async (dispatch) => {
-  await Axios.put("/api/retailers/QueueApp", data)
+export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
+  let url = `/api/retailers/${retailerId}`
+
+  await Axios.put(url, data)
     .then((retailer) => {
+      console.log("retailer from action", retailer)
       dispatch({
         type: UPDATE_RETAILER,
         payload: retailer.data,
