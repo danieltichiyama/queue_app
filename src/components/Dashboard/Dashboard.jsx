@@ -17,10 +17,14 @@ const Dashboard = (props) => {
 
   // adds to countInStore for "+" press
   const handlePlus = () => {
-    let plus = count + 1;
-    setCount(plus);
-    let data = { customersInStore: plus };
-    props.changeCustomersInStore(data);
+    console.log('test ++++')
+    let x = window.localStorage
+    console.log('local storage', x)
+    console.log('customers in store', props)
+    // let plus = count + 1;
+    // setCount(plus);
+    // let data = { customersInStore: plus };
+    // props.changeCustomersInStore(data);
   };
 
   // minuses from countInStore for "-" press
@@ -68,7 +72,7 @@ const Dashboard = (props) => {
     document.getElementById("phone-input-form").reset();
     document.getElementsByName("phoneNumber")[0].value = '';
     return
-  }
+  };
 
   // opens and closes dashboard for adding guests to waitlist
   useEffect(() => {

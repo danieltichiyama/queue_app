@@ -65,7 +65,6 @@ const reservationController = {
       });
   },
   updateReservation({ params, body }, res) {
-    console.log('test update route')
     Reservation.findByIdAndUpdate(params.reservationId, body, {
       runValidators: true,
       new: true,
