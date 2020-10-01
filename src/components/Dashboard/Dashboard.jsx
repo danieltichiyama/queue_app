@@ -9,7 +9,7 @@ const Dashboard = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
 
@@ -48,9 +48,8 @@ const Dashboard = (props) => {
   };
 
   const resetQueueForm = () => {
-    document.getElementById("phone-input-form").reset();
-    document.getElementsByName("phoneNumber")[0].value = '';
-    return
+    setPhoneNumber('')
+    return document.getElementById("phone-input-form").reset();
   };
 
   // opens and closes dashboard for adding guests to waitlist
