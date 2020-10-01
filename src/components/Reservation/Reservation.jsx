@@ -76,7 +76,7 @@ const Reservation = (props) => {
   const handleCheckinCustomer = () => {
     let data = { queueStatus: 'enter' };
     props.dispatchUpdateReservation(data, props.reservation.id);
-    props.handlePlus();
+    props.handlePlusPartySize(props.reservation.partySize);
     return toggleMenu();
   };
   const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');

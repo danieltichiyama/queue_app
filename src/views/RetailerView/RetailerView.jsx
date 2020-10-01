@@ -5,12 +5,11 @@ import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
-import { max } from "moment";
 
 function RetailerView(props) {
   //checks local storage for key
   let checkStorage = localStorage.getItem("currentCapacity");
-  let maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
+  const maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
   let initialCount;
   if (checkStorage) {
     initialCount = parseInt(checkStorage);
@@ -20,22 +19,22 @@ function RetailerView(props) {
   const [custCount, setCustCount] = useState(initialCount);
 
   const handlePlus = () => {
-    const retailerId = JSON.parse(localStorage.retailer).id;
     let plus = custCount + 1;
     setCustCount(plus);
-    localStorage.setItem("currentCapacity", JSON.stringify(plus));
-    let data = { currentCapacity: plus };
-    return props.changeCustomersInStore(data, retailerId);
+    return localStorage.setItem("currentCapacity", JSON.stringify(plus));
   };
   const handleMinus = () => {
-    const retailerId = JSON.parse(localStorage.retailer).id;
     if (custCount === 0) return;
     let minus = custCount - 1;
     setCustCount(minus);
-    localStorage.setItem("currentCapacity", JSON.stringify(minus));
-    let data = { currentCapacity: minus };
-    return props.changeCustomersInStore(data, retailerId);
+    return localStorage.setItem("currentCapacity", JSON.stringify(minus));
   };
+  const handlePlusPartySize = (partySize) => {
+    let plus = custCount + partySize;
+    setCustCount(plus);
+    return localStorage.setItem("currentCapacity", JSON.stringify(plus));
+  };
+  //handles store count color change
   useEffect(() => {
     let countElement = document.getElementById("customer-count");
     let overflow = parseInt(countElement.innerHTML - maxCapacity);
@@ -47,6 +46,13 @@ function RetailerView(props) {
       countElement.style.color = "red";
       countElement.innerHTML = `${maxCapacity}(${overflow})`
     };
+  }, [custCount]);
+  //handles updating customer count to db
+  useEffect(() => {
+    let retailerId = JSON.parse(localStorage.retailer).id;
+    if (custCount === maxCapacity || custCount < maxCapacity) {
+      return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+    }
   }, [custCount]);
 
 
@@ -119,8 +125,7 @@ function RetailerView(props) {
                   color={color}
                   index={index}
                   key={index}
-                  handlePlus={handlePlus}
-                  handleMinus={handleMinus}
+                  handlePlusPartySize={handlePlusPartySize}
                 ></Reservation>
               );
             })}
@@ -159,8 +164,7 @@ function RetailerView(props) {
                   color={color}
                   index={index}
                   key={index}
-                  handlePlus={handlePlus}
-                  handleMinus={handleMinus}
+                  handlePlusPartySize={handlePlusPartySize}
                 ></Reservation>
               );
             })}{" "}
