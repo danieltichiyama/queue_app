@@ -5,6 +5,7 @@ import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
+import { max } from "moment";
 
 function RetailerView(props) {
   //checks local storage for key
@@ -36,9 +37,16 @@ function RetailerView(props) {
     return props.changeCustomersInStore(data, retailerId);
   };
   useEffect(() => {
-    //start here
-    // if (custCount === maxCapacity){
-    // }
+    let countElement = document.getElementById("customer-count");
+    let overflow = parseInt(countElement.innerHTML - maxCapacity);
+    if (custCount < maxCapacity / 2) countElement.style.color = "black";
+    if (custCount >= maxCapacity / 2 && custCount < maxCapacity) countElement.style.color = "orange";
+    if (custCount === maxCapacity) {
+      countElement.style.color = "red";
+    } else if (custCount > maxCapacity) {
+      countElement.style.color = "red";
+      countElement.innerHTML = `${maxCapacity}(${overflow})`
+    };
   }, [custCount]);
 
 

@@ -80,7 +80,7 @@ const Dashboard = (props) => {
           -
         </div>
         <div className={styles.count}>
-          <h3>{props.custCount}</h3>
+          <h3 id="customer-count">{props.custCount}</h3>
           <p>in store</p>
         </div>
         <div className={styles.counterButton} onClick={props.handlePlus}>
