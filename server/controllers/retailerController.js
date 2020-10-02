@@ -98,6 +98,10 @@ const retailerController = {
       });
     })(req, res, next);
   },
+  logoutRetailer(req, res) {
+    req.logout();
+    return res.status(200).json({ message: "Retailer has logged out" })
+  },
 };
 
 module.exports = retailerController;
