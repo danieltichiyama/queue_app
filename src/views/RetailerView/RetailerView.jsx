@@ -8,14 +8,8 @@ import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 
 function RetailerView(props) {
   //checks local storage for key
-  let checkStorage = localStorage.getItem("currentCapacity");
-  const maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
-  let initialCount;
-  if (checkStorage) {
-    initialCount = parseInt(checkStorage);
-  } else {
-    initialCount = 0;
-  };
+  let initialCount = parseInt(localStorage.getItem("currentCapacity")) || 0;
+  let maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
   const [custCount, setCustCount] = useState(initialCount);
 
   const handlePlus = () => {
