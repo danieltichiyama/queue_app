@@ -1,2 +1,2 @@
-import IsRetailer from "./IsRetailerView";
-export default IsRetailer;
+import IsRetailerView from "./IsRetailerView";
+export default IsRetailerView;
