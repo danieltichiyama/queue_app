@@ -15,23 +15,27 @@ var App = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    let isRetailer = localStorage.getItem("retailer");
+    let isRetailer = localStorage.getItem("isRetailer");
+    let retailer = localStorage.getItem("retailer")
     
-    if (!isRetailer) {
-      history.push({
-        pathname: "/",
-      })
+    if (!isRetailer && !retailer) {
+      history.push({ pathname: "/" })
+    } else if (!retailer) {
+      history.push({ pathname: "/auth" })
     }
-  }, [props.isLoggedIn, history]);
+  }, [props, history]);
 
   return (
     <div className={styles.App}>
-        <button
-          type="button"
-          onClick={() => {props.dispatchLogoutRetailer();}}
-        >
-          RESET
-        </button>
+      <button
+        type="button"
+        onClick={() => {props.dispatchLogoutRetailer();}}
+      >
+        Logout
+      </button>
+      <button onClick={() => localStorage.removeItem("isUser")}>
+        Reset isUser
+      </button>
 
       <div className={styles.appMobileContainer}>
         <Switch>
