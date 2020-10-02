@@ -43,7 +43,12 @@ function RetailerView(props) {
   //handles updating customer count to db
   useEffect(() => {
     let retailerId = JSON.parse(localStorage.retailer).id;
-    if (custCount === maxCapacity || custCount < maxCapacity) {
+    if (custCount == maxCapacity) {
+      console.log('test')
+      return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+    }
+    if (custCount == maxCapacity - 1) {
+      console.log('test2')
       return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
     }
   }, [custCount]);
