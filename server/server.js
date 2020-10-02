@@ -7,6 +7,7 @@ const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const client = redis.createClient(6379, "localhost");
 const passport = require("passport");
+const compression = require("compression");
 
 require("./passport");
 
@@ -18,13 +19,14 @@ app.use(express.json());
 app.use(bodyParser.text());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(compression());
 
 app.use(
   session({
     store: new RedisStore({ client }),
     secret: process.env.REDIS_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 

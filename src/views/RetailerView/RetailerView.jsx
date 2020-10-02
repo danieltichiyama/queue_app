@@ -41,6 +41,16 @@ function RetailerView(props) {
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
     let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
+    let source = new EventSource("http://localhost:3000/api/retailers/sse");
+
+    source.addEventListener("message", (event) => {
+      console.log(event);
+    });
+
+    source.onerror = function (err) {
+      console.error("EventSource failed:", err);
+    };
+
     return dispatchFetchOneRetailer(retailerID);
   }, []);
 

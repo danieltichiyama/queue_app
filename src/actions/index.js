@@ -94,8 +94,8 @@ export const actionUpdateReservation = (data) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log('Error from actionUpdateReservation ', err.message)
-    })
+      console.log("Error from actionUpdateReservation ", err.message);
+    });
 };
 
 export const notifyCustomer = (data) => async (dispatch) => {
