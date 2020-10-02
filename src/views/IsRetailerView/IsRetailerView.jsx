@@ -11,6 +11,7 @@ function IsRetailerView(props) {
   }
 
   if (isRetailer === true){
+    localStorage.setItem("isRetailer", true)
     return <Redirect to="/retailerview" /> 
   } else if (isRetailer === false){
     localStorage.setItem("isUser", true);
