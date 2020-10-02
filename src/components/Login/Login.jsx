@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import { useDispatch } from "react-redux";
 import { loginRetailer } from "../../actions";
+import { useHistory } from "react-router-dom";
+
 
 function Login(props) {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   const loginSubmit = (e, loginData) => {
     e.preventDefault();
@@ -35,7 +38,10 @@ function Login(props) {
             />
           </li>
         </ul>
-        <button type="submit">Login</button>
+          <button type="submit">Login</button>
+          <button type="button" onClick={() => history.push({pathname: "/"})}>
+              Cancel
+          </button>
       </form>
       <div>
         <span>
