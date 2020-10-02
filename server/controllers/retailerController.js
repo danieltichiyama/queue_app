@@ -38,7 +38,10 @@ const retailerController = {
       runValidators: true,
       new: true,
     })
-      .populate({ path: "reservations" })
+      .populate({
+        path: "reservations",
+        populate: { path: "customerId" }
+      })
       .then((results) => {
         if (!results) {
           return res

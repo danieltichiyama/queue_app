@@ -2,37 +2,17 @@ import React, { useState, useEffect } from "react";
 import { createReservation } from "./../../actions";
 import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
-import {
-  // formatPhoneNumber,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
-import { updateRetailer } from "../../actions";
 
 const Dashboard = (props) => {
-  const [count, setCount] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
 
-  // adds to countInStore for "+" press
-  const handlePlus = () => {
-    let plus = count + 1;
-    setCount(plus);
-    let data = { customersInStore: plus };
-    props.changeCustomersInStore(data);
-  };
-
-  // minuses from countInStore for "-" press
-  const handleMinus = () => {
-    let minus = count - 1;
-    setCount(minus);
-    let data = { customersInStore: minus };
-    props.changeCustomersInStore(data);
-  };
 
   const handleExpand = () => {
     setIsOpen(true);
@@ -57,13 +37,19 @@ const Dashboard = (props) => {
   const createReservation = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // phoneNumber === "+12345678901"
     let formData = {
       phoneNumber: phoneNumber,
       name: customerName,
       partySize: partySize,
+      retailerId: props.retailerId,
     };
     props.dispatchCreateReservation(formData);
+    return resetQueueForm();
+  };
+
+  const resetQueueForm = () => {
+    setPhoneNumber('')
+    return document.getElementById("phone-input-form").reset();
   };
 
   // opens and closes dashboard for adding guests to waitlist
@@ -86,29 +72,28 @@ const Dashboard = (props) => {
     }
   }, [isOpen]);
 
-  // sets the number of people in the store to the redux-store customersInStore value
-  useEffect(() => {
-    setCount(props.customersInStore);
-  }, [props.customersInStore]);
-
   return (
     <div className={styles.Dashboard} id="dashboard">
       <div className={styles.counter}>
-        <div className={styles.counterButton} onClick={handleMinus}>
+        <div className={styles.counterButton} onClick={props.handleMinus}>
           -
         </div>
         <div className={styles.count}>
-          <h3>{count}</h3>
+          <h3 id="customer-count">{props.custCount}</h3>
           <p>in store</p>
         </div>
-        <div className={styles.counterButton} onClick={handlePlus}>
+        <div className={styles.counterButton} onClick={props.handlePlus}>
           +
         </div>
       </div>
       <button className={styles.addToQueue} id="dynamic-add">
         ADD TO QUEUE
       </button>
-      <form className={styles.modal} onSubmit={createReservation}>
+      <form
+        className={styles.modal}
+        id="phone-input-form"
+        onSubmit={createReservation}
+      >
         <label htmlFor="phoneNumber">
           <PhoneInput
             country="US"
@@ -162,14 +147,12 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   return {
     customersInStore: state.currentRetailer.customersInStore,
+    retailerId: state.currentRetailer._id,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCustomersInStore: (data) => {
-      return dispatch(updateRetailer(data));
-    },
     dispatchCreateReservation: (data) => {
       return dispatch(createReservation(data));
     },

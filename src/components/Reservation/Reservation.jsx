@@ -5,9 +5,12 @@ import CancelButton from "../CancelButton";
 import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
-
+import moment from "moment";
 import { connect } from "react-redux";
-import { notifyCustomer } from "../../actions";
+import {
+  notifyCustomer,
+  actionUpdateReservation
+} from "../../actions";
 
 const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,15 +61,37 @@ const Reservation = (props) => {
     return props.dispatchNotifyCustomer(data);
   };
 
+  const handleHoldClick = () => {
+    let data = { queueStatus: "hold", };
+    props.dispatchUpdateReservation(data, props.reservation.id);
+    return toggleMenu();
+  };
+
+  const handleRemoveCustomer = () => {
+    let data = { queueStatus: 'cancelled' };
+    props.dispatchUpdateReservation(data, props.reservation.id);
+    return toggleMenu();
+  };
+
+  const handleCheckinCustomer = () => {
+    let data = { queueStatus: 'enter' };
+    props.dispatchUpdateReservation(data, props.reservation.id);
+    props.handlePlusPartySize(props.reservation.partySize);
+    return toggleMenu();
+  };
+  const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
+  const formattedTime = moment(props.reservation.createdAt).fromNow();
+
+
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
-        {" "}
-        {props.reservation.customerId.phoneNumber}
+        {phone}<br />
+        Party of {props.reservation.partySize}
       </p>
       <div className={styles.time}>
         <img src={clock} alt="time in queue" />
-        <p> {props.reservation.createdAt}</p>
+        <p> {formattedTime}</p>
       </div>
 
       <div className={styles.menuButton} onClick={toggleMenu}>
@@ -77,16 +102,19 @@ const Reservation = (props) => {
 
       {menuOpen ? (
         <div className={styles.menu} id="customerMenu" ref={setWrapperRef}>
-          <CheckButton onClick={toggleConfirm}></CheckButton>
+          <CheckButton
+            handleClick={handleCheckinCustomer}
+          />
           <NotificationButton
             onClick={toggleConfirm}
             handleClick={handleNotificationClick}
             disableButton={
               props.reservation.replyStatus === "pending" ? true : false
-            }
-          ></NotificationButton>
-          <HoldButton onClick={toggleConfirm}></HoldButton>
-          <CancelButton onClick={toggleConfirm}></CancelButton>
+            } />
+          <HoldButton
+            handleClick={handleHoldClick} />
+          <CancelButton
+            handleClick={handleRemoveCustomer} />
         </div>
       ) : null}
 
@@ -116,6 +144,9 @@ const mapDispatchToProps = (dispatch) => {
     dispatchNotifyCustomer: (data) => {
       return dispatch(notifyCustomer(data));
     },
+    dispatchUpdateReservation: (data, id) => {
+      return dispatch(actionUpdateReservation(data, id));
+    }
   };
 };
 

@@ -85,7 +85,10 @@ const reservationController = {
                 { $pullAll: { reservations: [params.reservationId] } },
                 { new: true }
               )
-                .populate({ path: "reservations" })
+                .populate({
+                  path: "reservations",
+                  populate: { path: "customerId" },
+                })
                 .then((retailer) => {
                   return res.json(retailer);
                 })
@@ -106,7 +109,10 @@ const reservationController = {
             });
         } else {
           return Retailer.findById(reservation.retailerId)
-            .populate({ path: "reservations" })
+            .populate({
+              path: "reservations",
+              populate: { path: "customerId" },
+            })
             .then((retailer) => {
               return res.json(retailer);
             });
@@ -119,7 +125,7 @@ const reservationController = {
           error: err,
         });
       });
-  },
+  }
 };
 
 module.exports = reservationController;
