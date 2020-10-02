@@ -33,8 +33,11 @@ var App = (props) => {
       >
         Logout
       </button>
-      <button onClick={() => localStorage.removeItem("isUser")}>
-        Reset isUser
+      <button onClick={() => {
+        localStorage.removeItem("isUser");
+        localStorage.removeItem("isRetailer");
+      }}>
+        Reset Cookies
       </button>
 
       <div className={styles.appMobileContainer}>

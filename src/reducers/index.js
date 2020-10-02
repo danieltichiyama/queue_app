@@ -65,7 +65,6 @@ const reducer = (state = initialState, action) => {
       return state;
     case LOGOUT_RETAILER:
       localStorage.removeItem("retailer");
-      localStorage.removeItem("isRetailer")
       return Object.assign({}, state, { isLoggedIn: false })
     case REGISTRATION_ERROR:
       alert("something went wrong with your registration.");
