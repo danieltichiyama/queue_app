@@ -5,7 +5,7 @@ import CancelButton from "../CancelButton";
 import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
-
+import moment from "moment";
 import { connect } from "react-redux";
 import {
   notifyCustomer,
@@ -62,46 +62,36 @@ const Reservation = (props) => {
   };
 
   const handleHoldClick = () => {
-    let data = {
-      reservationId: props.reservation._id,
-      retailerId: props.reservation.retailerId,
-      customerId: props.reservation.customerId,
-      queueStatus: "hold",
-    };
-    props.dispatchUpdateReservation(data);
+    let data = { queueStatus: "hold", };
+    props.dispatchUpdateReservation(data, props.reservation.id);
     return toggleMenu();
   };
 
   const handleRemoveCustomer = () => {
-    let data = {
-      reservationId: props.reservation.id,
-      retailerId: props.reservation.retailerId,
-      customerId: props.reservation.customerId,
-      queueStatus: 'cancelled'
-    };
-    props.dispatchUpdateReservation(data);
+    let data = { queueStatus: 'cancelled' };
+    props.dispatchUpdateReservation(data, props.reservation.id);
     return toggleMenu();
   };
 
   const handleCheckinCustomer = () => {
-    let data = {
-      reservationId: props.reservation.id,
-      retailerId: props.reservation.retailerId,
-      customerId: props.reservation.customerId,
-      queueStatus: 'enter'
-    };
-    props.dispatchUpdateReservation(data);
+    let data = { queueStatus: 'enter' };
+    props.dispatchUpdateReservation(data, props.reservation.id);
+    props.handlePlusPartySize(props.reservation.partySize);
     return toggleMenu();
   };
+  const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
+  const formattedTime = moment(props.reservation.createdAt).fromNow();
+
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
-        {props.reservation.customerId.phoneNumber}
+        {phone}<br />
+        Party of {props.reservation.partySize}
       </p>
       <div className={styles.time}>
         <img src={clock} alt="time in queue" />
-        <p> {props.reservation.createdAt}</p>
+        <p> {formattedTime}</p>
       </div>
 
       <div className={styles.menuButton} onClick={toggleMenu}>
@@ -154,8 +144,8 @@ const mapDispatchToProps = (dispatch) => {
     dispatchNotifyCustomer: (data) => {
       return dispatch(notifyCustomer(data));
     },
-    dispatchUpdateReservation: (data) => {
-      return dispatch(actionUpdateReservation(data));
+    dispatchUpdateReservation: (data, id) => {
+      return dispatch(actionUpdateReservation(data, id));
     }
   };
 };
