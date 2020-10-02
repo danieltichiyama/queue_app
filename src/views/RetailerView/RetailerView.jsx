@@ -39,17 +39,18 @@ function RetailerView(props) {
       countElement.style.color = "red";
       countElement.innerHTML = `${maxCapacity}(${overflow})`
     };
-  }, [custCount]);
+  }, [custCount, maxCapacity]);
+  let { changeCustomersInStore } = props;
   //handles updating customer count to db
   useEffect(() => {
     let retailerId = JSON.parse(localStorage.retailer).id;
     if (custCount === maxCapacity) {
-      return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
     }
     if (custCount === maxCapacity - 1) {
-      return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
     }
-  }, [custCount]);
+  }, [custCount, maxCapacity, changeCustomersInStore]);
 
   // handles open and close of On Hold list
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +87,7 @@ function RetailerView(props) {
   useEffect(() => {
     let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
     return dispatchFetchOneRetailer(retailerID);
-  }, []);
+  }, [dispatchFetchOneRetailer]);
 
   return (
     <>
