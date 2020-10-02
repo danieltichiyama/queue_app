@@ -156,6 +156,7 @@ function RetailerView(props) {
               }
               return (
                 <Reservation
+                  isHold={true}
                   reservation={reservation}
                   color={color}
                   index={index}

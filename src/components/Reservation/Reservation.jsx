@@ -13,6 +13,7 @@ import {
 } from "../../actions";
 
 const Reservation = (props) => {
+  console.log('reservation', props)
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -81,7 +82,7 @@ const Reservation = (props) => {
   };
   const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
   const formattedTime = moment(props.reservation.createdAt).fromNow();
-
+  const { isHold } = props;
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
@@ -111,8 +112,7 @@ const Reservation = (props) => {
             disableButton={
               props.reservation.replyStatus === "pending" ? true : false
             } />
-          <HoldButton
-            handleClick={handleHoldClick} />
+          {!isHold ? <HoldButton handleClick={handleHoldClick} /> : null}
           <CancelButton
             handleClick={handleRemoveCustomer} />
         </div>
