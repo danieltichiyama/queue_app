@@ -25,7 +25,7 @@ const initialState = {
     customersInStore: null,
     reservations: [],
   },
-  isLoggedIn: false,
+  isLoggedIn: (!!localStorage.getItem("retailer")),
   customerSearchRetailer: [],
 };
 
@@ -72,7 +72,8 @@ const reducer = (state = initialState, action) => {
       alert(action.payload);
       return state;
     case LOGOUT_RETAILER:
-      localStorage.clear();
+      localStorage.removeItem("retailer");
+      localStorage.removeItem("isRetailer")
       return Object.assign({}, state, { isLoggedIn: false })
     case REGISTRATION_ERROR:
       alert("something went wrong with your registration.");
