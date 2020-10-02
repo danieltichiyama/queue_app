@@ -7,9 +7,8 @@ import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 
 function RetailerView(props) {
-  //checks local storage for key
-  let initialCount = parseInt(localStorage.getItem("currentCapacity")) || 0;
-  let maxCapacity = JSON.parse(localStorage.retailer).maxCapacity;
+  const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity)
+  const [initialCount] = useState(parseInt(localStorage.getItem("currentCapacity")) || 0)
   const [custCount, setCustCount] = useState(initialCount);
 
   const handlePlus = () => {
@@ -48,7 +47,6 @@ function RetailerView(props) {
       return props.changeCustomersInStore({ currentCapacity: custCount }, retailerId)
     }
   }, [custCount]);
-
 
   // handles open and close of On Hold list
   const [isOpen, setIsOpen] = useState(false);
