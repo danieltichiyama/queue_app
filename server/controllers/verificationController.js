@@ -11,10 +11,11 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const verificationController = {
   sendPIN({ params, body }, res) {
+    console.log(body);
     let verificationType = body.verificationType;
     let retailerId = params.retailerId;
     let randomPIN = Math.floor(100000 + Math.random() * 900000);
-    let toNumber = body.phoneNumber;
+    let toNumber = body.contact;
     let toEmail = body.email;
 
     Retailer.findByIdAndUpdate(

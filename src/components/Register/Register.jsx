@@ -96,6 +96,7 @@ function Register(props) {
       maxCapacity,
     };
     dispatch(registerRetailer(retailerObj));
+    return props.setIsLogin(true);
   };
 
   return (
@@ -216,7 +217,7 @@ function Register(props) {
           </li>
         </ul>
         <button type="submit">Register</button>
-        <button onClick={() => props.setIsLogin(false)}>Cancel</button>
+        <button onClick={() => props.setIsLogin(true)}>Cancel</button>
       </form>
     </div>
   );

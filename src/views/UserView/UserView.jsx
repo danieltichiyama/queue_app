@@ -35,7 +35,10 @@ class UserView extends Component {
     return (
       <div className={styles.UserView}>
         <h1>User view</h1>
-        <form className={styles.searchContainer} onSubmit={this.handleSearchSubmit}>
+        <form
+          className={styles.searchContainer}
+          onSubmit={this.handleSearchSubmit}
+        >
           <input
             className={styles.searchbar}
             type="search"
@@ -47,7 +50,7 @@ class UserView extends Component {
             <img src={magGlass} alt="search" />
           </button>
         </form>
-        {foundRetailers.length === 0 ? <h1>{'No search results'}</h1> : null}
+        {foundRetailers.length === 0 ? <h1>{"No search results"}</h1> : null}
         <ul className={styles.results}>
           {foundRetailers.map((store, index) => {
             return (

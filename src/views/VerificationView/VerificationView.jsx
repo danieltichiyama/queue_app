@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import VerifyOne from "../../components/VerifyOne";
 import VerifyTwo from "../../components/VerifyTwo";
+import { actionVerificationType, actionVerifyPIN } from "../../actions";
 
 class VerificationView extends Component {
   constructor(props) {
@@ -12,26 +13,32 @@ class VerificationView extends Component {
       verificationType: "call",
       contact: "",
       enteredPIN: null || "",
+      retailerId: "111111111111111111111111",
     };
     this.handlePIN = this.handlePIN.bind(this);
     this.handleContact = this.handleContact.bind(this);
     this.sendPIN = this.sendPIN.bind(this);
   }
 
+  componentDidMount() {}
+
   sendPIN = (e) => {
     e.preventDefault();
-    let { displayComponent, verificationType, contact } = this.state;
-    let sendPINForm = {
+    let {
+      displayComponent,
       verificationType,
       contact,
+      retailerId,
+    } = this.state;
+    let data = {
+      verificationType,
+      contact,
+      retailerId,
     };
     this.setState({
       displayComponent: displayComponent === "first" ? "second" : "first",
     });
-    console.log(
-      "To be sent to api/verification/:retailerId/send ",
-      sendPINForm
-    );
+    this.props.dispatchSendPIN(data);
   };
 
   verifyPIN = (e) => {
@@ -110,7 +117,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    dispatchSendPIN: (data) => {
+      dispatch(actionVerificationType(data));
+    },
+    dispatchVerifyPIN: (data) => {
+      dispatch(actionVerifyPIN(data));
+    },
+  };
 };
 
-export default connect(mapDispatchToProps, mapStateToProps)(VerificationView);
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationView);

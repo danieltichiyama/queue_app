@@ -5,43 +5,50 @@ import RetailerView from "../views/RetailerView";
 import UserView from "../views/UserView";
 import RetailerProfileView from "../views/RetailerProfileView";
 import UserProfileView from "../views/UserProfileView";
-import AuthView from "../views/AuthView";
 import VerificationView from "../views/VerificationView";
-import { Switch, Route } from "react-router-dom";
-import Modal from "../components/Modal";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-function App(props) {
+import AuthView from "../views/AuthView";
+
+var App = (props) => {
   const [retailerLoggedIn, setRetailerLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("retailer"));
-    if (!loggedInUser) {
+    let lsRetailer = localStorage.getItem("retailer");
+
+    if (!lsRetailer) {
       setRetailerLoggedIn(false);
     } else {
       setRetailerLoggedIn(true);
     }
-  }, [setRetailerLoggedIn]);
+  }, [props.isLoggedIn]);
 
   return (
     <div className={styles.App}>
       <div className={styles.appMobileContainer}>
         <Switch>
           <Route path="/userview" component={UserView} />
-          <Route
-            path="/retailerview"
-            component={retailerLoggedIn ? RetailerView : AuthView}
-          />
+          <Route path="/retailerview">
+            {!retailerLoggedIn ? <Redirect to="/auth" /> : <RetailerView />}
+          </Route>
           <Route path="/retailerprofile" component={RetailerProfileView} />
-          <Route path="/verify" component={VerificationView} />
           <Route path="/userprofile" component={UserProfileView} />
+          <Route path="/verify" component={VerificationView} />
+          <Route path="/auth">
+            {retailerLoggedIn ? <Redirect to="/retailerview" /> : <AuthView />}
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/retailerview" />
+          </Route>
         </Switch>
       </div>
     </div>
   );
-}
+};
 const mapStateToProps = (state) => {
   return {
     retailers: state.retailers,
+    isLoggedIn: state.isLoggedIn,
   };
 };
 
