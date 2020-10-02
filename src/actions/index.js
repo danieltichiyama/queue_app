@@ -16,8 +16,10 @@ export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
 export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
 export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 
-export const updateRetailer = (data) => async (dispatch) => {
-  await Axios.put("/api/retailers/QueueApp", data)
+export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
+  let url = `/api/retailers/${retailerId}`
+
+  await Axios.put(url, data)
     .then((retailer) => {
       dispatch({
         type: UPDATE_RETAILER,
@@ -82,9 +84,8 @@ export const createReservation = (data) => async (dispatch) => {
     });
 };
 
-export const actionUpdateReservation = (data) => async (dispatch) => {
-  let url = `/api/reservations/${data.reservationId}`;
-  delete data.reservationId;
+export const actionUpdateReservation = (data, id) => async (dispatch) => {
+  let url = `/api/reservations/${id}`;
 
   await Axios.put(url, data)
     .then((response) => {
