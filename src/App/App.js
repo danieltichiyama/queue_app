@@ -22,7 +22,7 @@ var App = (props) => {
         pathname: "/",
       })
     }
-  }, [props.isLoggedIn]);
+  }, [props.isLoggedIn, history]);
 
   return (
     <div className={styles.App}>
