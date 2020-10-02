@@ -44,10 +44,13 @@ class VerificationView extends Component {
   verifyPIN = (e) => {
     e.preventDefault();
     let { enteredPIN } = this.state;
+    let data = {
+      enteredPIN,
+    };
     this.setState({
       isOpen: !this.state.isOpen,
     });
-    console.log(enteredPIN);
+    this.props.verifyPIN(data);
   };
 
   resendPIN = (e) => {
