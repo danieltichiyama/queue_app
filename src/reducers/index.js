@@ -3,10 +3,6 @@ import {
   SEARCH_RETAILERS_BY_NAME,
   FETCH_ONE_RETAILER,
   CREATE_RESERVATION,
-  MOVE_TO_HOLDLIST,
-  MOVE_TO_WAITLIST,
-  REMOVE_CUSTOMER_FROM_HOLDLIST,
-  REMOVE_CUSTOMER_FROM_WAITLIST,
   TWILIO_NOTIFICATION,
   UPDATE_RETAILER,
   LOGIN_RETAILER,
@@ -16,6 +12,7 @@ import {
   FIND_RETAILERS_FOR_CUSTOMER,
   SEARCH_FOR_RETAILER,
   NO_SEARCH_RESULTS,
+  UPDATE_RESERVATION,
 } from "../actions";
 
 const initialState = {
@@ -41,25 +38,20 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { currentRetailer: action.payload });
     case CREATE_RESERVATION:
       return Object.assign({}, state, { currentRetailer: action.payload });
-    case MOVE_TO_HOLDLIST:
-      return Object.assign({}, state, {});
-    case MOVE_TO_WAITLIST:
-      return Object.assign({}, state, {});
-    case REMOVE_CUSTOMER_FROM_HOLDLIST:
-      return Object.assign({}, state, {});
-    case REMOVE_CUSTOMER_FROM_WAITLIST:
-      return Object.assign({}, state, {});
+    case UPDATE_RESERVATION:
+      return Object.assign({}, state, { currentRetailer: action.payload });
     case TWILIO_NOTIFICATION:
-      let { reservations } = state.currentRetailer;
-      for (let i = 0; i < reservations.length; i++) {
-        if (reservations[i]._id === action.payload._id) {
-          reservations.splice(i, 1, action.payload);
+      let twilioNotifications = state.currentRetailer.reservations;
+
+      for (let i = 0; i < twilioNotifications.length; i++) {
+        if (twilioNotifications[i]._id === action.payload._id) {
+          twilioNotifications.splice(i, 1, action.payload);
         }
       }
       return Object.assign({}, state, {
         currentRetailer: {
           ...state.currentRetailer,
-          reservations: reservations,
+          reservations: twilioNotifications,
         },
       });
     case LOGIN_RETAILER:

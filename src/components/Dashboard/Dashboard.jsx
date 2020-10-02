@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createReservation } from "./../../actions";
 import { connect } from "react-redux";
 import PhoneInput from "react-phone-number-input/input";
-import {
-  // formatPhoneNumber,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
 import { updateRetailer } from "../../actions";
 
@@ -57,13 +54,20 @@ const Dashboard = (props) => {
   const createReservation = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // phoneNumber === "+12345678901"
     let formData = {
       phoneNumber: phoneNumber,
       name: customerName,
       partySize: partySize,
+      retailerId: props.retailerId,
     };
     props.dispatchCreateReservation(formData);
+    return resetQueueForm();
+  };
+
+  const resetQueueForm = () => {
+    document.getElementById("phone-input-form").reset();
+    document.getElementsByName("phoneNumber")[0].value = '';
+    return
   };
 
   // opens and closes dashboard for adding guests to waitlist
@@ -108,7 +112,11 @@ const Dashboard = (props) => {
       <button className={styles.addToQueue} id="dynamic-add">
         ADD TO QUEUE
       </button>
-      <form className={styles.modal} onSubmit={createReservation}>
+      <form
+        className={styles.modal}
+        id="phone-input-form"
+        onSubmit={createReservation}
+      >
         <label htmlFor="phoneNumber">
           <PhoneInput
             country="US"
@@ -162,6 +170,7 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   return {
     customersInStore: state.currentRetailer.customersInStore,
+    retailerId: state.currentRetailer._id,
   };
 };
 
