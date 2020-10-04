@@ -4,11 +4,14 @@ import Reservation from "../../components/Reservation";
 import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
-import Dashboard from "../../components/Dashboard/Dashboard.jsx";
+import Dashboard from "../../components/Dashboard";
+import Profile from "../../components/Profile";
 
 function RetailerView(props) {
-  const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity)
-  const [initialCount] = useState(parseInt(localStorage.getItem("currentCapacity")) || 0)
+  const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity);
+  const [initialCount] = useState(
+    parseInt(localStorage.getItem("currentCapacity")) || 0
+  );
   const [custCount, setCustCount] = useState(initialCount);
 
   const handlePlus = () => {
@@ -32,23 +35,24 @@ function RetailerView(props) {
     let countElement = document.getElementById("customer-count");
     let overflow = parseInt(countElement.innerHTML - maxCapacity);
     if (custCount < maxCapacity / 2) countElement.style.color = "black";
-    if (custCount >= maxCapacity / 2 && custCount < maxCapacity) countElement.style.color = "orange";
+    if (custCount >= maxCapacity / 2 && custCount < maxCapacity)
+      countElement.style.color = "orange";
     if (custCount === maxCapacity) {
       countElement.style.color = "red";
     } else if (custCount > maxCapacity) {
       countElement.style.color = "red";
-      countElement.innerHTML = `${maxCapacity}(${overflow})`
-    };
+      countElement.innerHTML = `${maxCapacity}(${overflow})`;
+    }
   }, [custCount, maxCapacity]);
   let { changeCustomersInStore } = props;
   //handles updating customer count to db
   useEffect(() => {
     let retailerId = JSON.parse(localStorage.retailer).id;
     if (custCount === maxCapacity) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
     }
     if (custCount === maxCapacity - 1) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
     }
   }, [custCount, maxCapacity, changeCustomersInStore]);
 
@@ -85,10 +89,10 @@ function RetailerView(props) {
   // grabs the initial data when the view loads
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
-    let retailer = JSON.parse(localStorage.getItem("retailer"))
-    if (retailer){
+    let retailer = JSON.parse(localStorage.getItem("retailer"));
+    if (retailer) {
       return dispatchFetchOneRetailer(retailer.id);
-    };
+    }
   }, [dispatchFetchOneRetailer]);
 
   return (
@@ -174,6 +178,7 @@ function RetailerView(props) {
         handlePlus={handlePlus}
         handleMinus={handleMinus}
       />
+      <Profile retailer={props.retailer} />
     </>
   );
 }
@@ -189,6 +194,7 @@ const mapStateToProps = (state) => {
     retailerName: state.currentRetailer
       ? state.currentRetailer.retailerName
       : null,
+    retailer: state.currentRetailer,
   };
 };
 
@@ -200,7 +206,7 @@ const mapDispatchToProps = (dispatch) => {
     changeCustomersInStore: (data, id) => {
       dispatch(actionUpdateRetailer(data, id));
     },
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RetailerView);
