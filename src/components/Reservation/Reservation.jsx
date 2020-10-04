@@ -13,7 +13,6 @@ import {
 } from "../../actions";
 
 const Reservation = (props) => {
-  console.log('reservation', props)
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
