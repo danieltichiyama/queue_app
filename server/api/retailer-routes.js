@@ -7,8 +7,11 @@ const {
   getAuthRetailer,
   updateRetailer,
   loginRetailer,
+  logoutRetailer,
   deleteRetailer,
 } = require("../controllers/retailerController");
+
+retailerRouter.route("/logout").get(logoutRetailer);
 
 retailerRouter
   .route("/:retailerId")

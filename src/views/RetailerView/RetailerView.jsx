@@ -85,8 +85,10 @@ function RetailerView(props) {
   // grabs the initial data when the view loads
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
-    let retailerID = JSON.parse(localStorage.getItem("retailer")).id;
-    return dispatchFetchOneRetailer(retailerID);
+    let retailer = JSON.parse(localStorage.getItem("retailer"))
+    if (retailer){
+      return dispatchFetchOneRetailer(retailer.id);
+    };
   }, [dispatchFetchOneRetailer]);
 
   return (
