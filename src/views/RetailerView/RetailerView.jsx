@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
-import Reservation from "../../components/Reservation";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
 import WaitList from "../../components/WaitList/WaitList.jsx"
+import HoldList from "../../components/HoldList/HoldList.jsx"
 
 function RetailerView(props) {
   const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity)
@@ -97,46 +97,12 @@ function RetailerView(props) {
           waitList={props.waitList}
           handlePlusPartySize={handlePlusPartySize}
         />
-        <ul className={styles.HoldList} id="holdList">
-          <div className={styles.expand} onClick={handleExpand} id="expand" />
-          <div className={styles.header}>
-            <h3 id="onHoldH3">On Hold</h3>
-            <div className={styles.collapseContainer}>
-              <div
-                className={styles.collapse}
-                onClick={handleCollapse}
-                id="collapse"
-              ></div>
-            </div>
-          </div>
-          <div className={styles.listContainer}>
-            {props.holdList.map((reservation, index) => {
-              let replyStatuses = {
-                confirmed: "#6d9773",
-                hold: "#ffba00",
-                cancelled: "#ff421f",
-              };
-
-              let color;
-              if (
-                reservation.replyStatus !== "pending" ||
-                reservation.replyStatus !== "entered"
-              ) {
-                color = replyStatuses[reservation.replyStatus];
-              }
-              return (
-                <Reservation
-                  isHold={true}
-                  reservation={reservation}
-                  color={color}
-                  index={index}
-                  key={index}
-                  handlePlusPartySize={handlePlusPartySize}
-                ></Reservation>
-              );
-            })}{" "}
-          </div>
-        </ul>
+        <HoldList
+          holdList={props.holdList}
+          handleCollapse={handleCollapse}
+          handleExpand={handleExpand}
+          handlePlusPartySize={handlePlusPartySize}
+        />
       </div>
       <Dashboard
         custCount={custCount}
