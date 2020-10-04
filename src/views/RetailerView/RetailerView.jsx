@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
 import Reservation from "../../components/Reservation";
-import clock from "../../utils/imgs/clock.png";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard/Dashboard.jsx";
+import WaitList from "../../components/WaitList/WaitList.jsx"
 
 function RetailerView(props) {
   const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity)
@@ -92,41 +92,11 @@ function RetailerView(props) {
   return (
     <>
       <div className={styles.RetailerView}>
-        <ul className={styles.WaitList}>
-          <div className={styles.header}>
-            <h1>{props.retailerName}</h1>
-            <div className={styles.time}>
-              <img src={clock} alt="average wait time" />
-              <h3>5 min</h3>
-            </div>
-          </div>
-          <div className={styles.listContainer}>
-            {props.waitList.map((reservation, index) => {
-              let replyStatuses = {
-                confirmed: "#6d9773",
-                hold: "#ffba00",
-                cancelled: "#ff421f",
-              };
-
-              let color;
-              if (
-                reservation.replyStatus !== "pending" ||
-                reservation.replyStatus !== "entered"
-              ) {
-                color = replyStatuses[reservation.replyStatus];
-              }
-              return (
-                <Reservation
-                  reservation={reservation}
-                  color={color}
-                  index={index}
-                  key={index}
-                  handlePlusPartySize={handlePlusPartySize}
-                ></Reservation>
-              );
-            })}
-          </div>
-        </ul>
+        <WaitList
+          retailerName={props.retailerName}
+          waitList={props.waitList}
+          handlePlusPartySize={handlePlusPartySize}
+        />
         <ul className={styles.HoldList} id="holdList">
           <div className={styles.expand} onClick={handleExpand} id="expand" />
           <div className={styles.header}>
