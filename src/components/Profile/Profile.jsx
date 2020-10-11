@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import {useDispatch, useSelector} from "react-redux"
+import {actionUpdateRetailer} from "../../actions"
 import styles from "./Profile.module.scss";
 import moment from "moment";
 
 const Profile = (props) => {
+  const dispatch = useDispatch();
+  const retailerID = useSelector(state => state.currentRetailer._id)
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -16,12 +20,22 @@ const Profile = (props) => {
     
   })
 
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    dispatch(actionUpdateRetailer(profile, retailerID))
+  }
+
+  const handleCancel = (e)=>{
+    e.preventDefault();
+    setProfile(props.retailer);
+  }
+
 
   return (
     <div className={styles.Profile}>
       Profile
       <div className={styles.container}>
-        <form>
+        <form onSubmit = {handleSubmit}>
           <label htmlFor="name">
             Name
             <input
@@ -112,6 +126,8 @@ const Profile = (props) => {
               value={profile.maxCapacity || 0}
             />
           </label>
+          <input type="submit" value="Save changes"/>
+          <input type="button" value="Cancel" onClick = {handleCancel}/>
         </form>
       </div>
     </div>
