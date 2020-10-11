@@ -34,7 +34,6 @@ class UserView extends Component {
     let foundRetailers = this.props.customerSearchRetailer;
     return (
       <div className={styles.UserView}>
-        <h1>User view</h1>
         <form
           className={styles.searchContainer}
           onSubmit={this.handleSearchSubmit}
@@ -67,8 +66,8 @@ class UserView extends Component {
                 </div>
 
                 <div className={styles.counter}>
-                  <p className={styles.count}>{store.waitListCount}</p>
-                  <p>waiting</p>
+                  <p>Waiting:</p>
+                  <p className={styles.count}>{store.currentCapacity}</p>
                   <p>{`Max: ${store.maxCapacity}`}</p>
                 </div>
               </li>
