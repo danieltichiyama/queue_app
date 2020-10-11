@@ -12,9 +12,10 @@ const Profile = (props) => {
   const handleInput = ((e)=>{
     let {value, name} = e.target;
 
-    setProfile({[name]: value});
+    setProfile({...profile, [name]: value});
     
   })
+
 
   return (
     <div className={styles.Profile}>
@@ -96,7 +97,7 @@ const Profile = (props) => {
                 type="time"
                 name="close"
                 id="close"
-                value={moment(profile.close, "HH:mm").format("HH:mm") || moment("00:00", "HH:mm").format("HH:mm")}
+                value={moment(profile.close, "HH:mm").format("HH:mm") || ""}
               />
             </label>
           </div>

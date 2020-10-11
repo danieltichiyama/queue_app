@@ -83,12 +83,6 @@ function Register(props) {
       return;
     }
 
-    console.log("openingTime", openingTime);
-    console.log(typeof openingTime);
-    console.log("closingTime", closingTime);
-    console.log(typeof closingTime);
-    console.log("after all that ", openingTime.split(":").join(""));
-
     let retailerObj = {
       username,
       password,
@@ -103,7 +97,6 @@ function Register(props) {
       maxCapacity,
     };
 
-    console.log("retailerObj", retailerObj);
 
     dispatch(registerRetailer(retailerObj));
     return props.setIsLogin(true);
