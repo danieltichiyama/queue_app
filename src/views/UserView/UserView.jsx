@@ -3,6 +3,7 @@ import styles from "./UserView.module.scss";
 import magGlass from "../../utils/imgs/magGlass.png";
 import { connect } from "react-redux";
 import { actionFindRetailers, actionSearchingRetailers } from "../../actions";
+import RetailerCard from "../../components/RetailerCard/RetailerCard";
 
 class UserView extends Component {
   constructor(props) {
@@ -53,25 +54,10 @@ class UserView extends Component {
         <ul className={styles.results}>
           {foundRetailers.map((store, index) => {
             return (
-              <li className={styles.result} key={"retailers-" + index}>
-                <div className={styles.generalInfo}>
-                  <h3>{store.retailerName}</h3>
-                  <p>{`Open: ${store.open} ~ Close: ${store.close}`}</p>
-                  <p>
-                    {`${store.address}`}
-                    <br />
-                    {`${store.city}, ${store.state} ${store.zipcode}`}
-                  </p>
-                  <a href={`tel:${store.phoneNumber}`}>{store.phoneNumber}</a>
-                </div>
-
-                <div className={styles.counter}>
-                  <p>Waiting:</p>
-                  <p className={styles.count}>{store.currentCapacity}</p>
-                  <p>{`Max: ${store.maxCapacity}`}</p>
-                </div>
-              </li>
-            );
+              <RetailerCard
+                index={index}
+                store={store}
+              />)
           })}
         </ul>
       </div>

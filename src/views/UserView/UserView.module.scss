@@ -29,55 +29,16 @@
     }
   }
 
+  .storePic{
+    width: 35%;
+    height: 75px;
+    border: 2px solid black;
+  }
+
   .results {
     height: 100%;
     overflow: scroll;
     width: 100%;
-
-    .result {
-      border-bottom: 2px rgba($color: #000000, $alpha: 0.2) solid;
-      padding: 6px 12px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-
-      .generalInfo {
-        width: 100%;
-        padding-left: 12px;
-
-        h3 {
-          font-size: 14px;
-          margin-top: 6px;
-        }
-
-        p {
-          font-size: 12px;
-          margin-bottom: 6px;
-        }
-
-        a {
-          font-size: 12px;
-          color: $lightblue;
-          text-decoration: none;
-        }
-      }
-
-      .counter {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-right: 24px;
-
-        p {
-          font-size: 12px;
-        }
-
-        .count {
-          font-size: 24px;
-          margin-bottom: 6px;
-        }
-      }
-    }
   }
   ::-webkit-scrollbar{
     display: none;
