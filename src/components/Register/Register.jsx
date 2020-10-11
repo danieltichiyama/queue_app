@@ -98,8 +98,8 @@ function Register(props) {
       city,
       state,
       zipcode,
-      open: parseInt(openingTime.split(":").join("")),
-      close: parseInt(closingTime.split(":").join("")),
+      open: openingTime,
+      close: closingTime,
       maxCapacity,
     };
 
