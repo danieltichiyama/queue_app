@@ -21,7 +21,8 @@ function Login(props) {
       <h1>login</h1>
       <form onSubmit={(e) => loginSubmit(e, { username, password })}>
         <ul>
-          <li>
+          <li className={styles.inputFields}>
+            <i class="fa fa-user icon"></i> 
             <input
               type="text"
               name="username"
@@ -29,7 +30,8 @@ function Login(props) {
               placeholder="Username"
             />
           </li>
-          <li>
+          <li className={styles.inputFields}>
+            <i class="fa fa-lock" aria-hidden="true"></i>
             <input
               type="password"
               name="password"
@@ -37,11 +39,15 @@ function Login(props) {
               placeholder="Password"
             />
           </li>
+          <li className={styles.loginButton} >
+            <button type="submit">Login</button>
+          </li>
+          <li className={styles.backButton}>
+            <button type="button" onClick={() => history.push({pathname: "/"})}>
+              Go back
+            </button>
+          </li>
         </ul>
-          <button type="submit">Login</button>
-          <button type="button" onClick={() => history.push({pathname: "/"})}>
-              Cancel
-          </button>
       </form>
       <div>
         <span>
