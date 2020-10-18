@@ -101,7 +101,7 @@ function Register(props) {
 
   return (
     <div className={styles.Register}>
-      <h1>Register</h1>
+      <h1>register</h1>
       {isError && (
         <div className="errorMessage">
           <i
@@ -117,7 +117,9 @@ function Register(props) {
       <form onSubmit={(e) => registerRetailerSubmit(e)}>
         <ul>
           <li>
+            <div className={styles.label}>Store Name</div>
             <input
+              className={styles.inputField}
               type="text"
               name="retailerName"
               onChange={(e) => setRetailerName(e.target.value)}
@@ -125,7 +127,9 @@ function Register(props) {
             />
           </li>
           <li>
+            <div className={styles.label}>Username</div> 
             <input
+              className={styles.inputField}
               type="text"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
@@ -133,7 +137,9 @@ function Register(props) {
             />
           </li>
           <li>
+            <div className={styles.label}>Password</div>
             <input
+              className={styles.inputField}
               type="password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
@@ -141,7 +147,9 @@ function Register(props) {
             />
           </li>
           <li>
+            <div className={styles.label}>Confirm Password</div>
             <input
+              className={styles.inputField}
               type="password"
               name="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -149,7 +157,9 @@ function Register(props) {
             />
           </li>
           <li>
+            <div className={styles.label}>Street Address</div>
             <input
+              className={styles.inputField}
               type="text"
               name="address"
               onChange={(e) => setAddress(e.target.value)}
@@ -157,34 +167,47 @@ function Register(props) {
             />
           </li>
           <li>
+            <div className={styles.label}>City</div>
             <input
+              className={styles.inputField}
               type="text"
               name="city"
               onChange={(e) => setCity(e.target.value)}
               placeholder="City"
             />
-            <select
-              name="state"
-              id="state"
-              onChange={(e) => setState(e.target.value)}
-            >
-              {states.map((state) => {
-                return (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                );
-              })}
-            </select>
-            <input
-              type="text"
-              name="zipCode"
-              onChange={(e) => setZipcode(e.target.value)}
-              placeholder="Zip Code"
-            />
+          </li>
+          <li className={styles.addressLine}>
+            <div>
+              <div className={styles.label}>State</div>
+              <select
+                name="state"
+                id="state"
+                onChange={(e) => setState(e.target.value)}
+              >
+                {states.map((state) => {
+                  return (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div>
+              <div className={styles.label}>Zip Code</div>
+              <input
+                className={styles.addressFields}
+                type="text"
+                name="zipCode"
+                onChange={(e) => setZipcode(e.target.value)}
+                placeholder="Zip Code"
+              />
+            </div>
           </li>
           <li>
+            <div className={styles.label}>Phone Number</div>
             <input
+              className={styles.inputField}
               type="text"
               name="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -215,9 +238,13 @@ function Register(props) {
               placeholder="Max Capacity"
             />
           </li>
+          <li className={styles.submitButton}>
+            <button type="submit">Register</button>
+          </li>
+          <li className={styles.cancelButton}>
+            <button className={styles.cancelButton} onClick={() => props.setIsLogin(true)}>Cancel</button>
+          </li>
         </ul>
-        <button type="submit">Register</button>
-        <button onClick={() => props.setIsLogin(true)}>Cancel</button>
       </form>
     </div>
   );
