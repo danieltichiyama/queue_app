@@ -17,7 +17,7 @@ export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
 export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
 export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 
-export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
+export const actionUpdateRetailer = (data, retailerId, isCustomerCount = false) => async (dispatch) => {
   let url = `/api/retailers/${retailerId}`
 
   await Axios.put(url, data)
@@ -25,6 +25,7 @@ export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
       dispatch({
         type: UPDATE_RETAILER,
         payload: retailer.data,
+        isCustomerCount
       });
     })
     .catch((err) => {

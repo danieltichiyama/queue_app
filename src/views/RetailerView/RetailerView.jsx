@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchOneRetailer(id));
     },
     changeCustomersInStore: (data, id) => {
-      dispatch(actionUpdateRetailer(data, id));
+      dispatch(actionUpdateRetailer(data, id, true));
     },
   };
 };

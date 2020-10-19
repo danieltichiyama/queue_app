@@ -31,7 +31,11 @@ const reducer = (state = initialState, action) => {
     case UPDATE_RETAILER:
 
       Object.assign({}, state, { currentRetailer: action.payload });
-      return alert("Your profile has been updated.")
+
+      if (!action.isCustomerCount){
+        return alert("Your profile has been updated.")
+      }
+      return
     case FETCH_RETAILERS:
       return Object.assign({}, state, { retailers: action.payload });
     case SEARCH_RETAILERS_BY_NAME:
