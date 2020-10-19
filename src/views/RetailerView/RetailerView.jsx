@@ -86,7 +86,7 @@ function RetailerView(props) {
   const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
     let retailer = JSON.parse(localStorage.getItem("retailer"))
-    if (retailer){
+    if (retailer) {
       return dispatchFetchOneRetailer(retailer.id);
     };
   }, [dispatchFetchOneRetailer]);
