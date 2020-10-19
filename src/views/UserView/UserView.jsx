@@ -10,9 +10,11 @@ function UserView(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [foundRetailers, setFoundRetailers] = useState([]);
   //on mount find all retailers
+
+  let {dispatchFindRetailers} = props
   useEffect(() => {
-    return props.dispatchFindRetailers();
-  }, []);
+    return dispatchFindRetailers();
+  }, [dispatchFindRetailers]);
 
   useEffect(() => {
     return setFoundRetailers(props.customerSearchRetailer);
