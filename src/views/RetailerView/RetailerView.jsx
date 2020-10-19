@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
-import Dashboard from "../../components/Dashboard/Dashboard.jsx";
-import WaitList from "../../components/WaitList/WaitList.jsx"
-import HoldList from "../../components/HoldList/HoldList.jsx"
+import Dashboard from "../../components/Dashboard";
+import Profile from "../../components/Profile";
+import WaitList from "../../components/WaitList/WaitList.jsx";
+import HoldList from "../../components/HoldList/HoldList.jsx";
 
 function RetailerView(props) {
-  const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity)
-  const [initialCount] = useState(parseInt(localStorage.getItem("currentCapacity")) || 0)
+  const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity);
+  const [initialCount] = useState(
+    parseInt(localStorage.getItem("currentCapacity")) || 0
+  );
   const [custCount, setCustCount] = useState(initialCount);
 
   const handlePlus = () => {
@@ -32,23 +35,24 @@ function RetailerView(props) {
     let countElement = document.getElementById("customer-count");
     let overflow = parseInt(countElement.innerHTML - maxCapacity);
     if (custCount < maxCapacity / 2) countElement.style.color = "black";
-    if (custCount >= maxCapacity / 2 && custCount < maxCapacity) countElement.style.color = "orange";
+    if (custCount >= maxCapacity / 2 && custCount < maxCapacity)
+      countElement.style.color = "orange";
     if (custCount === maxCapacity) {
       countElement.style.color = "red";
     } else if (custCount > maxCapacity) {
       countElement.style.color = "red";
-      countElement.innerHTML = `${maxCapacity}(${overflow})`
-    };
+      countElement.innerHTML = `${maxCapacity}(${overflow})`;
+    }
   }, [custCount, maxCapacity]);
   let { changeCustomersInStore } = props;
   //handles updating customer count to db
   useEffect(() => {
     let retailerId = JSON.parse(localStorage.retailer).id;
     if (custCount === maxCapacity) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
     }
     if (custCount === maxCapacity - 1) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId)
+      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
     }
   }, [custCount, maxCapacity, changeCustomersInStore]);
 
@@ -88,7 +92,7 @@ function RetailerView(props) {
     let retailer = JSON.parse(localStorage.getItem("retailer"))
     if (retailer) {
       return dispatchFetchOneRetailer(retailer.id);
-    };
+    }
   }, [dispatchFetchOneRetailer]);
 
   return (
@@ -111,6 +115,8 @@ function RetailerView(props) {
         handlePlus={handlePlus}
         handleMinus={handleMinus}
       />
+      {/* Needs to be connected to a button to access retailer profile. */}
+      {/* <Profile retailer={props.retailer} /> */}
     </>
   );
 }
@@ -126,6 +132,7 @@ const mapStateToProps = (state) => {
     retailerName: state.currentRetailer
       ? state.currentRetailer.retailerName
       : null,
+    retailer: state.currentRetailer,
   };
 };
 
@@ -137,7 +144,7 @@ const mapDispatchToProps = (dispatch) => {
     changeCustomersInStore: (data, id) => {
       dispatch(actionUpdateRetailer(data, id));
     },
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RetailerView);
