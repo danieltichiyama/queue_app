@@ -82,6 +82,7 @@ function Register(props) {
       setIsError(true);
       return;
     }
+
     let retailerObj = {
       username,
       password,
@@ -91,10 +92,12 @@ function Register(props) {
       city,
       state,
       zipcode,
-      open: parseInt(openingTime.split(":").join()),
-      close: parseInt(closingTime.split(":").join()),
+      open: openingTime,
+      close: closingTime,
       maxCapacity,
     };
+
+
     dispatch(registerRetailer(retailerObj));
     return props.setIsLogin(true);
   };

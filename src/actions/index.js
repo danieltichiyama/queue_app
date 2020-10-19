@@ -19,7 +19,7 @@ export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 export const VERIFICATION_TYPE = "VERIFICATION_TYPE";
 export const VERIFY_PIN = "VERIFY_PIN";
 
-export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
+export const actionUpdateRetailer = (data, retailerId, isCustomerCount = false) => async (dispatch) => {
   let url = `/api/retailers/${retailerId}`
 
   await Axios.put(url, data)
@@ -27,6 +27,7 @@ export const actionUpdateRetailer = (data, retailerId) => async (dispatch) => {
       dispatch({
         type: UPDATE_RETAILER,
         payload: retailer.data,
+        isCustomerCount
       });
     })
     .catch((err) => {
