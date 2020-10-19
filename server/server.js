@@ -7,10 +7,18 @@ const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const client = redis.createClient(6379, "localhost");
 const passport = require("passport");
+const path = require('path')
 
 require("./passport");
 
 const app = express();
+
+if (process.env.NODE_ENV === "production"){
+  console.log("running production");
+  app.use(express.static(path.join(__dirname, 'build')))
+
+}
+
 
 const PORT = process.env.EXPRESS_HOST_PORT || 3001;
 

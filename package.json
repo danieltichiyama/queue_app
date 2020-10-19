@@ -47,7 +47,7 @@
     "eject": "react-scripts eject",
     "server": "redis-server --daemonize yes && nodemon server/server.js",
     "seed": "node server/seeds",
-    "local": "npm run build && serve -s build"
+    "serve build": "npm run build && serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"

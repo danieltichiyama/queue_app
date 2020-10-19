@@ -13,20 +13,6 @@ self.addEventListener('install', function() {
 
 // Activate the service worker and remove old data from the cache
 self.addEventListener('activate', function(e) {
-  e.waitUntil(
-    caches.keys().then(keyList => {
-      return Promise.all(
-        keyList.map(key => {
-          if (key !== "workbox-precache-v2-http://localhost:5000/" || key !== DATA_CACHE_NAME) {
-            //! added this thinking that it wouldn't delete the workbox-precache database but it's still breaking...
-            console.log('Removing old cache data', key);
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
-
   self.clients.claim();
 });
 

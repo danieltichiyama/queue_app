@@ -72,6 +72,7 @@ const retailerController = {
       });
   },
   loginRetailer(req, res, next) {
+    console.log("login route hit...")
     passport.authenticate("login", (err, retailer, info) => {
       if (err) {
         return next(err);
