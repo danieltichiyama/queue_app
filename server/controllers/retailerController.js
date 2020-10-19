@@ -86,7 +86,7 @@ const retailerController = {
         }
 
         return Retailer.findById(req.user._id)
-          .populate({ path: "reservations" })
+          .populate({ path: "reservations", populate: {path: "customerId"} })
           .then((results) => {
             if (!results) {
               return res.status(404).json({ message: "Retailer not found." });
