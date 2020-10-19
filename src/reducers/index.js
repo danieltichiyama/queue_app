@@ -29,7 +29,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_RETAILER:
-      console.log('update retailer', action.payload)
       if (!action.isCustomerCount) {
         Object.assign({}, state, { currentRetailer: action.payload });
         return alert("Your profile has been updated.")
