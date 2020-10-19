@@ -7,7 +7,6 @@ function RetailerCard(props) {
         store
     } = props;
 
-
     return (
         <li className={styles.result} key={"retailers-" + index}>
             <div className={styles.storePic}></div>
