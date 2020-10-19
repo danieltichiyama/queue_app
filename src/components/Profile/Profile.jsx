@@ -57,8 +57,8 @@ const Profile = (props) => {
               <input
               onChange = {handleInput}
                 type="text"
-                name="street"
-                id="street"
+                name="address"
+                id="address "
                 value={profile.address || ""}
               />
             </label>
