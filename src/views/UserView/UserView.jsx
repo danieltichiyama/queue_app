@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from "./UserView.module.scss";
 import magGlass from "../../utils/imgs/magGlass.png";
 import { connect } from "react-redux";
