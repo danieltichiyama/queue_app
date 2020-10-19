@@ -115,7 +115,8 @@ function RetailerView(props) {
         handlePlus={handlePlus}
         handleMinus={handleMinus}
       />
-      <Profile retailer={props.retailer} />
+      {/* Needs to be connected to a button to access retailer profile. */}
+      {/* <Profile retailer={props.retailer} /> */}
     </>
   );
 }
