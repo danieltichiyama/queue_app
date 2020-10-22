@@ -176,7 +176,7 @@ function Register(props) {
               placeholder="City"
             />
           </li>
-          <li className={styles.addressLine}>
+          <li className={styles.doubleInput}>
             <div>
               <div className={styles.label}>State</div>
               <select
@@ -214,24 +214,32 @@ function Register(props) {
               placeholder="Phone Number"
             />
           </li>
-          <li>
-            Opening Time:{" "}
-            <input
-              type="time"
-              name="openingTime"
-              onChange={(e) => setOpeningTime(e.target.value)}
-              placeholder="Opening Time"
-            />
-            Closing Time:{" "}
-            <input
-              type="time"
-              name="closingTime"
-              onChange={(e) => setClosingTime(e.target.value)}
-              placeholder="Closing Time"
-            />
+          <li className={styles.doubleInput}>
+            <div>
+              <div className={styles.label}>Opening Time</div>
+              <input
+                className={styles.timeField}
+                type="time"
+                name="openingTime"
+                onChange={(e) => setOpeningTime(e.target.value)}
+                placeholder="Opening Time"
+              />
+            </div>
+            <div id={styles.closingTime}>
+              <div className={styles.label}>Closing Time</div>
+              <input
+                className={styles.timeField}
+                type="time"
+                name="closingTime"
+                onChange={(e) => setClosingTime(e.target.value)}
+                placeholder="Closing Time"
+              />
+            </div>
           </li>
           <li>
+            <div className={styles.label}>Max Capacity</div>
             <input
+              className={styles.inputField}
               type="number"
               name="maxCapacity"
               onChange={(e) => setMaxCapacity(e.target.value)}

@@ -9,7 +9,8 @@ $dark-green: #6d9773;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   margin: auto;
-  padding: 25% 0;
+  padding-top: 20%;
+  padding-bottom: 30%;
   width: 85%;
   height: 80vh;
   overflow-y: auto;
@@ -29,17 +30,27 @@ $dark-green: #6d9773;
 
     .inputField {
       width: 100%;
-      // padding: 9px;
     }
   }
 
-  .addressLine {
+  .doubleInput {
+    width: 100%;
     display: inline-flex;
     white-space: nowrap;
 
     select {
       padding: 10px;
       margin-right: 12px;
+    }
+
+    .timeField {
+      width: 100%;
+      padding: 8px;
+    }
+
+    #closingTime {
+      position: relative;
+      right: 0;
     }
   }
 
