@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "../Modal";
 import styles from "./VerifyTwo.module.scss";
+import {Link} from "react-router-dom"
 
 const VerifyTwo = (props) => {
   return (
@@ -25,7 +26,7 @@ const VerifyTwo = (props) => {
         <Modal className={styles.modal}>
           <p>Successfully verified. Thank you for verifying your business</p>
           <div>
-            <button onClick={props.toggleModal}>Go to store</button>
+            <button><Link to='/retailerView'>Go to store</Link></button>
           </div>
         </Modal>
       )}
