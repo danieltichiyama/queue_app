@@ -9,6 +9,7 @@ export const TWILIO_NOTIFICATION = "TWILIO_NOTIFICATION";
 export const UPDATE_RETAILER = "UPDATE_RETAILER";
 export const LOGIN_RETAILER = "LOGIN_RETAILER";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const LOGOUT_RETAILER = "LOGOUT_RETAILER";
 export const REGISTER_RETAILER = "REGISTER_RETAILER";
 export const REGISTRATION_ERROR = "REGISTRATION_ERROR";
 export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER";
@@ -18,12 +19,15 @@ export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
 export const VERIFICATION_TYPE = "VERIFICATION_TYPE";
 export const VERIFY_PIN = "VERIFY_PIN";
 
-export const updateRetailer = (data) => async (dispatch) => {
-  await Axios.put("/api/retailers/QueueApp", data)
+export const actionUpdateRetailer = (data, retailerId, isCustomerCount = false) => async (dispatch) => {
+  let url = `/api/retailers/${retailerId}`
+
+  await Axios.put(url, data)
     .then((retailer) => {
       dispatch({
         type: UPDATE_RETAILER,
         payload: retailer.data,
+        isCustomerCount
       });
     })
     .catch((err) => {
@@ -84,9 +88,8 @@ export const createReservation = (data) => async (dispatch) => {
     });
 };
 
-export const actionUpdateReservation = (data) => async (dispatch) => {
-  let url = `/api/reservations/${data.reservationId}`;
-  delete data.reservationId;
+export const actionUpdateReservation = (data, id) => async (dispatch) => {
+  let url = `/api/reservations/${id}`;
 
   await Axios.put(url, data)
     .then((response) => {
@@ -133,6 +136,19 @@ export const loginRetailer = (data) => async (dispatch) => {
       }
     });
 };
+
+export const logoutRetailer = () => async (dispatch) => {
+  await Axios.get("/api/retailers/logout")
+    .then(() => {
+      dispatch({
+        type: LOGOUT_RETAILER,
+      })
+    })
+    .catch(({ message, response }) => {
+      console.log(response);
+      console.log(message);
+    })
+}
 
 export const registerRetailer = (data) => async (dispatch) => {
   await Axios.post("/api/retailers/register", data)

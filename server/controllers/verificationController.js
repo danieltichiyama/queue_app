@@ -69,8 +69,8 @@ const verificationController = {
   },
   checkPIN({ params, body }, res) {
     let retailerId = params.retailerId;
-    let enteredPIN = body.enteredPIN;
-    Retailer.findById({ _id: retailerId }, "+verificationPIN")
+    let enteredPIN = parseInt(body.enteredPIN);
+    Retailer.findByIdAndUpdate({ _id: retailerId }).select("verificationPIN")
       .then((results) => {
         let verificationPIN = results.verificationPIN;
         if (enteredPIN === verificationPIN) {

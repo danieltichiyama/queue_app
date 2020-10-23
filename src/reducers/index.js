@@ -7,6 +7,7 @@ import {
   UPDATE_RETAILER,
   LOGIN_RETAILER,
   LOGIN_ERROR,
+  LOGOUT_RETAILER,
   REGISTRATION_ERROR,
   FIND_RETAILERS_FOR_CUSTOMER,
   SEARCH_FOR_RETAILER,
@@ -21,13 +22,19 @@ const initialState = {
     customersInStore: null,
     reservations: [],
   },
+  isLoggedIn: (!!localStorage.getItem("retailer")),
   customerSearchRetailer: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_RETAILER:
+      if (!action.isCustomerCount) {
+        Object.assign({}, state, { currentRetailer: action.payload });
+        return alert("Your profile has been updated.")
+      }
       return Object.assign({}, state, { currentRetailer: action.payload });
+
     case FETCH_RETAILERS:
       return Object.assign({}, state, { retailers: action.payload });
     case SEARCH_RETAILERS_BY_NAME:
@@ -61,6 +68,9 @@ const reducer = (state = initialState, action) => {
     case LOGIN_ERROR:
       alert(action.payload);
       return state;
+    case LOGOUT_RETAILER:
+      localStorage.removeItem("retailer");
+      return Object.assign({}, state, { isLoggedIn: false })
     case REGISTRATION_ERROR:
       alert("something went wrong with your registration.");
       return state;

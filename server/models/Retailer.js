@@ -42,8 +42,8 @@ const RetailerSchema = new Schema(
         message: () => "invalid phoneNumber, must be a string of 11 numbers",
       },
     },
-    open: { type: Number, required: true },
-    close: { type: Number, required: true },
+    open: { type: String, required: true },
+    close: { type: String, required: true },
     maxCapacity: { type: Number, required: true },
     currentCapacity: {
       type: Number,

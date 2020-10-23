@@ -20,7 +20,9 @@ class VerificationView extends Component {
     this.sendPIN = this.sendPIN.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({retailerId : JSON.parse(window.localStorage.getItem('retailer')).id})
+  }
 
   sendPIN = (e) => {
     e.preventDefault();
@@ -28,12 +30,12 @@ class VerificationView extends Component {
       displayComponent,
       verificationType,
       contact,
-      retailerId,
+      retailerId
     } = this.state;
     let data = {
       verificationType,
       contact,
-      retailerId,
+      retailerId
     };
     this.setState({
       displayComponent: displayComponent === "first" ? "second" : "first",
@@ -43,14 +45,15 @@ class VerificationView extends Component {
 
   verifyPIN = (e) => {
     e.preventDefault();
-    let { enteredPIN } = this.state;
+    let { enteredPIN,retailerId } = this.state;
     let data = {
       enteredPIN,
+      retailerId
     };
     this.setState({
       isOpen: !this.state.isOpen,
     });
-    this.props.verifyPIN(data);
+    this.props.dispatchVerifyPIN(data);
   };
 
   resendPIN = (e) => {
