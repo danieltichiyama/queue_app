@@ -1,0 +1,67 @@
+$button-height: 35px;
+$dark-green: #6d9773;
+
+.Login {
+  margin: auto;
+  width: 80%;
+  padding: 50% 0;
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  li {
+    height: $button-height;
+    border-radius: 15px;
+  }
+
+  .inputFields {
+    background-color: white;
+    border: 2px solid black;
+
+    input {
+      border: 0;
+      width: 95%;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+  }
+
+  .loginButton {
+    background-color: $dark-green;
+    color: white;
+  
+    button {
+      width: 100%;
+      background-color: $dark-green;
+      border: 0;
+      color: white;
+    }
+  }
+
+  .backButton {
+    background-color: black;
+    color: white;
+
+    button {
+      width: 100%;
+      background-color: black;
+      border: 0;
+      color: white;
+    }
+  }
+
+  p {
+    font-size: 0.75rem;
+
+    button {
+      border: 0;
+      background-color: white;
+      text-decoration: underline;
+    }
+  }
+}

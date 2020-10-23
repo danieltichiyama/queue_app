@@ -1,0 +1,84 @@
+$dark-green: #6d9773;
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.Register::-webkit-scrollbar {
+  display: none;
+}
+
+.Register {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  margin: auto;
+  padding-top: 20%;
+  padding-bottom: 30%;
+  width: 85%;
+  height: 80vh;
+  overflow-y: auto;
+
+  h1 {
+    text-align: center;
+  }
+
+  li {
+    background-color: white;
+    display: block;
+
+
+    .inputField, .addressFields {
+      padding: 9px;
+    }
+
+    .inputField {
+      width: 100%;
+    }
+  }
+
+  .doubleInput {
+    width: 100%;
+    display: inline-flex;
+    white-space: nowrap;
+
+    select {
+      padding: 10px;
+      margin-right: 12px;
+    }
+
+    .timeField {
+      width: 100%;
+      padding: 8px;
+    }
+
+    #closingTime {
+      position: relative;
+      right: 0;
+    }
+  }
+
+  .submitButton {
+    background-color: $dark-green;
+    color: white;
+    border-radius: 15px;
+    margin-top: 10%;
+  
+    button {
+      background-color: $dark-green;
+    }
+  }
+
+  .cancelButton {
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+
+    button {
+      background-color: black;
+    }
+  }
+
+  button {
+    width: 100%;
+    border: 0;
+    color: white;
+    height: 35px;
+  }
+}
