@@ -16,6 +16,7 @@ passport.use(
     (username, password, done) => {
       return Retailer.findOne({ username: username }, "password")
         .then(async (retailer) => {
+
           if (!retailer) {
             return done(null, false, {
               message: "Username or password invalid.",

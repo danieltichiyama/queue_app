@@ -14,7 +14,7 @@ const verificationController = {
     let verificationType = body.verificationType;
     let retailerId = params.retailerId;
     let randomPIN = Math.floor(100000 + Math.random() * 900000);
-    let toNumber = body.phoneNumber;
+    let toNumber = body.contact;
     let toEmail = body.email;
 
     Retailer.findByIdAndUpdate(
@@ -68,8 +68,8 @@ const verificationController = {
   },
   checkPIN({ params, body }, res) {
     let retailerId = params.retailerId;
-    let enteredPIN = body.enteredPIN;
-    Retailer.findById({ _id: retailerId }, "+verificationPIN")
+    let enteredPIN = parseInt(body.enteredPIN);
+    Retailer.findByIdAndUpdate({ _id: retailerId }).select("verificationPIN")
       .then((results) => {
         let verificationPIN = results.verificationPIN;
         if (enteredPIN === verificationPIN) {

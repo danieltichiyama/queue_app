@@ -8,17 +8,16 @@ const {
   updateRetailer,
   loginRetailer,
   logoutRetailer,
-  deleteRetailer,
+  deleteRetailer
 } = require("../controllers/retailerController");
 
+retailerRouter.route("/register").post(createRetailer);
+retailerRouter.route("/login").post(loginRetailer);
 retailerRouter.route("/logout").get(logoutRetailer);
-
 retailerRouter
   .route("/:retailerId")
   .get(getAuthRetailer)
   .put(updateRetailer)
   .delete(deleteRetailer);
-retailerRouter.route("/register").post(createRetailer);
-retailerRouter.route("/login").post(loginRetailer);
 
 module.exports = retailerRouter;
