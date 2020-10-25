@@ -117,7 +117,6 @@ export const notifyCustomer = (data) => async (dispatch) => {
 };
 
 export const loginRetailer = (data) => async (dispatch) => {
-  console.log("zzzzzz");
   await Axios.post("/api/retailers/login", data)
     .then((response) => {
       dispatch({

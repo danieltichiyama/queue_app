@@ -51,14 +51,12 @@ var App = props => {
           <Route path="/retailerprofile" component={RetailerProfileView} />
           <Route path="/userprofile" component={UserProfileView} />
           <Route path="/verify" component={VerificationView} />
-              <Route exact path="/">
+          <Route exact path="/">
             {props.isLoggedIn ? <Redirect to="/retailerview" /> : <IsRetailerView />}
           </Route>
-
           <Route path="/retailerview">
             {props.isLoggedIn ? <RetailerView /> : <Redirect to="/auth" />}
           </Route>
-
           <Route path="/auth">
             {props.isLoggedIn ? <Redirect to="/retailerview" /> : <AuthView />}
           </Route>

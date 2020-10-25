@@ -14,10 +14,8 @@ passport.use(
       passwordField: "password",
     },
     (username, password, done) => {
-      console.log('111111')
       return Retailer.findOne({ username: username }, "password")
         .then(async (retailer) => {
-          console.log('test1')
 
           if (!retailer) {
             return done(null, false, {
@@ -27,7 +25,6 @@ passport.use(
             bcrypt
               .compare(password, retailer.password)
               .then((result) => {
-                console.log('test2')
                 if (!result) {
                   return done(null, false, {
                     message: "Username or password invalid.",
