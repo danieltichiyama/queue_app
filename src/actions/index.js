@@ -16,6 +16,8 @@ export const FIND_RETAILERS_FOR_CUSTOMER = "FIND_RETAILERS_FOR_CUSTOMER";
 export const SEARCH_FOR_RETAILER = "SEARCH_FOR_RETAILER";
 export const NO_SEARCH_RESULTS = "NO_SEARCH_RESULTS";
 export const UPDATE_RESERVATION = "UPDATE_RESERVATION";
+export const VERIFICATION_TYPE = "VERIFICATION_TYPE";
+export const VERIFY_PIN = "VERIFY_PIN";
 
 export const actionUpdateRetailer = (data, retailerId, isCustomerCount = false) => async (dispatch) => {
   let url = `/api/retailers/${retailerId}`
@@ -97,8 +99,8 @@ export const actionUpdateReservation = (data, id) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log('Error from actionUpdateReservation ', err.message)
-    })
+      console.log("Error from actionUpdateReservation ", err.message);
+    });
 };
 
 export const notifyCustomer = (data) => async (dispatch) => {
@@ -192,5 +194,25 @@ export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
         });
       }
       console.log("Error from actionSearchingRetailers", err.message);
+    });
+};
+
+export const actionVerificationType = (data) => async (dispatch) => {
+  await Axios.post(`api/verification/${data.retailerId}/send`, data)
+    .then((retailers) => {
+      dispatch({ type: VERIFICATION_TYPE, payload: retailers });
+    })
+    .catch((err) => {
+      console.log("Error from verification process", err.message);
+    });
+};
+
+export const actionVerifyPIN = (data) => async (dispatch) => {
+  await Axios.post(`api/verification/${data.retailerId}/check`, data)
+    .then((retailers) => {
+      dispatch({ type: VERIFY_PIN, payload: retailers });
+    })
+    .catch((err) => {
+      console.log("Error from verification process", err.message);
     });
 };
