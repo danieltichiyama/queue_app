@@ -60,6 +60,9 @@ const Dashboard = (props) => {
     if (isOpen) {
       dashboard.setAttribute("style", "top: 3vh");
       addbutton.innerHTML = "CLOSE";
+      addbutton.addEventListener('click', function () {
+        resetQueueForm();
+      })
       addbutton.setAttribute("style", "background: #ff421f; color: white");
       addbutton.removeEventListener("click", handleExpand);
       addbutton.addEventListener("click", handleCollapse);
