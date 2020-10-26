@@ -14,17 +14,27 @@ const WaitList = (props) => {
     } = props;
 
     const clearReservations = () => {
-        if (waitList.length === 0 && holdList.length === 0) {
-            return alert('no reservations to cancel')
+        let waitLength = waitList.length;
+        let holdLength = holdList.length;
+
+        if (waitLength === 0 && holdLength === 0) {
+            return alert('No reservations to cancel.');
+        }
+        if (waitLength !== 0) {
+            waitList.forEach((res) => {
+                let data = { queueStatus: 'cancelled' }
+                props.dispatchUpdateReservation(data, res.id);
+            });
+            alert(`Wait list cleared ${waitLength} reservations.`)
         };
-        waitList.map((res) => {
-            let data = { queueStatus: 'cancelled' }
-            return props.dispatchUpdateReservation(data, res.id)
-        });
-        holdList.map((res) => {
-            let data = { queueStatus: 'cancelled' }
-            return props.dispatchUpdateReservation(data, res.id)
-        })
+        if (holdLength !== 0) {
+            holdList.forEach((res) => {
+                let data = { queueStatus: 'cancelled' }
+                props.dispatchUpdateReservation(data, res.id);
+            })
+            alert(`Hold list cleared ${holdLength} reservations.`)
+        }
+        return
     };
 
     return (
