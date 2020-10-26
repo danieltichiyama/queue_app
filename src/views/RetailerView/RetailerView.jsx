@@ -94,13 +94,13 @@ function RetailerView(props) {
       return dispatchFetchOneRetailer(retailer.id);
     }
   }, [dispatchFetchOneRetailer]);
-
   return (
     <>
       <div className={styles.RetailerView}>
         <WaitList
           retailerName={props.retailerName}
           waitList={props.waitList}
+          holdList={props.holdList}
           handlePlusPartySize={handlePlusPartySize}
         />
         <HoldList

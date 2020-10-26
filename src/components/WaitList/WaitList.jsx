@@ -2,13 +2,30 @@ import React from 'react';
 import styles from './WaitList.module.scss'
 import clock from '../../utils/imgs/clock.png'
 import Reservation from '../Reservation';
+import { actionUpdateReservation } from '../../actions';
+import { connect } from "react-redux";
 
 const WaitList = (props) => {
     let {
         retailerName,
         waitList,
+        holdList,
         handlePlusPartySize,
     } = props;
+
+    const clearReservations = () => {
+        if (waitList.length === 0 && holdList.length === 0) {
+            return alert('no reservations to cancel')
+        };
+        waitList.map((res) => {
+            let data = { queueStatus: 'cancelled' }
+            return props.dispatchUpdateReservation(data, res.id)
+        });
+        holdList.map((res) => {
+            let data = { queueStatus: 'cancelled' }
+            return props.dispatchUpdateReservation(data, res.id)
+        })
+    };
 
     return (
         <ul className={styles.WaitList}>
@@ -18,8 +35,15 @@ const WaitList = (props) => {
                     <img src={clock} alt="average wait time" />
                     <h3>5 Min</h3>
                 </div>
+                <button
+                    type="button"
+                    onClick={clearReservations}
+                >
+                    Clear
+                </button>
             </div>
             <div className={styles.listContainer}>
+                {waitList.length === 0 ? "No Reservations..." : null}
                 {waitList.map((reservation, index) => {
                     let replyStatuses = {
                         confirmed: "#6d9773",
@@ -48,4 +72,12 @@ const WaitList = (props) => {
     );
 };
 
-export default WaitList;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchUpdateReservation: (data, id) => {
+            return dispatch(actionUpdateReservation(data, id))
+        }
+    }
+};
+
+export default connect(null, mapDispatchToProps)(WaitList);
