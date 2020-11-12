@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createReservation } from "./../../actions";
 import { connect } from "react-redux";
-import PhoneInput from "react-phone-number-input/input";
+import PhoneInput from "react-phone-number-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
 
@@ -96,10 +96,10 @@ const Dashboard = (props) => {
       >
         <label htmlFor="phoneNumber">
           <PhoneInput
-            country="US"
+            defaultCountry="US"
             name="phoneNumber"
             id="phoneNumber"
-            placeholder="XXX-XXX-XXXX"
+            placeholder="Enter number"
             value={phoneNumber}
             onChange={setPhoneNumber}
             error={

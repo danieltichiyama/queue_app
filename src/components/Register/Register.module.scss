@@ -6,8 +6,8 @@ $dark-green: #6d9773;
 }
 
 .Register {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   margin: auto;
   padding-top: 20%;
   padding-bottom: 30%;
@@ -23,8 +23,8 @@ $dark-green: #6d9773;
     background-color: white;
     display: block;
 
-
-    .inputField, .addressFields {
+    .inputField,
+    .addressFields {
       padding: 9px;
     }
 
@@ -59,7 +59,7 @@ $dark-green: #6d9773;
     color: white;
     border-radius: 15px;
     margin-top: 10%;
-  
+
     button {
       background-color: $dark-green;
     }

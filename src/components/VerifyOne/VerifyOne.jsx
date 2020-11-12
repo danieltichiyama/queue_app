@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "../Modal";
 import styles from "./VerifyOne.module.scss";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const VerifyOne = (props) => {
   return (
@@ -34,10 +36,15 @@ const VerifyOne = (props) => {
           </div>
         </div>
         <div>
-          <input
-            type="text"
-            name="contact"
-            value={props.contact}
+          <PhoneInput
+            className={styles.flagDropdown}
+            country='us'
+            onlyCountries={['us']}
+            placeholder="Enter number"
+            disableDropdown={true}
+            jumpCursorToEnd={true}
+            disableCountryCode={true}
+            defaultValue={props.contact}
             onChange={props.handleContact}
           />
         </div>

@@ -69,9 +69,9 @@ class VerificationView extends Component {
     });
   };
 
-  handleContact = (e) => {
-    this.setState({ contact: e.target.value });
-    console.log(this.state.contact);
+  handleContact = (value, country, e, formattedValue) => {
+    let { contact } = this.state;
+    this.setState({ contact });
   };
 
   handlePIN = (e) => {
