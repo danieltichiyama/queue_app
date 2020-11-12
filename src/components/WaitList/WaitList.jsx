@@ -2,13 +2,40 @@ import React from 'react';
 import styles from './WaitList.module.scss'
 import clock from '../../utils/imgs/clock.png'
 import Reservation from '../Reservation';
+import { actionUpdateReservation } from '../../actions';
+import { connect } from "react-redux";
 
 const WaitList = (props) => {
     let {
         retailerName,
         waitList,
+        holdList,
         handlePlusPartySize,
     } = props;
+
+    const clearReservations = () => {
+        let waitLength = waitList.length;
+        let holdLength = holdList.length;
+
+        if (waitLength === 0 && holdLength === 0) {
+            return alert('No reservations to cancel.');
+        }
+        if (waitLength !== 0) {
+            waitList.forEach((res) => {
+                let data = { queueStatus: 'cancelled' }
+                props.dispatchUpdateReservation(data, res.id);
+            });
+            alert(`Wait list cleared ${waitLength} reservations.`)
+        };
+        if (holdLength !== 0) {
+            holdList.forEach((res) => {
+                let data = { queueStatus: 'cancelled' }
+                props.dispatchUpdateReservation(data, res.id);
+            })
+            alert(`Hold list cleared ${holdLength} reservations.`)
+        }
+        return
+    };
 
     return (
         <ul className={styles.WaitList}>
@@ -18,8 +45,15 @@ const WaitList = (props) => {
                     <img src={clock} alt="average wait time" />
                     <h3>5 Min</h3>
                 </div>
+                <button
+                    type="button"
+                    onClick={clearReservations}
+                >
+                    Clear
+                </button>
             </div>
             <div className={styles.listContainer}>
+                {waitList.length === 0 ? "No Reservations..." : null}
                 {waitList.map((reservation, index) => {
                     let replyStatuses = {
                         confirmed: "#6d9773",
@@ -48,4 +82,12 @@ const WaitList = (props) => {
     );
 };
 
-export default WaitList;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchUpdateReservation: (data, id) => {
+            return dispatch(actionUpdateReservation(data, id))
+        }
+    }
+};
+
+export default connect(null, mapDispatchToProps)(WaitList);
