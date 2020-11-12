@@ -6,9 +6,9 @@ import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 import moment from "moment";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  notifyCustomer,
+  actionNotifyCustomer,
   actionUpdateReservation
 } from "../../actions";
 
@@ -32,9 +32,13 @@ moment.updateLocale('en', {
 });
 
 const Reservation = (props) => {
+  const dispatch = useDispatch();
+  const retailerName = useSelector(state=>state.currentRetailer.retailerName);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formattedTime, setFormattedTime] = useState(moment(props.reservation.createdAt).fromNow());
+  const [queueStatus, setQueueStatus]= useState("");
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -60,12 +64,14 @@ const Reservation = (props) => {
     document.addEventListener("mousedown", handleClickOutside);
   });
 
+  // rerenders the component every minute to update the fromNow time
   useEffect(() => {
     const interval = setInterval(() => {
       setFormattedTime(moment(props.reservation.createdAt).fromNow());
     }, 60000);
     return () => clearInterval(interval);
   }, [props.reservation.createdAt]);
+  
 
   const toggleConfirm = () => {
     setConfirmOpen(!confirmOpen);
@@ -73,38 +79,47 @@ const Reservation = (props) => {
     toggleMenu();
   };
 
+  
   const handleConfirm = () => {
-    // this is where we need to send the data to the backend
-
+    let data;
+    if (queueStatus !=="pending"){
+      data = {queueStatus};
+      dispatch(actionUpdateReservation(data, props.reservation.id));
+      if (queueStatus === "enter"){
+        props.handlePlusPartySize(props.reservation.partySize);
+      }
+    } else {
+      data ={
+        phoneNumber: props.reservation.customerId.phoneNumber,
+        retailerName: retailerName,
+        reservationId: props.reservation._id,
+      };
+        dispatch (actionNotifyCustomer(data))
+    }
+    
     setConfirmOpen(false);
   };
 
   const handleNotificationClick = () => {
-    let data = {
-      phoneNumber: props.reservation.customerId.phoneNumber,
-      retailerName: props.retailerName,
-      reservationId: props.reservation._id,
-    };
-    return props.dispatchNotifyCustomer(data);
+
+    return toggleConfirm();
   };
 
   const handleHoldClick = () => {
-    let data = { queueStatus: "hold", };
-    props.dispatchUpdateReservation(data, props.reservation.id);
-    return toggleMenu();
+    setQueueStatus("hold");
+    return toggleConfirm();
+
   };
 
   const handleRemoveCustomer = () => {
-    let data = { queueStatus: 'cancelled' };
-    props.dispatchUpdateReservation(data, props.reservation.id);
-    return toggleMenu();
+    setQueueStatus("cancelled")
+
+    return toggleConfirm();
   };
 
   const handleCheckinCustomer = () => {
-    let data = { queueStatus: 'enter' };
-    props.dispatchUpdateReservation(data, props.reservation.id);
-    props.handlePlusPartySize(props.reservation.partySize);
-    return toggleMenu();
+    setQueueStatus("enter");
+    return toggleConfirm();
   };
 
   const { isHold } = props;
@@ -160,21 +175,5 @@ const Reservation = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    retailerName: state.currentRetailer.retailerName,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchNotifyCustomer: (data) => {
-      return dispatch(notifyCustomer(data));
-    },
-    dispatchUpdateReservation: (data, id) => {
-      return dispatch(actionUpdateReservation(data, id));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Reservation);
+export default Reservation;

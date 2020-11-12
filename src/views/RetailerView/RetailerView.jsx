@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import styles from "./RetailerView.module.scss";
-import { connect } from "react-redux";
-import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { actionFetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard";
 // import Profile from "../../components/Profile";
 import WaitList from "../../components/WaitList/WaitList.jsx";
 import HoldList from "../../components/HoldList/HoldList.jsx";
 
 function RetailerView(props) {
+  const dispatch = useDispatch();
+  const waitList = useSelector(state=> state.currentRetailer.reservations.filter((res) => {
+    return res.queueStatus === "wait";
+  }))
+  const holdList = useSelector(state=>state.currentRetailer.reservations.filter((res) => {
+    return res.queueStatus === "hold";
+  }))
+  const retailerName = useSelector(state=>state.currentRetailer
+    ? state.currentRetailer.retailerName
+    : null)
+
+  const retailer = useSelector(state=>state.currentRetailer);
+
   const [maxCapacity] = useState(JSON.parse(localStorage.retailer).maxCapacity);
   const [initialCount] = useState(
     parseInt(localStorage.getItem("currentCapacity")) || 0
@@ -44,17 +57,18 @@ function RetailerView(props) {
       countElement.innerHTML = `${maxCapacity}(${overflow})`;
     }
   }, [custCount, maxCapacity]);
-  let { changeCustomersInStore } = props;
+
   //handles updating customer count to db
   useEffect(() => {
     let retailerId = JSON.parse(localStorage.retailer).id;
+
     if (custCount === maxCapacity) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
+      dispatch(actionUpdateRetailer({ currentCapacity: custCount }, retailerId));
     }
     if (custCount === maxCapacity - 1) {
-      return changeCustomersInStore({ currentCapacity: custCount }, retailerId);
+      dispatch(actionUpdateRetailer({ currentCapacity: custCount }, retailerId));
     }
-  }, [custCount, maxCapacity, changeCustomersInStore]);
+  }, [custCount, maxCapacity, dispatch]);
 
   // handles open and close of On Hold list
   const [isOpen, setIsOpen] = useState(false);
@@ -87,24 +101,23 @@ function RetailerView(props) {
   };
 
   // grabs the initial data when the view loads
-  const { dispatchFetchOneRetailer } = props;
   useEffect(() => {
     let retailer = JSON.parse(localStorage.getItem("retailer"))
     if (retailer) {
-      return dispatchFetchOneRetailer(retailer.id);
+      dispatch(actionFetchOneRetailer(retailer.id));
     }
-  }, [dispatchFetchOneRetailer]);
+  }, [dispatch]);
 
   return (
     <>
       <div className={styles.RetailerView}>
         <WaitList
-          retailerName={props.retailerName}
-          waitList={props.waitList}
+          retailerName={retailerName}
+          waitList={waitList}
           handlePlusPartySize={handlePlusPartySize}
         />
         <HoldList
-          holdList={props.holdList}
+          holdList={holdList}
           handleCollapse={handleCollapse}
           handleExpand={handleExpand}
           handlePlusPartySize={handlePlusPartySize}
@@ -116,35 +129,10 @@ function RetailerView(props) {
         handleMinus={handleMinus}
       />
       {/* Needs to be connected to a button to access retailer profile. */}
-      {/* <Profile retailer={props.retailer} /> */}
+      {/* <Profile retailer={retailer} /> */}
     </>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    waitList: state.currentRetailer.reservations.filter((res) => {
-      return res.queueStatus === "wait";
-    }),
-    holdList: state.currentRetailer.reservations.filter((res) => {
-      return res.queueStatus === "hold";
-    }),
-    retailerName: state.currentRetailer
-      ? state.currentRetailer.retailerName
-      : null,
-    retailer: state.currentRetailer,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchFetchOneRetailer: (id) => {
-      dispatch(fetchOneRetailer(id));
-    },
-    changeCustomersInStore: (data, id) => {
-      dispatch(actionUpdateRetailer(data, id, true));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RetailerView);
+export default RetailerView;
