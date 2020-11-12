@@ -1,7 +1,82 @@
 .verifyOne {
   position: relative;
+  margin: auto;
+  padding-top: 20%;
+  padding-bottom: 30%;
+  width: 85%;
+  height: 80vh;
+  overflow-y: auto;
 }
 
-button {
-  margin: 0px 5px 0px 0px;
+.verifyContainer {
+  .contactMode,
+  .submitMode {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.contactMode {
+  display: flex;
+  button {
+    &:focus {
+      outline-style: none;
+    }
+    margin-left: 0px;
+    margin-right: 0px;
+    float: left;
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+    background-color: rgba($color: #6d9773, $alpha: 0.6);
+    padding: 12px 0px;
+  }
+  :nth-child(1) {
+    border-radius: 5px 0px 0px 5px;
+  }
+  :nth-child(2) {
+    border-radius: 0px;
+    border-left: 1px solid #cacaca;
+    border-right: 1px solid #cacaca;
+  }
+  :nth-child(3) {
+    border-radius: 0px 5px 5px 0px;
+  }
+}
+
+.selectedButton {
+  background-color: #6d9773;
+}
+
+.submitMode {
+  margin-top: 20%;
+  button {
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+    background-color: #6d9773;
+    padding: 12px 0px;
+    margin-bottom: 12px;
+  }
+}
+
+input {
+  position: relative;
+  font-size: 14px;
+  padding-left: 12px;
+  margin-left: 0;
+  background: #ffffff;
+  border: 1px solid black;
+  border-radius: 5px;
+  line-height: 25px;
+  height: 42px;
+  width: 100%;
+  outline: none;
+}
+
+li {
+  background-color: #ffffff;
+  margin: 1px;
 }

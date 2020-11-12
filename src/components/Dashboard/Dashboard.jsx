@@ -7,13 +7,13 @@ import styles from "./Dashboard.module.scss";
 
 const Dashboard = (props) => {
   const dispatch = useDispatch();
-  const retailerId = useSelector(state=> state.currentRetailer._id)
+  const retailerId = useSelector(state => state.currentRetailer._id)
 
   const [isOpen, setIsOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
-  
+
 
   const handleExpand = () => {
     setIsOpen(true);
@@ -122,7 +122,7 @@ const Dashboard = (props) => {
             placeholder="Enter guest name"
             onChange={handleName}
             required
-            minLength = {3}
+            minLength={3}
           />
           <span className={styles.validity}></span>
         </label>
