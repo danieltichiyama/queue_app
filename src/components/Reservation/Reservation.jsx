@@ -60,12 +60,14 @@ const Reservation = (props) => {
     document.addEventListener("mousedown", handleClickOutside);
   });
 
+  // rerenders the component every minute to update the fromNow time
   useEffect(() => {
     const interval = setInterval(() => {
       setFormattedTime(moment(props.reservation.createdAt).fromNow());
     }, 60000);
     return () => clearInterval(interval);
   }, [props.reservation.createdAt]);
+  
 
   const toggleConfirm = () => {
     setConfirmOpen(!confirmOpen);
