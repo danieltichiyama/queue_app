@@ -79,6 +79,7 @@ const Reservation = (props) => {
     toggleMenu();
   };
 
+  
   const handleConfirm = () => {
     let data;
     if (queueStatus !=="pending"){
