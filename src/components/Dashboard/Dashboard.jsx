@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { createReservation } from "./../../actions";
-import { connect } from "react-redux";
-import PhoneInput from "react-phone-number-input";
+import { actionCreateReservation } from "./../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import PhoneInput from "react-phone-number-input/input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import styles from "./Dashboard.module.scss";
 
 const Dashboard = (props) => {
+  const dispatch = useDispatch();
+  const retailerId = useSelector(state => state.currentRetailer._id)
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [phoneNumber, setPhoneNumber] = useState('');
   const [customerName, setCustomerName] = useState();
   const [partySize, setPartySize] = useState();
@@ -41,9 +42,9 @@ const Dashboard = (props) => {
       phoneNumber: phoneNumber,
       name: customerName,
       partySize: partySize,
-      retailerId: props.retailerId,
+      retailerId: retailerId,
     };
-    props.dispatchCreateReservation(formData);
+    dispatch(actionCreateReservation(formData));
     return resetQueueForm();
   };
 
@@ -96,10 +97,10 @@ const Dashboard = (props) => {
       >
         <label htmlFor="phoneNumber">
           <PhoneInput
-            defaultCountry="US"
+            country="US"
             name="phoneNumber"
             id="phoneNumber"
-            placeholder="Enter number"
+            placeholder="Enter phone number"
             value={phoneNumber}
             onChange={setPhoneNumber}
             error={
@@ -118,9 +119,10 @@ const Dashboard = (props) => {
             type="text"
             name="name"
             id="name"
-            placeholder="Guest Name"
+            placeholder="Enter guest name"
             onChange={handleName}
             required
+            minLength={3}
           />
           <span className={styles.validity}></span>
         </label>
@@ -129,7 +131,7 @@ const Dashboard = (props) => {
             type="number"
             name="partySize"
             id="partySize"
-            placeholder="# in Party"
+            placeholder="Enter party size"
             onChange={handlePartySize}
             required
           />
@@ -144,19 +146,4 @@ const Dashboard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    customersInStore: state.currentRetailer.customersInStore,
-    retailerId: state.currentRetailer._id,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchCreateReservation: (data) => {
-      return dispatch(createReservation(data));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard;

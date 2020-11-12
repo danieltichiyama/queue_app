@@ -75,7 +75,7 @@ export const fetchOneRetailer = (id) => async (dispatch) => {
     });
 };
 
-export const createReservation = (data) => async (dispatch) => {
+export const actionCreateReservation = (data) => async (dispatch) => {
   await Axios.post("/api/reservations", data)
     .then((response) => {
       dispatch({

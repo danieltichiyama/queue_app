@@ -79,15 +79,34 @@ const Reservation = (props) => {
     props.handlePlusPartySize(props.reservation.partySize);
     return toggleMenu();
   };
-  const phone = (props.reservation.customerId.phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
-  const formattedTime = moment(props.reservation.createdAt).fromNow();
   const { isHold } = props;
+  const { phoneNumber } = props.reservation.customerId;
+  const phone = (phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '($1) $2-$3');
+  moment.locale('en', {
+    relativeTime: {
+      future: 'in %s',
+      past: '%s',
+      s: 'Just now',
+      ss: 'Just now',
+      m: '1m ago',
+      mm: '%dm ago',
+      h: '1h',
+      hh: '%dh ago',
+      d: '1d',
+      dd: '%dd ago',
+      M: '1m',
+      MM: '%dM ago',
+      y: '1y',
+      yy: '%dY ago'
+    }
+  });
+  let formattedTime = moment(props.reservation.createdAt).fromNow();
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
       <p className={styles.phoneNumber}>
         {phone}<br />
-        Party of {props.reservation.partySize}
+        Party: {props.reservation.partySize}
       </p>
       <div className={styles.time}>
         <img src={clock} alt="time in queue" />

@@ -3,7 +3,7 @@ import styles from "./RetailerView.module.scss";
 import { connect } from "react-redux";
 import { fetchOneRetailer, actionUpdateRetailer } from "../../actions";
 import Dashboard from "../../components/Dashboard";
-import Profile from "../../components/Profile";
+// import Profile from "../../components/Profile";
 import WaitList from "../../components/WaitList/WaitList.jsx";
 import HoldList from "../../components/HoldList/HoldList.jsx";
 
