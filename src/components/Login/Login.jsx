@@ -22,7 +22,7 @@ function Login(props) {
       <form onSubmit={(e) => loginSubmit(e, { username, password })}>
         <ul>
           <li className={styles.inputFields}>
-            <i class="fa fa-user icon"></i> 
+            <i className="fa fa-user icon"></i> 
             <input
               type="text"
               name="username"
@@ -31,7 +31,7 @@ function Login(props) {
             />
           </li>
           <li className={styles.inputFields}>
-            <i class="fa fa-lock" aria-hidden="true"></i>
+            <i className="fa fa-lock" aria-hidden="true"></i>
             <input
               type="password"
               name="password"

@@ -12,9 +12,29 @@ import {
   actionUpdateReservation
 } from "../../actions";
 
+moment.updateLocale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s',
+    s: 'Just now',
+    ss: 'Just now',
+    m: '1m ago',
+    mm: '%dm ago',
+    h: '1h',
+    hh: '%dh ago',
+    d: '1d',
+    dd: '%dd ago',
+    M: '1m',
+    MM: '%dM ago',
+    y: '1y',
+    yy: '%dY ago'
+  }
+});
+
 const Reservation = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [formattedTime, setFormattedTime] = useState(moment(props.reservation.createdAt).fromNow());
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -39,6 +59,13 @@ const Reservation = (props) => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFormattedTime(moment(props.reservation.createdAt).fromNow());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [props.reservation.createdAt]);
 
   const toggleConfirm = () => {
     setConfirmOpen(!confirmOpen);
@@ -79,28 +106,10 @@ const Reservation = (props) => {
     props.handlePlusPartySize(props.reservation.partySize);
     return toggleMenu();
   };
+
   const { isHold } = props;
   const { phoneNumber } = props.reservation.customerId;
   const phone = (phoneNumber).replace(/\W\d(\d\d\d)(\d\d\d)(\d\d\d\d)/, '($1) $2-$3');
-  moment.locale('en', {
-    relativeTime: {
-      future: 'in %s',
-      past: '%s',
-      s: 'Just now',
-      ss: 'Just now',
-      m: '1m ago',
-      mm: '%dm ago',
-      h: '1h',
-      hh: '%dh ago',
-      d: '1d',
-      dd: '%dd ago',
-      M: '1m',
-      MM: '%dM ago',
-      y: '1y',
-      yy: '%dY ago'
-    }
-  });
-  let formattedTime = moment(props.reservation.createdAt).fromNow();
 
   return (
     <li key={"customer-" + props.index} style={{ background: props.color }}>
