@@ -5,17 +5,17 @@ import {Link} from "react-router-dom"
 
 const VerifyTwo = (props) => {
   return (
-    <div>
-      <h1>Explaination with email/phone number and method</h1>
-      <form onSubmit={props.verifyPIN}>
-        <div>
+    <div className={styles.verifyTwo}>
+      <h1>Verify PIN</h1>
+      <p>Please enter the PIN that was sent to your mode of contact:</p>
+      <form className={styles.verifyContainer} onSubmit={props.verifyPIN}>
           <input
             type="number"
             name="enteredPIN"
+            placeholder="Enter PIN"
             value={props.enteredPIN}
             onChange={props.handlePIN}
           />
-        </div>
         <button type="submit">Verify PIN</button>
         <button type="button" onClick={props.resendPIN}>
           Resend PIN
