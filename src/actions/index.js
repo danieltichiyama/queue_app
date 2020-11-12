@@ -103,7 +103,7 @@ export const actionUpdateReservation = (data, id) => async (dispatch) => {
     });
 };
 
-export const notifyCustomer = (data) => async (dispatch) => {
+export const actionNotifyCustomer = (data) => async (dispatch) => {
   await Axios.post("/api/sms/send", data)
     .then((response) => {
       dispatch({
@@ -179,7 +179,7 @@ export const actionFindRetailers = () => async (dispatch) => {
     });
 };
 
-export const actionSearchingRetailers = (searchTerm) => async (dispatch) => {
+export const actionSearchRetailers = (searchTerm) => async (dispatch) => {
   await Axios.get("/api/customers/search?searchTerm=" + searchTerm)
     .then((retailers) => {
       dispatch({
