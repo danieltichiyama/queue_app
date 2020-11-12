@@ -6,13 +6,16 @@ import CheckButton from "../CheckButton";
 import HoldButton from "../HoldButton";
 import NotificationButton from "../NotificationButton";
 import moment from "moment";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  notifyCustomer,
+  actionNotifyCustomer,
   actionUpdateReservation
 } from "../../actions";
 
 const Reservation = (props) => {
+  const dispatch = useDispatch();
+  const retailerName = useSelector(state=>state.currentRetailer.retailerName);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -55,27 +58,27 @@ const Reservation = (props) => {
   const handleNotificationClick = () => {
     let data = {
       phoneNumber: props.reservation.customerId.phoneNumber,
-      retailerName: props.retailerName,
+      retailerName: retailerName,
       reservationId: props.reservation._id,
     };
-    return props.dispatchNotifyCustomer(data);
+    return dispatch(actionNotifyCustomer(data));
   };
 
   const handleHoldClick = () => {
     let data = { queueStatus: "hold", };
-    props.dispatchUpdateReservation(data, props.reservation.id);
+    dispatch(actionUpdateReservation(data, props.reservation.id));
     return toggleMenu();
   };
 
   const handleRemoveCustomer = () => {
     let data = { queueStatus: 'cancelled' };
-    props.dispatchUpdateReservation(data, props.reservation.id);
+    dispatch(actionUpdateReservation(data, props.reservation.id));
     return toggleMenu();
   };
 
   const handleCheckinCustomer = () => {
     let data = { queueStatus: 'enter' };
-    props.dispatchUpdateReservation(data, props.reservation.id);
+    dispatch(actionUpdateReservation(data, props.reservation.id));
     props.handlePlusPartySize(props.reservation.partySize);
     return toggleMenu();
   };
@@ -151,21 +154,5 @@ const Reservation = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    retailerName: state.currentRetailer.retailerName,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchNotifyCustomer: (data) => {
-      return dispatch(notifyCustomer(data));
-    },
-    dispatchUpdateReservation: (data, id) => {
-      return dispatch(actionUpdateReservation(data, id));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Reservation);
+export default Reservation;
