@@ -61,7 +61,7 @@ export const searchRetailersByName = (data) => async (dispatch) => {
     });
 };
 
-export const fetchOneRetailer = (id) => async (dispatch) => {
+export const actionFetchOneRetailer = (id) => async (dispatch) => {
   // needs to be replaced later with dynamically generated ids
   await Axios.get(`/api/retailers/${id}`)
     .then((retailer) => {
