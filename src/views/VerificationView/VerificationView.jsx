@@ -10,7 +10,7 @@ class VerificationView extends Component {
     this.state = {
       displayComponent: "first",
       isOpen: false,
-      verificationType: "call",
+      verificationType: null,
       contact: "",
       enteredPIN: null || "",
       retailerId: "111111111111111111111111",
@@ -83,7 +83,7 @@ class VerificationView extends Component {
   };
 
   renderVerificationStep() {
-    let { displayComponent, isOpen, contact, enteredPIN } = this.state;
+    let { displayComponent, isOpen, contact, enteredPIN,verificationType } = this.state;
 
     if (displayComponent === "first") {
       return (
@@ -93,6 +93,7 @@ class VerificationView extends Component {
           isOpen={isOpen}
           sendPIN={this.sendPIN}
           contact={contact}
+          verificationType= {verificationType}
           handleContact={this.handleContact}
           handleVerificationType={this.handleVerificationType}
         />

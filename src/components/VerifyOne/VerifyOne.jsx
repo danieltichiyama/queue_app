@@ -6,13 +6,15 @@ import 'react-phone-input-2/lib/style.css'
 
 const VerifyOne = (props) => {
   return (
-    <div className={styles.veryfyOne}>
-      <h1>Explain on how to verify and why</h1>
-      <form onSubmit={props.sendPIN}>
-        <div>
-          <p>Please choose a mode of contact:</p>
-          <div>
-            <button
+    <div className={styles.verifyOne}>
+      <h1>Please verify your business</h1>
+      <form onSubmit={props.sendPIN}
+      className = {styles.verifyContainer}>
+          <p>Choose a mode of contact:</p>
+          <div className={styles.contactMode}>
+            <button 
+              style={{background: props.verificationType === "call" ? 
+              "#6d9773" : null}}
               value="call"
               type="button"
               onClick={props.handleVerificationType}
@@ -20,6 +22,8 @@ const VerifyOne = (props) => {
               Call
             </button>
             <button
+              style={{background: props.verificationType === "text" ? 
+              "#6d9773" : null}}
               value="text"
               type="button"
               onClick={props.handleVerificationType}
@@ -27,6 +31,8 @@ const VerifyOne = (props) => {
               Text
             </button>
             <button
+              style={{background: props.verificationType === "email" ? 
+              "#6d9773" : null}}
               value="email"
               type="button"
               onClick={props.handleVerificationType}
@@ -34,10 +40,9 @@ const VerifyOne = (props) => {
               Email
             </button>
           </div>
-        </div>
-        <div>
-          <PhoneInput
-            className={styles.flagDropdown}
+          {props.verificationType === "email" ? <input placeholder="Enter email"></input> : <PhoneInput
+            inputStyle={{width: "100%", height: "42px", border: " 1px solid black"}}
+            buttonStyle={{border: " 1px solid black"}}
             country='us'
             onlyCountries={['us']}
             placeholder="Enter number"
@@ -46,14 +51,13 @@ const VerifyOne = (props) => {
             disableCountryCode={true}
             defaultValue={props.contact}
             onChange={props.handleContact}
-          />
-        </div>
-        <div>
+          />}
+          <div className={styles.submitMode}>
           <button type="submit">Send PIN</button>
           <button type="button" onClick={props.toggleModal}>
             Verify later
           </button>
-        </div>
+          </div>
       </form>
 
       {props.isOpen && (
